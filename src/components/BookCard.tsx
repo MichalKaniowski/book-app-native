@@ -1,10 +1,29 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import FeatherIcon from "react-native-vector-icons/Feather";
+import { Book } from "../types/database";
 
-export default function BookCard() {
+interface BookCardProps {
+  book: Book;
+  onBookOpen: (book: Book) => void;
+}
+
+// function CustomButton() {
+//   return <TouchableOpa
+// }
+
+export default function BookCard({ book, onBookOpen }: BookCardProps) {
+  const keywordsString = book?.keywords.join(", ");
+
   return (
-    <View style={styles.book}>
+    <TouchableOpacity style={styles.book} onPress={() => onBookOpen(book)}>
       <Image
         source={require("../../assets/elephant22.webp")}
         style={styles.bookImage}
@@ -16,20 +35,22 @@ export default function BookCard() {
         end={{ x: 2, y: 0 }}
         style={styles.bookGradient}
       >
-        <Text style={styles.bookCategories}>Rodzina, Tradycje, Odporność</Text>
-        <Text style={styles.bookTitle}>Maginczna noc</Text>
+        <Text style={styles.bookCategories}>{keywordsString}</Text>
+        <Text style={styles.bookTitle}>{book?.title}</Text>
         <View style={styles.bookInfo}>
           <View style={styles.bookInfoColumn}>
             <FeatherIcon name="clock" size={20} color="white" />
-            <Text style={styles.bookInfoColumnText}>6min</Text>
+            <Text style={styles.bookInfoColumnText}>
+              {book?.estimatedReadingTime} min
+            </Text>
           </View>
           <View style={styles.bookInfoColumn}>
             <FeatherIcon name="smile" size={20} color="white" />
-            <Text style={styles.bookInfoColumnText}>3+</Text>
+            <Text style={styles.bookInfoColumnText}>{book?.age}+</Text>
           </View>
         </View>
       </LinearGradient>
-    </View>
+    </TouchableOpacity>
   );
 }
 
