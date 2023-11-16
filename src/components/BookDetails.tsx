@@ -73,7 +73,7 @@ export default function BookDetails({
         <View style={styles.section}>
           <Text style={styles.sectionHeading}>Tematy do dyskusji</Text>
           {book.discussionTopics.map((topic) => (
-            <View style={{ flexDirection: "row", marginBottom: 5 }}>
+            <View key={topic} style={{ flexDirection: "row", marginBottom: 5 }}>
               <Text style={{ color: "#fff", marginRight: 5 }}>{`\u2022`}</Text>
               <Text style={{ color: "#fff" }}>{topic}</Text>
             </View>
