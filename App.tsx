@@ -15,6 +15,7 @@ import Profile from "./src/screens/Profile";
 import Shelf from "./src/screens/Shelf";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { CONVEX_URL } from "@env";
+import { ThemeContextProvider } from "./src/store/ThemeContext";
 
 const Stack = createNativeStackNavigator();
 const InsideTab = createBottomTabNavigator();
@@ -113,23 +114,25 @@ export default function App() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
       <StatusBar barStyle="light-content" />
       <ConvexProvider client={convex}>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Auth">
-            {user ? (
-              <Stack.Screen
-                name="Inside"
-                component={Layout}
-                options={{ headerShown: false }}
-              />
-            ) : (
-              <Stack.Screen
-                name="Auth"
-                component={Login}
-                options={{ headerShown: false }}
-              />
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
+        <ThemeContextProvider>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Auth">
+              {user ? (
+                <Stack.Screen
+                  name="Inside"
+                  component={Layout}
+                  options={{ headerShown: false }}
+                />
+              ) : (
+                <Stack.Screen
+                  name="Auth"
+                  component={Login}
+                  options={{ headerShown: false }}
+                />
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ThemeContextProvider>
       </ConvexProvider>
     </SafeAreaView>
   );

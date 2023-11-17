@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
@@ -8,6 +9,9 @@ import "react-native-get-random-values";
 import { Book as BookType } from "../types/database";
 import { useState } from "react";
 import Book from "../components/Book";
+import { ThemeContext } from "../store/ThemeContext";
+import StyledText from "../components/ui/StyledText";
+import StyledView from "../components/ui/StyledView";
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -30,6 +34,8 @@ function hasBeenPublishedInTheSpecifiedTime(
 
 export default function New({ navigation }: RouterProps) {
   const [openedBook, setOpenedBook] = useState<BookType | null>(null);
+
+  const { theme } = useContext(ThemeContext);
 
   const books: BookType[] | undefined = useQuery(api.books.get);
 
@@ -54,28 +60,34 @@ export default function New({ navigation }: RouterProps) {
   }
 
   const New = (
-    <ScrollView style={styles.container}>
-      <Text style={styles.mainHeading}>Usypianie z bajką?</Text>
-      <Text style={styles.mainHeading}>
+    <ScrollView
+      style={{ ...styles.container, backgroundColor: theme.background }}
+    >
+      <StyledText style={styles.mainHeading}>Usypianie z bajką?</StyledText>
+      <StyledText style={styles.mainHeading}>
         Bezcenne! <EntypoIcon name="open-book" size={30} />
-      </Text>
+      </StyledText>
 
-      <Text style={styles.date}>niedziela, 5 listopada</Text>
+      <StyledText style={styles.date} secondary>
+        niedziela, 5 listopada
+      </StyledText>
 
       <View style={styles.section}>
-        <Text style={styles.sectionHeading}>Nowe bajki</Text>
+        <StyledText style={styles.sectionHeading}>Nowe bajki</StyledText>
         {booksPublishedInThisWeek?.map((book) => (
           <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
         ))}
       </View>
       <View style={styles.section}>
-        <Text style={styles.sectionHeading}>W ostatnim tygodniu</Text>
+        <StyledText style={styles.sectionHeading}>
+          W ostatnim tygodniu
+        </StyledText>
         {booksPublishedInLastWeek?.map((book) => (
           <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
         ))}
       </View>
       <View style={styles.section}>
-        <Text style={styles.sectionHeading}>Dawniej</Text>
+        <StyledText style={styles.sectionHeading}>Dawniej</StyledText>
         {booksPublishedEarlier?.map((book) => (
           <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
         ))}
@@ -93,18 +105,14 @@ export default function New({ navigation }: RouterProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
-    color: "white",
     height: "100%",
     padding: 5,
   },
   mainHeading: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "white",
   },
   date: {
-    color: "grey",
     marginTop: 20,
   },
   section: {
@@ -112,7 +120,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   sectionHeading: {
-    color: "white",
     fontSize: 26,
     fontWeight: "bold",
   },

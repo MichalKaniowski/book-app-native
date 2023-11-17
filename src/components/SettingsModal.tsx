@@ -1,10 +1,12 @@
-import { useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Slider from "@react-native-community/slider";
 import Icon from "react-native-vector-icons/Feather";
 import { TextSizeChangeAction } from "../types/book";
 import * as Brightness from "expo-brightness";
+import StyledText from "./ui/StyledText";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../store/ThemeContext";
+import { ThemeType } from "../types/shared";
 
 interface SettingsModalProps {
   brightness: number;
@@ -15,8 +17,7 @@ export default function SettingsModal({
   brightness,
   onTextSizeChange,
 }: SettingsModalProps) {
-  const themeContext = useContext(ThemeContext);
-  console.log(themeContext);
+  const { theme, onThemeChange, themeValue } = useContext(ThemeContext);
 
   async function handleBrightnessChange(value: number) {
     const { status } = await Brightness.requestPermissionsAsync();
@@ -26,10 +27,14 @@ export default function SettingsModal({
     }
   }
 
+  function handleThemeChange(theme: ThemeType) {
+    onThemeChange(theme);
+  }
+
   return (
     <View style={styles.modal}>
       <View style={styles.brightnessContainer}>
-        <Icon name="sun" color="grey" size={16} />
+        <Icon name="sun" color={theme.secondary} size={16} />
         <Slider
           value={brightness}
           style={styles.brightnessSlider}
@@ -40,17 +45,49 @@ export default function SettingsModal({
           thumbTintColor="#fff"
           onValueChange={handleBrightnessChange}
         />
-        <Icon name="moon" color="grey" size={16} />
+        <Icon name="moon" color={theme.secondary} size={16} />
       </View>
 
       <View style={styles.bottomBorder} />
 
       <View style={styles.themeContainer}>
-        <TouchableOpacity style={styles.themeButton} />
         <TouchableOpacity
-          style={{ ...styles.themeButton, backgroundColor: "#000" }}
+          onPress={() => handleThemeChange("light")}
+          style={{
+            ...styles.themeButton,
+            borderWidth: themeValue === "light" ? 2 : 0,
+            borderColor: theme.accent,
+          }}
         />
-        <TouchableOpacity style={styles.themeButton} />
+        <TouchableOpacity
+          onPress={() => handleThemeChange("dark")}
+          style={{
+            ...styles.themeButton,
+            backgroundColor: "#000",
+            borderWidth: themeValue === "dark" ? 2 : 0,
+            borderColor: theme.accent,
+          }}
+        />
+        <TouchableOpacity
+          onPress={() => handleThemeChange("system")}
+          style={{
+            ...styles.themeButton,
+            transform: [{ rotate: "-45deg" }],
+            borderWidth: themeValue === "system" ? 2 : 0,
+            borderColor: theme.accent,
+          }}
+        >
+          <View style={styles.systemThemeHalf}>
+            <Icon name="sun" />
+          </View>
+          <View style={{ ...styles.systemThemeHalf, backgroundColor: "#000" }}>
+            <Icon
+              name="moon"
+              color="#fff"
+              style={{ transform: [{ rotate: "45deg" }] }}
+            />
+          </View>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.bottomBorder} />
@@ -60,7 +97,7 @@ export default function SettingsModal({
           style={styles.textSizeButton}
           onPress={() => onTextSizeChange("decrease")}
         >
-          <Text style={styles.smallLetterA}>A</Text>
+          <StyledText style={styles.smallLetterA}>A</StyledText>
         </TouchableOpacity>
 
         <View style={styles.rightBorder}></View>
@@ -69,7 +106,7 @@ export default function SettingsModal({
           style={styles.textSizeButton}
           onPress={() => onTextSizeChange("increase")}
         >
-          <Text style={styles.largeLetterA}>A</Text>
+          <StyledText style={styles.largeLetterA}>A</StyledText>
         </TouchableOpacity>
       </View>
     </View>
@@ -110,10 +147,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   themeButton: {
-    width: 35,
-    height: 35,
+    width: 40,
+    height: 40,
     backgroundColor: "#fff",
     borderRadius: 100,
+    overflow: "hidden",
+  },
+  systemThemeHalf: {
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   textSizeContainer: {
     flexDirection: "row",
@@ -128,12 +172,10 @@ const styles = StyleSheet.create({
   },
   smallLetterA: {
     fontSize: 20,
-    color: "#fff",
     fontWeight: "500",
   },
   largeLetterA: {
     fontSize: 28,
-    color: "#fff",
     fontWeight: "bold",
   },
 });

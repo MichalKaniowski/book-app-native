@@ -8,6 +8,10 @@ import {
 } from "react-native";
 import { Book } from "../types/database";
 import FeatherIcon from "react-native-vector-icons/Feather";
+import StyledView from "./ui/StyledView";
+import StyledText from "./ui/StyledText";
+import { useContext } from "react";
+import { ThemeContext } from "../store/ThemeContext";
 
 interface BookProps {
   book: Book;
@@ -22,6 +26,8 @@ export default function BookDetails({
 }: BookProps) {
   const keywordsString = book?.keywords.join(", ");
 
+  const { theme } = useContext(ThemeContext);
+
   return (
     <ScrollView>
       <Image
@@ -29,12 +35,15 @@ export default function BookDetails({
         style={styles.bookImage}
         alt="elephant image"
       />
-      <TouchableOpacity style={styles.exitBookButton} onPress={onExit}>
-        <FeatherIcon name="arrow-left" size={20} color="white" />
+      <TouchableOpacity
+        style={{ ...styles.exitBookButton, backgroundColor: theme.background }}
+        onPress={onExit}
+      >
+        <FeatherIcon name="arrow-left" size={20} color={theme.text} />
       </TouchableOpacity>
 
-      <View style={styles.bookInfo}>
-        <Text style={styles.bookTitle}>{book.title}</Text>
+      <StyledView style={styles.bookInfo}>
+        <StyledText style={styles.bookTitle}>{book.title}</StyledText>
         <Text style={{ color: "#666", fontSize: 14 }}>{keywordsString}</Text>
         <TouchableOpacity
           style={styles.readBookButton}
@@ -47,72 +56,72 @@ export default function BookDetails({
 
         <View style={styles.bookDetails}>
           <View style={styles.iconContainer}>
-            <FeatherIcon name="clock" size={15} color="white" />
-            <Text style={styles.bookDetailsText}>
+            <FeatherIcon name="clock" size={15} color={theme.text} />
+            <StyledText style={styles.bookDetailsText}>
               {book?.estimatedReadingTime} min
-            </Text>
+            </StyledText>
           </View>
           <View style={styles.bookDetailsRightColumn}>
             <View style={{ ...styles.iconContainer, marginRight: 10 }}>
-              <FeatherIcon name="star" size={15} color="white" />
-              <Text style={styles.bookDetailsText}>
+              <FeatherIcon name="star" size={15} color={theme.text} />
+              <StyledText style={styles.bookDetailsText}>
                 {book?.estimatedReadingTime.toFixed(2)}
-              </Text>
+              </StyledText>
             </View>
             <View style={styles.iconContainer}>
-              <FeatherIcon name="smile" size={15} color="white" />
-              <Text style={styles.bookDetailsText}>{book?.age}+</Text>
+              <FeatherIcon name="smile" size={15} color={theme.text} />
+              <StyledText style={styles.bookDetailsText}>
+                {book?.age}+
+              </StyledText>
             </View>
           </View>
         </View>
 
         <View style={styles.border} />
 
-        <Text style={styles.description}>{book.description}</Text>
+        <StyledText style={styles.description}>{book.description}</StyledText>
 
         <View style={styles.section}>
-          <Text style={styles.sectionHeading}>Tematy do dyskusji</Text>
+          <StyledText style={styles.sectionHeading}>
+            Tematy do dyskusji
+          </StyledText>
           {book.discussionTopics.map((topic) => (
             <View key={topic} style={{ flexDirection: "row", marginBottom: 5 }}>
-              <Text style={{ color: "#fff", marginRight: 5 }}>{`\u2022`}</Text>
-              <Text style={{ color: "#fff" }}>{topic}</Text>
+              <StyledText style={{ marginRight: 5 }}>{`\u2022`}</StyledText>
+              <StyledText>{topic}</StyledText>
             </View>
           ))}
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionHeading}>Twórcy</Text>
+          <StyledText style={styles.sectionHeading}>Twórcy</StyledText>
           <View>
             <View style={styles.authorRow}>
-              <Text style={styles.authorRowLeftColumnText}>Bajka</Text>
-              <Text style={styles.authorRowRightColumnText}>{book.author}</Text>
+              <StyledText secondary>Bajka</StyledText>
+              <StyledText>{book.author}</StyledText>
             </View>
             {book.illustrator && (
               <View style={styles.authorRow}>
-                <Text style={styles.authorRowLeftColumnText}>Ilustracje</Text>
-                <Text style={styles.authorRowRightColumnText}>
-                  {book.illustrator}
-                </Text>
+                <StyledText secondary>Ilustracje</StyledText>
+                <StyledText>{book.illustrator}</StyledText>
               </View>
             )}
             {book.translator && (
               <View style={styles.authorRow}>
-                <Text style={styles.authorRowLeftColumnText}>Translacja</Text>
-                <Text style={styles.authorRowRightColumnText}>
-                  {book.translator}
-                </Text>
+                <StyledText secondary>Translacja</StyledText>
+                <StyledText>{book.translator}</StyledText>
               </View>
             )}
           </View>
         </View>
-      </View>
+      </StyledView>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   exitBookButton: {
-    backgroundColor: "#000",
+    // backgroundColor: "#000",
     position: "absolute",
     left: 15,
     top: 15,
@@ -124,10 +133,8 @@ const styles = StyleSheet.create({
   },
   bookInfo: {
     padding: 10,
-    backgroundColor: "#000",
   },
   bookTitle: {
-    color: "#fff",
     fontSize: 30,
     fontWeight: "bold",
   },
@@ -160,7 +167,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   bookDetailsText: {
-    color: "white",
     fontSize: 16,
   },
   iconContainer: {
@@ -169,7 +175,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   description: {
-    color: "#fff",
     lineHeight: 18,
     marginBottom: 20,
   },
@@ -177,7 +182,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   sectionHeading: {
-    color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 2,
@@ -185,11 +189,5 @@ const styles = StyleSheet.create({
   authorRow: {
     flexDirection: "row",
     gap: 30,
-  },
-  authorRowLeftColumnText: {
-    color: "grey",
-  },
-  authorRowRightColumnText: {
-    color: "#fff",
   },
 });

@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Image } from "react-native";
+import StyledText from "./ui/StyledText";
 
 export default function SmallBookCard() {
   return (
@@ -9,7 +10,7 @@ export default function SmallBookCard() {
         alt="elephant image"
       />
       <View style={{ padding: 5 }}>
-        <Text style={{ color: "#fff" }}>Słonik</Text>
+        <StyledText>Słonik</StyledText>
       </View>
     </View>
   );

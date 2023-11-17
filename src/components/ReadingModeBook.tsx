@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -11,6 +11,9 @@ import FeatherIcon from "react-native-vector-icons/Feather";
 import SettingsModal from "./SettingsModal";
 import { TextSizeChangeAction } from "../types/book";
 import * as Brightness from "expo-brightness";
+import StyledText from "./ui/StyledText";
+import StyledView from "./ui/StyledView";
+import { ThemeContext } from "../store/ThemeContext";
 
 interface ReadingModeBook {
   book: Book;
@@ -25,6 +28,8 @@ export default function ReadingModeBook({
   const [isTextSettingsModalOpen, setIsTextSettingsModalOpen] = useState(false);
   const [fontSize, setFontSize] = useState(16);
   const [startingBrightnessValue, setStartingBrightnessValue] = useState(0);
+
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     (async () => {
@@ -62,7 +67,7 @@ export default function ReadingModeBook({
           onTextSizeChange={handleTextSizeChange}
         />
       )}
-      <View style={styles.header}>
+      <StyledView style={styles.header}>
         <View style={styles.leftColumnHeader}>
           <TouchableOpacity
             style={{
@@ -71,7 +76,7 @@ export default function ReadingModeBook({
             }}
             onPress={onReadingModeExit}
           >
-            <FeatherIcon name="arrow-left" size={20} color="grey" />
+            <FeatherIcon name="arrow-left" size={20} color={theme.secondary} />
           </TouchableOpacity>
           {/* <Text style={{ color: "grey" }}>{activePageNumber}/13</Text> */}
         </View>
@@ -83,22 +88,25 @@ export default function ReadingModeBook({
             }
             style={{ flexDirection: "row", alignItems: "center" }}
           >
-            <Text style={{ color: "grey" }}>A</Text>
-            <Text style={{ color: "grey", fontSize: 20 }}>A</Text>
+            <StyledText secondary>A</StyledText>
+            <StyledText style={{ fontSize: 20 }} secondary>
+              A
+            </StyledText>
           </TouchableOpacity>
         </View>
-      </View>
+      </StyledView>
 
-      <View style={styles.textContainer}>
-        <Text style={{ ...styles.body, fontSize: fontSize }}>{bookText}</Text>
-      </View>
+      <StyledView style={styles.textContainer}>
+        <StyledText style={{ ...styles.body, fontSize: fontSize }}>
+          {bookText}
+        </StyledText>
+      </StyledView>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#000",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -109,12 +117,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textContainer: {
-    backgroundColor: "#000",
     flex: 1,
     padding: 15,
   },
   body: {
-    color: "#fff",
     lineHeight: 24,
   },
 });

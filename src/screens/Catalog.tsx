@@ -1,31 +1,35 @@
-import {
-  Text,
-  StyleSheet,
-  View,
-  ScrollView,
-  TextInput,
-  Image,
-} from "react-native";
+import { useContext } from "react";
+import { Text, StyleSheet, View, ScrollView, TextInput } from "react-native";
 import { useState } from "react";
 import SmallBookCard from "../components/SmallBookCard";
 import Category from "../components/Category";
+import StyledText from "../components/ui/StyledText";
+import { ThemeContext } from "../store/ThemeContext";
 
 export default function Catalog() {
   const [text, setText] = useState("");
 
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.mainHeading}>Katalog</Text>
+    <ScrollView
+      style={{ ...styles.container, backgroundColor: theme.background }}
+    >
+      <StyledText style={styles.mainHeading}>Katalog</StyledText>
       <TextInput
         onChangeText={(txt) => setText(txt)}
         value={text}
-        style={styles.textInput}
+        style={{
+          ...styles.textInput,
+          color: theme.text,
+          backgroundColor: theme.lightSecondary,
+        }}
         placeholder="Szukaj"
-        placeholderTextColor="#fff"
+        placeholderTextColor={theme.text}
       />
 
       <View style={styles.section}>
-        <Text style={styles.sectionHeading}>Redakcja poleca</Text>
+        <StyledText style={styles.sectionHeading}>Redakcja poleca</StyledText>
         <ScrollView style={styles.recommendations} horizontal={true}>
           <SmallBookCard />
           <SmallBookCard />
@@ -59,19 +63,18 @@ export default function Catalog() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#000",
     padding: 10,
   },
   mainHeading: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "#fff",
     marginBottom: 10,
   },
   textInput: {
-    backgroundColor: "#222",
+    // backgroundColor: "#222",
+    // color: "#fff",
+    backgroundColor: "grey",
     borderRadius: 10,
-    color: "#fff",
     paddingHorizontal: 5,
     paddingVertical: 2,
     marginBottom: 20,
@@ -81,7 +84,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   sectionHeading: {
-    color: "white",
     fontSize: 24,
     fontWeight: "bold",
   },

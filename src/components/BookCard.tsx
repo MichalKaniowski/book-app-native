@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   View,
   Text,
@@ -9,21 +10,23 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import { Book } from "../types/database";
+import { ThemeContext } from "../store/ThemeContext";
+import StyledText from "./ui/StyledText";
 
 interface BookCardProps {
   book: Book;
   onBookOpen: (book: Book) => void;
 }
 
-// function CustomButton() {
-//   return <TouchableOpa
-// }
-
 export default function BookCard({ book, onBookOpen }: BookCardProps) {
+  const { theme } = useContext(ThemeContext);
   const keywordsString = book?.keywords.join(", ");
 
   return (
-    <TouchableOpacity style={styles.book} onPress={() => onBookOpen(book)}>
+    <TouchableOpacity
+      style={{ ...styles.book, backgroundColor: theme.accent }}
+      onPress={() => onBookOpen(book)}
+    >
       <Image
         source={require("../../assets/elephant22.webp")}
         style={styles.bookImage}
@@ -35,18 +38,20 @@ export default function BookCard({ book, onBookOpen }: BookCardProps) {
         end={{ x: 2, y: 0 }}
         style={styles.bookGradient}
       >
-        <Text style={styles.bookCategories}>{keywordsString}</Text>
-        <Text style={styles.bookTitle}>{book?.title}</Text>
+        <StyledText>{keywordsString}</StyledText>
+        <StyledText style={styles.bookTitle}>{book?.title}</StyledText>
         <View style={styles.bookInfo}>
           <View style={styles.bookInfoColumn}>
-            <FeatherIcon name="clock" size={20} color="white" />
-            <Text style={styles.bookInfoColumnText}>
+            <FeatherIcon name="clock" size={20} color={theme.text} />
+            <StyledText style={styles.bookInfoColumnText}>
               {book?.estimatedReadingTime} min
-            </Text>
+            </StyledText>
           </View>
           <View style={styles.bookInfoColumn}>
-            <FeatherIcon name="smile" size={20} color="white" />
-            <Text style={styles.bookInfoColumnText}>{book?.age}+</Text>
+            <FeatherIcon name="smile" size={20} color={theme.text} />
+            <StyledText style={styles.bookInfoColumnText}>
+              {book?.age}+
+            </StyledText>
           </View>
         </View>
       </LinearGradient>
@@ -56,7 +61,6 @@ export default function BookCard({ book, onBookOpen }: BookCardProps) {
 
 const styles = StyleSheet.create({
   book: {
-    backgroundColor: "green",
     borderRadius: 30,
     overflow: "hidden",
   },
@@ -70,9 +74,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingHorizontal: 10,
   },
-  bookCategories: { color: "white" },
   bookTitle: {
-    color: "white",
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
@@ -89,5 +91,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
   },
-  bookInfoColumnText: { color: "white", fontSize: 16 },
+  bookInfoColumnText: { fontSize: 16 },
 });
