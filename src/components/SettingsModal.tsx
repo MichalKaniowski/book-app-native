@@ -6,7 +6,7 @@ import * as Brightness from "expo-brightness";
 import StyledText from "./ui/StyledText";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../store/ThemeContext";
-import { ThemeType } from "../types/shared";
+import { ThemeType } from "../types/theme";
 
 interface SettingsModalProps {
   brightness: number;
@@ -17,7 +17,8 @@ export default function SettingsModal({
   brightness,
   onTextSizeChange,
 }: SettingsModalProps) {
-  const { theme, onThemeChange, themeValue } = useContext(ThemeContext);
+  const { theme, onThemeChange, themeValue, actualTheme } =
+    useContext(ThemeContext);
 
   async function handleBrightnessChange(value: number) {
     const { status } = await Brightness.requestPermissionsAsync();
@@ -32,7 +33,12 @@ export default function SettingsModal({
   }
 
   return (
-    <View style={styles.modal}>
+    <View
+      style={{
+        ...styles.modal,
+        backgroundColor: actualTheme === "light" ? "#d3d3d3" : "#222",
+      }}
+    >
       <View style={styles.brightnessContainer}>
         <Icon name="sun" color={theme.secondary} size={16} />
         <Slider
@@ -40,8 +46,8 @@ export default function SettingsModal({
           style={styles.brightnessSlider}
           minimumValue={0}
           maximumValue={1}
-          minimumTrackTintColor="green"
-          maximumTrackTintColor="#444"
+          minimumTrackTintColor={theme.accent}
+          maximumTrackTintColor={theme.secondary}
           thumbTintColor="#fff"
           onValueChange={handleBrightnessChange}
         />
@@ -126,7 +132,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 30,
     right: 10,
-    backgroundColor: "#222",
     zIndex: 100,
     borderRadius: 10,
   },

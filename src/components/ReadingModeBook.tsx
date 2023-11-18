@@ -29,7 +29,7 @@ export default function ReadingModeBook({
   const [fontSize, setFontSize] = useState(16);
   const [startingBrightnessValue, setStartingBrightnessValue] = useState(0);
 
-  const { theme } = useContext(ThemeContext);
+  const { theme, actualTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     (async () => {
@@ -60,14 +60,20 @@ export default function ReadingModeBook({
   }
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView
+      style={{
+        flex: 1,
+      }}
+    >
       {isTextSettingsModalOpen && (
         <SettingsModal
           brightness={startingBrightnessValue}
           onTextSizeChange={handleTextSizeChange}
         />
       )}
-      <StyledView style={styles.header}>
+      <StyledView
+        style={{ ...styles.header, backgroundColor: theme.background }}
+      >
         <View style={styles.leftColumnHeader}>
           <TouchableOpacity
             style={{
@@ -96,11 +102,16 @@ export default function ReadingModeBook({
         </View>
       </StyledView>
 
-      <StyledView style={styles.textContainer}>
+      <View
+        style={{
+          ...styles.textContainer,
+          backgroundColor: theme.background,
+        }}
+      >
         <StyledText style={{ ...styles.body, fontSize: fontSize }}>
           {bookText}
         </StyledText>
-      </StyledView>
+      </View>
     </ScrollView>
   );
 }

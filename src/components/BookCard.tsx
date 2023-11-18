@@ -33,25 +33,23 @@ export default function BookCard({ book, onBookOpen }: BookCardProps) {
         alt="elephant image"
       />
       <LinearGradient
-        colors={["#AFE1AF", "#097969"]}
+        colors={["#92C892", "#065D5D"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 2, y: 0 }}
         style={styles.bookGradient}
       >
-        <StyledText>{keywordsString}</StyledText>
-        <StyledText style={styles.bookTitle}>{book?.title}</StyledText>
+        <Text style={styles.keywordsText}>{keywordsString}</Text>
+        <Text style={styles.bookTitle}>{book?.title}</Text>
         <View style={styles.bookInfo}>
           <View style={styles.bookInfoColumn}>
-            <FeatherIcon name="clock" size={20} color={theme.text} />
-            <StyledText style={styles.bookInfoColumnText}>
+            <FeatherIcon name="clock" size={20} color="#fff" />
+            <Text style={styles.bookInfoColumnText}>
               {book?.estimatedReadingTime} min
-            </StyledText>
+            </Text>
           </View>
           <View style={styles.bookInfoColumn}>
-            <FeatherIcon name="smile" size={20} color={theme.text} />
-            <StyledText style={styles.bookInfoColumnText}>
-              {book?.age}+
-            </StyledText>
+            <FeatherIcon name="smile" size={20} color="#fff" />
+            <Text style={styles.bookInfoColumnText}>{book?.age}+</Text>
           </View>
         </View>
       </LinearGradient>
@@ -74,7 +72,11 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingHorizontal: 10,
   },
+  keywordsText: {
+    color: "#fff",
+  },
   bookTitle: {
+    color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
@@ -91,5 +93,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
   },
-  bookInfoColumnText: { fontSize: 16 },
+  bookInfoColumnText: { fontSize: 16, color: "#fff" },
 });

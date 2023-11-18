@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Appearance } from "react-native";
-import { ThemeType } from "../types/shared";
+import { ThemeType, ActualThemeType } from "../types/theme";
 
 interface ThemeContextInterface {
   themeValue: ThemeType;
+  actualTheme: ActualThemeType;
   theme: {
     background: string;
     text: string;
     secondary: string;
-    lightSecondary: string;
     accent: string;
   };
   onThemeChange: (theme: ThemeType) => void;
@@ -16,11 +16,11 @@ interface ThemeContextInterface {
 
 export const ThemeContext = React.createContext<ThemeContextInterface>({
   themeValue: "light",
+  actualTheme: "light",
   theme: {
-    background: "#fff",
+    background: "#e5e5e5",
     text: "#000",
     secondary: "grey",
-    lightSecondary: "#d3d3d3",
     accent: "green",
   },
   onThemeChange: (theme: ThemeType) => {},
@@ -28,17 +28,15 @@ export const ThemeContext = React.createContext<ThemeContextInterface>({
 
 const themeColors = {
   light: {
-    background: "#fff",
+    background: "#e5e5e5",
     text: "#000",
-    secondary: "grey",
-    lightSecondary: "#d3d3d3",
+    secondary: "#404040",
     accent: "green",
   },
   dark: {
     background: "#000",
     text: "#fff",
     secondary: "grey",
-    lightSecondary: "#222",
     accent: "green",
   },
 };
@@ -49,18 +47,23 @@ export function ThemeContextProvider({
   children: React.ReactNode;
 }) {
   const [theme, setTheme] = useState<ThemeType>(
-    // Appearance.getColorScheme() ?? "light"
-    "dark"
+    Appearance.getColorScheme() ?? "light"
   );
-
-  const themeObject = theme === "light" ? themeColors.light : themeColors.dark;
 
   function handleThemeChange(theme: ThemeType) {
     setTheme(theme);
   }
 
+  const systemTheme = Appearance.getColorScheme() ?? "light";
+  const activeTheme =
+    theme === "system" ? systemTheme : theme === "light" ? "light" : "dark";
+
+  const themeObject =
+    activeTheme === "light" ? themeColors.light : themeColors.dark;
+
   const value = {
     themeValue: theme,
+    actualTheme: activeTheme,
     theme: themeObject,
     onThemeChange: handleThemeChange,
   };

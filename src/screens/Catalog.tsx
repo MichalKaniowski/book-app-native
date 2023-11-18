@@ -9,7 +9,7 @@ import { ThemeContext } from "../store/ThemeContext";
 export default function Catalog() {
   const [text, setText] = useState("");
 
-  const { theme } = useContext(ThemeContext);
+  const { theme, actualTheme } = useContext(ThemeContext);
 
   return (
     <ScrollView
@@ -22,10 +22,10 @@ export default function Catalog() {
         style={{
           ...styles.textInput,
           color: theme.text,
-          backgroundColor: theme.lightSecondary,
+          backgroundColor: actualTheme === "light" ? "lightgrey" : "#222",
         }}
         placeholder="Szukaj"
-        placeholderTextColor={theme.text}
+        placeholderTextColor={theme.secondary}
       />
 
       <View style={styles.section}>
@@ -71,8 +71,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   textInput: {
-    // backgroundColor: "#222",
-    // color: "#fff",
     backgroundColor: "grey",
     borderRadius: 10,
     paddingHorizontal: 5,

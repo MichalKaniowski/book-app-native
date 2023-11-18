@@ -44,7 +44,9 @@ export default function BookDetails({
 
       <StyledView style={styles.bookInfo}>
         <StyledText style={styles.bookTitle}>{book.title}</StyledText>
-        <Text style={{ color: "#666", fontSize: 14 }}>{keywordsString}</Text>
+        <Text style={{ color: theme.secondary, fontSize: 14 }}>
+          {keywordsString}
+        </Text>
         <TouchableOpacity
           style={styles.readBookButton}
           onPress={onReadingModeEnter}
@@ -121,7 +123,6 @@ export default function BookDetails({
 
 const styles = StyleSheet.create({
   exitBookButton: {
-    // backgroundColor: "#000",
     position: "absolute",
     left: 15,
     top: 15,

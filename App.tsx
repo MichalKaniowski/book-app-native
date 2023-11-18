@@ -1,5 +1,5 @@
 // import "react-native-gesture-handler";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -15,7 +15,8 @@ import Profile from "./src/screens/Profile";
 import Shelf from "./src/screens/Shelf";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { CONVEX_URL } from "@env";
-import { ThemeContextProvider } from "./src/store/ThemeContext";
+import { ThemeContext, ThemeContextProvider } from "./src/store/ThemeContext";
+import { Appearance } from "react-native";
 
 const Stack = createNativeStackNavigator();
 const InsideTab = createBottomTabNavigator();
@@ -24,15 +25,19 @@ const convex = new ConvexReactClient(CONVEX_URL, {
   unsavedChangesWarning: false,
 });
 
-export const Layout = () => {
+const Layout = () => {
+  const { theme } = useContext(ThemeContext);
+
   return (
     <InsideTab.Navigator
       initialRouteName="New"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: "#000",
+          backgroundColor: theme.background,
           margin: 0,
           padding: 0,
+          borderTopWidth: 0.3,
+          borderTopColor: theme.secondary,
         },
         headerShown: false,
       }}
@@ -44,10 +49,12 @@ export const Layout = () => {
           headerShown: false,
           tabBarLabel: "Home",
           tabBarShowLabel: false,
-          tabBarIcon: () => (
+          tabBarIcon: ({ focused }) => (
             <>
               <EntypoIcon name="home" size={30} color="grey" />
-              <Text style={{ color: "grey" }}>Nowe</Text>
+              <Text style={{ color: focused ? theme.accent : "grey" }}>
+                Nowe
+              </Text>
             </>
           ),
         }}
@@ -61,7 +68,9 @@ export const Layout = () => {
           tabBarIcon: ({ focused }) => (
             <>
               <EntypoIcon name="grid" size={30} color="grey" />
-              <Text style={{ color: focused ? "green" : "grey" }}>Katalog</Text>
+              <Text style={{ color: focused ? theme.accent : "grey" }}>
+                Katalog
+              </Text>
             </>
           ),
           headerShown: false,
@@ -76,7 +85,9 @@ export const Layout = () => {
           tabBarIcon: ({ focused }) => (
             <>
               <MaterialIcon name="bookshelf" size={30} color="grey" />
-              <Text style={{ color: focused ? "green" : "grey" }}>Shelf</Text>
+              <Text style={{ color: focused ? theme.accent : "grey" }}>
+                Shelf
+              </Text>
             </>
           ),
           headerShown: false,
@@ -91,7 +102,9 @@ export const Layout = () => {
           tabBarIcon: ({ focused }) => (
             <>
               <MaterialIcon name="account-circle" size={30} color="grey" />
-              <Text style={{ color: focused ? "green" : "grey" }}>Profile</Text>
+              <Text style={{ color: focused ? theme.accent : "grey" }}>
+                Profile
+              </Text>
             </>
           ),
           headerShown: false,
@@ -101,8 +114,10 @@ export const Layout = () => {
   );
 };
 
-export default function App() {
+function AppContent() {
   const [user, setUser] = useState<User | null>(null);
+
+  const { theme, actualTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (user) => {
@@ -111,29 +126,40 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
-      <StatusBar barStyle="light-content" />
-      <ConvexProvider client={convex}>
-        <ThemeContextProvider>
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName="Auth">
-              {user ? (
-                <Stack.Screen
-                  name="Inside"
-                  component={Layout}
-                  options={{ headerShown: false }}
-                />
-              ) : (
-                <Stack.Screen
-                  name="Auth"
-                  component={Login}
-                  options={{ headerShown: false }}
-                />
-              )}
-            </Stack.Navigator>
-          </NavigationContainer>
-        </ThemeContextProvider>
-      </ConvexProvider>
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+        <StatusBar
+          barStyle={actualTheme === "light" ? "dark-content" : "light-content"}
+          backgroundColor={theme.background}
+        />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Auth">
+            {user ? (
+              <Stack.Screen
+                name="Inside"
+                component={Layout}
+                options={{ headerShown: false }}
+              />
+            ) : (
+              <Stack.Screen
+                name="Auth"
+                component={Login}
+                options={{ headerShown: false }}
+              />
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <ConvexProvider client={convex}>
+      <ThemeContextProvider>
+        <AppContent />
+      </ThemeContextProvider>
+    </ConvexProvider>
   );
 }
