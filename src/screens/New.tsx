@@ -11,7 +11,7 @@ import { useState } from "react";
 import Book from "../components/Book";
 import { ThemeContext } from "../store/ThemeContext";
 import StyledText from "../components/ui/StyledText";
-import StyledView from "../components/ui/StyledView";
+import { TabsContext } from "../store/TabsContext";
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -36,6 +36,7 @@ export default function New({ navigation }: RouterProps) {
   const [openedBook, setOpenedBook] = useState<BookType | null>(null);
 
   const { theme } = useContext(ThemeContext);
+  const { isTabsOpen, onTabsVisibilityChange } = useContext(TabsContext);
 
   const books: BookType[] | undefined = useQuery(api.books.get);
 
@@ -52,14 +53,16 @@ export default function New({ navigation }: RouterProps) {
   );
 
   function handleBookOpen(book: BookType) {
+    onTabsVisibilityChange(false);
     setOpenedBook(book);
   }
 
   function handleOpenedBookExit() {
+    onTabsVisibilityChange(true);
     setOpenedBook(null);
   }
 
-  const New = (
+  const NewComponent = (
     <ScrollView
       style={{ ...styles.container, backgroundColor: theme.background }}
     >
@@ -96,7 +99,7 @@ export default function New({ navigation }: RouterProps) {
   );
 
   return !openedBook ? (
-    New
+    NewComponent
   ) : (
     <Book book={openedBook!} onExit={handleOpenedBookExit} />
   );

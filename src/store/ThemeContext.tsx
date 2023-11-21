@@ -18,7 +18,7 @@ export const ThemeContext = React.createContext<ThemeContextInterface>({
   themeValue: "light",
   actualTheme: "light",
   theme: {
-    background: "#e5e5e5",
+    background: "#f5f5f5",
     text: "#000",
     secondary: "grey",
     accent: "green",
@@ -28,7 +28,7 @@ export const ThemeContext = React.createContext<ThemeContextInterface>({
 
 const themeColors = {
   light: {
-    background: "#e5e5e5",
+    background: "#f5f5f5",
     text: "#000",
     secondary: "#404040",
     accent: "green",
