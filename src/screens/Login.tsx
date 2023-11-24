@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import { useAuth } from "../store/AuthContext";
 import { firebaseAuth } from "../../FirebaseConfig";
 import {
   signInWithEmailAndPassword,

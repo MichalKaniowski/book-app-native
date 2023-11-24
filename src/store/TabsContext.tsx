@@ -12,8 +12,6 @@ export function TabsContextProvider({
 }) {
   const [isTabsOpen, setIsTabsOpen] = useState(true);
 
-  console.log(isTabsOpen);
-
   function handleTabsChange(newVisibilityState: boolean) {
     setIsTabsOpen(newVisibilityState);
   }

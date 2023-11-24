@@ -10,6 +10,7 @@ import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import New from "../screens/New";
 import { TabsContext } from "../store/TabsContext";
+import CatalogNavigator from "./CatalogNavigator";
 
 const InsideTab = createBottomTabNavigator();
 
@@ -59,8 +60,8 @@ export default function MainTabNavigator({ navigation, route }: any) {
         }}
       />
       <InsideTab.Screen
-        name="Catalog"
-        component={Catalog}
+        name="CatalogNavigator"
+        component={CatalogNavigator}
         options={{
           tabBarLabel: "Catalog",
           tabBarShowLabel: false,

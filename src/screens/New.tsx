@@ -1,3 +1,4 @@
+import "react-native-get-random-values";
 import { useContext } from "react";
 import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
@@ -5,7 +6,6 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 import BookCard from "../components/BookCard";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import "react-native-get-random-values";
 import { Book as BookType } from "../types/database";
 import { useState } from "react";
 import Book from "../components/Book";
@@ -36,9 +36,9 @@ export default function New({ navigation }: RouterProps) {
   const [openedBook, setOpenedBook] = useState<BookType | null>(null);
 
   const { theme } = useContext(ThemeContext);
-  const { isTabsOpen, onTabsVisibilityChange } = useContext(TabsContext);
+  const { onTabsVisibilityChange } = useContext(TabsContext);
 
-  const books: BookType[] | undefined = useQuery(api.books.get);
+  const books: BookType[] | undefined = useQuery(api.books.getBooks);
 
   const booksPublishedInThisWeek = books?.filter((book) =>
     hasBeenPublishedInTheSpecifiedTime(book?._creationTime, 0, 7)
@@ -101,7 +101,7 @@ export default function New({ navigation }: RouterProps) {
   return !openedBook ? (
     NewComponent
   ) : (
-    <Book book={openedBook!} onExit={handleOpenedBookExit} />
+    <Book book={openedBook} onExit={handleOpenedBookExit} />
   );
 }
 

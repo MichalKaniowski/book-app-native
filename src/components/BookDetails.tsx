@@ -16,7 +16,7 @@ import { ThemeContext } from "../store/ThemeContext";
 interface BookProps {
   book: Book;
   onExit: () => void;
-  onReadingModeEnter: () => void;
+  onReadingModeEnter: (book?: Book) => void;
 }
 
 export default function BookDetails({
@@ -49,7 +49,7 @@ export default function BookDetails({
         </Text>
         <TouchableOpacity
           style={styles.readBookButton}
-          onPress={onReadingModeEnter}
+          onPress={() => onReadingModeEnter()}
         >
           <Text style={{ fontWeight: "bold" }}>Czytaj</Text>
         </TouchableOpacity>

@@ -11,6 +11,7 @@ import { CONVEX_URL } from "@env";
 import { ThemeContext, ThemeContextProvider } from "./src/store/ThemeContext";
 import MainTabNavigator from "./src/routes/MainTabNavigator";
 import { TabsContextProvider } from "./src/store/TabsContext";
+import { BookContextProvider } from "./src/store/BookContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,7 +41,7 @@ function AppContent() {
           <Stack.Navigator initialRouteName="Auth">
             {user ? (
               <Stack.Screen
-                name="Inside"
+                name="MainTabNavigator"
                 component={MainTabNavigator}
                 options={{ headerShown: false }}
               />
@@ -62,9 +63,11 @@ export default function App() {
   return (
     <ConvexProvider client={convex}>
       <ThemeContextProvider>
-        <TabsContextProvider>
-          <AppContent />
-        </TabsContextProvider>
+        <BookContextProvider>
+          <TabsContextProvider>
+            <AppContent />
+          </TabsContextProvider>
+        </BookContextProvider>
       </ThemeContextProvider>
     </ConvexProvider>
   );
