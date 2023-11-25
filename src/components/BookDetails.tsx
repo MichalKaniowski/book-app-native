@@ -36,7 +36,7 @@ export default function BookDetails({
   const { theme } = useContext(ThemeContext);
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: theme.background }}>
       <Image
         source={require("../../assets/elephant22.webp")}
         style={styles.bookImage}

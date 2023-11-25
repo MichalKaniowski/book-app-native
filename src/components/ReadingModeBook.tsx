@@ -55,6 +55,7 @@ export default function ReadingModeBook({
     <ScrollView
       style={{
         flex: 1,
+        backgroundColor: theme.background,
       }}
     >
       {isTextSettingsModalOpen && (
@@ -63,9 +64,7 @@ export default function ReadingModeBook({
           onTextSizeChange={handleTextSizeChange}
         />
       )}
-      <StyledView
-        style={{ ...styles.header, backgroundColor: theme.background }}
-      >
+      <StyledView style={{ ...styles.header }}>
         <View style={styles.leftColumnHeader}>
           <TouchableOpacity
             style={{
@@ -96,7 +95,6 @@ export default function ReadingModeBook({
       <View
         style={{
           ...styles.textContainer,
-          backgroundColor: theme.background,
         }}
       >
         <StyledText style={{ ...styles.body, fontSize: fontSize }}>
