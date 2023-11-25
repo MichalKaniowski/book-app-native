@@ -31,7 +31,7 @@ export const getFilteredBooks = query({
     ) {
       books = books.filter((book) => book.age <= Number(filterCriteria[0]));
     } else {
-      books = books.filter((book) => book.keywords.includes(filterCriteria));
+      books = books.filter((book) => book.category === filterCriteria);
     }
 
     return books;
