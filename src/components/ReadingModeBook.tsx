@@ -1,11 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Book } from "../types/database";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import SettingsModal from "./SettingsModal";
@@ -15,21 +9,19 @@ import StyledText from "./ui/StyledText";
 import StyledView from "./ui/StyledView";
 import { ThemeContext } from "../store/ThemeContext";
 
-interface ReadingModeBook {
-  book: Book;
+type ReadingModeBookProps = Book & {
   onReadingModeExit: () => void;
-}
+};
 
 export default function ReadingModeBook({
-  book,
+  body,
   onReadingModeExit,
-}: ReadingModeBook) {
-  // const [activePageNumber, setActivePageNumber] = useState(1);
+}: ReadingModeBookProps) {
   const [isTextSettingsModalOpen, setIsTextSettingsModalOpen] = useState(false);
   const [fontSize, setFontSize] = useState(16);
-  const [startingBrightnessValue, setStartingBrightnessValue] = useState(0);
+  const [startingBrightnessValue, setStartingBrightnessValue] = useState(100);
 
-  const { theme, actualTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     (async () => {
@@ -42,7 +34,7 @@ export default function ReadingModeBook({
     })();
   }, []);
 
-  const bookText = book.body.replaceAll("/n", "\n\n");
+  const bookText = body.replaceAll("/n", "\n\n");
 
   function handleTextSizeChange(action: TextSizeChangeAction) {
     if (action === "decrease") {
@@ -84,7 +76,6 @@ export default function ReadingModeBook({
           >
             <FeatherIcon name="arrow-left" size={20} color={theme.secondary} />
           </TouchableOpacity>
-          {/* <Text style={{ color: "grey" }}>{activePageNumber}/13</Text> */}
         </View>
 
         <View>

@@ -1,8 +1,8 @@
-import { StyleSheet } from "react-native";
 import { Book as BookType } from "../types/database";
-import { useState } from "react";
+import { useContext } from "react";
 import ReadingModeBook from "./ReadingModeBook";
 import BookDetails from "./BookDetails";
+import { BookContext } from "../store/BookContext";
 
 interface BookProps {
   book: BookType;
@@ -10,20 +10,16 @@ interface BookProps {
 }
 
 export default function Book({ book, onExit }: BookProps) {
-  const [isInReadingMode, setIsInReadingMode] = useState(false);
+  const { isInReadingMode, onReadingModeEnter, onReadingModeExit } =
+    useContext(BookContext);
 
   return isInReadingMode ? (
-    <ReadingModeBook
-      book={book}
-      onReadingModeExit={() => setIsInReadingMode(false)}
-    />
+    <ReadingModeBook {...book} onReadingModeExit={onReadingModeExit} />
   ) : (
     <BookDetails
-      book={book}
+      {...book}
       onExit={onExit}
-      onReadingModeEnter={() => setIsInReadingMode(true)}
+      onReadingModeEnter={onReadingModeEnter}
     />
   );
 }
-
-const styles = StyleSheet.create({});

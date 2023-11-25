@@ -13,18 +13,25 @@ import StyledText from "./ui/StyledText";
 import { useContext } from "react";
 import { ThemeContext } from "../store/ThemeContext";
 
-interface BookProps {
-  book: Book;
+type ReadingModeBookProps = Book & {
   onExit: () => void;
   onReadingModeEnter: (book?: Book) => void;
-}
+};
 
 export default function BookDetails({
-  book,
+  title,
+  keywords,
+  author,
+  description,
+  discussionTopics,
+  estimatedReadingTime,
+  age,
+  translator,
+  illustrator,
   onExit,
   onReadingModeEnter,
-}: BookProps) {
-  const keywordsString = book?.keywords.join(", ");
+}: ReadingModeBookProps) {
+  const keywordsString = keywords.join(", ");
 
   const { theme } = useContext(ThemeContext);
 
@@ -43,7 +50,7 @@ export default function BookDetails({
       </TouchableOpacity>
 
       <StyledView style={styles.bookInfo}>
-        <StyledText style={styles.bookTitle}>{book.title}</StyledText>
+        <StyledText style={styles.bookTitle}>{title}</StyledText>
         <Text style={{ color: theme.secondary, fontSize: 14 }}>
           {keywordsString}
         </Text>
@@ -60,34 +67,32 @@ export default function BookDetails({
           <View style={styles.iconContainer}>
             <FeatherIcon name="clock" size={15} color={theme.text} />
             <StyledText style={styles.bookDetailsText}>
-              {book?.estimatedReadingTime} min
+              {estimatedReadingTime} min
             </StyledText>
           </View>
           <View style={styles.bookDetailsRightColumn}>
             <View style={{ ...styles.iconContainer, marginRight: 10 }}>
               <FeatherIcon name="star" size={15} color={theme.text} />
               <StyledText style={styles.bookDetailsText}>
-                {book?.estimatedReadingTime.toFixed(2)}
+                {estimatedReadingTime.toFixed(2)}
               </StyledText>
             </View>
             <View style={styles.iconContainer}>
               <FeatherIcon name="smile" size={15} color={theme.text} />
-              <StyledText style={styles.bookDetailsText}>
-                {book?.age}+
-              </StyledText>
+              <StyledText style={styles.bookDetailsText}>{age}+</StyledText>
             </View>
           </View>
         </View>
 
         <View style={styles.border} />
 
-        <StyledText style={styles.description}>{book.description}</StyledText>
+        <StyledText style={styles.description}>{description}</StyledText>
 
         <View style={styles.section}>
           <StyledText style={styles.sectionHeading}>
             Tematy do dyskusji
           </StyledText>
-          {book.discussionTopics.map((topic) => (
+          {discussionTopics.map((topic) => (
             <View key={topic} style={{ flexDirection: "row", marginBottom: 5 }}>
               <StyledText style={{ marginRight: 5 }}>{`\u2022`}</StyledText>
               <StyledText>{topic}</StyledText>
@@ -100,18 +105,18 @@ export default function BookDetails({
           <View>
             <View style={styles.authorRow}>
               <StyledText secondary>Bajka</StyledText>
-              <StyledText>{book.author}</StyledText>
+              <StyledText>{author}</StyledText>
             </View>
-            {book.illustrator && (
+            {illustrator && (
               <View style={styles.authorRow}>
                 <StyledText secondary>Ilustracje</StyledText>
-                <StyledText>{book.illustrator}</StyledText>
+                <StyledText>{illustrator}</StyledText>
               </View>
             )}
-            {book.translator && (
+            {translator && (
               <View style={styles.authorRow}>
                 <StyledText secondary>Translacja</StyledText>
-                <StyledText>{book.translator}</StyledText>
+                <StyledText>{translator}</StyledText>
               </View>
             )}
           </View>

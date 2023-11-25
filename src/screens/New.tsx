@@ -1,17 +1,17 @@
 import "react-native-get-random-values";
 import { useContext } from "react";
-import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
+import { View, StyleSheet, ScrollView, StatusBar } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import BookCard from "../components/BookCard";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Book as BookType } from "../types/database";
-import { useState } from "react";
 import Book from "../components/Book";
 import { ThemeContext } from "../store/ThemeContext";
 import StyledText from "../components/ui/StyledText";
 import { TabsContext } from "../store/TabsContext";
+import { BookContext } from "../store/BookContext";
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -33,8 +33,8 @@ function hasBeenPublishedInTheSpecifiedTime(
 }
 
 export default function New({ navigation }: RouterProps) {
-  const [openedBook, setOpenedBook] = useState<BookType | null>(null);
-
+  const { openedBook, onBookDetailsEnter, onBookDetailsExit } =
+    useContext(BookContext);
   const { theme } = useContext(ThemeContext);
   const { onTabsVisibilityChange } = useContext(TabsContext);
 
@@ -54,12 +54,12 @@ export default function New({ navigation }: RouterProps) {
 
   function handleBookOpen(book: BookType) {
     onTabsVisibilityChange(false);
-    setOpenedBook(book);
+    onBookDetailsEnter(book);
   }
 
   function handleOpenedBookExit() {
     onTabsVisibilityChange(true);
-    setOpenedBook(null);
+    onBookDetailsExit();
   }
 
   const NewComponent = (

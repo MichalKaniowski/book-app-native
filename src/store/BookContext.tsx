@@ -32,6 +32,7 @@ export function BookContextProvider({
   }
 
   function handleBookReadingModeEnter(book?: Book) {
+    // book is optional, because user could enter reading mode from book details and then book is already set
     if (book) {
       setOpenedBook(book);
     }
