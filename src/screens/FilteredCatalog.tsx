@@ -38,17 +38,14 @@ export default function FilteredCatalog({ route, navigation }: any) {
 
   if (openedBook && isInReadingMode) {
     return (
-      <ReadingModeBook
-        book={openedBook!}
-        onReadingModeExit={onReadingModeExit}
-      />
+      <ReadingModeBook {...openedBook} onReadingModeExit={onReadingModeExit} />
     );
   }
 
   if (openedBook) {
     return (
       <BookDetails
-        book={openedBook}
+        {...openedBook}
         onExit={onBookDetailsExit}
         onReadingModeEnter={onReadingModeEnter}
       />
