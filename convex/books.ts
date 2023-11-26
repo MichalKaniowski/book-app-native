@@ -8,7 +8,7 @@ export const getBooks = query({
   },
 });
 
-export const getFilteredBooks = query({
+export const getFilteredBooksByCategory = query({
   args: {
     filterCriteria: v.union(
       v.literal("3+"),
@@ -35,5 +35,24 @@ export const getFilteredBooks = query({
     }
 
     return books;
+  },
+});
+
+export const getBookRecommendations = query({
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.db.query("books").collect();
+  },
+});
+
+export const getBooksFilteredByName = query({
+  args: { searchText: v.string() },
+  handler: async (ctx, args) => {
+    const books = await ctx.db.query("books").collect();
+    const filteredBooks = books.filter((book) =>
+      book.title.toLowerCase().includes(args.searchText.trim().toLowerCase())
+    );
+
+    return filteredBooks;
   },
 });

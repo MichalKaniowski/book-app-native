@@ -1,9 +1,8 @@
 import { useContext } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { Book } from "../types/database";
-import { ThemeContext } from "../store/ThemeContext";
+import { Book } from "../../types/database";
+import { ThemeContext } from "../../store/ThemeContext";
 import Icon from "react-native-vector-icons/Feather";
-import { BookContext } from "../store/BookContext";
 
 type SmallBookCardProps = {
   book: Book;
@@ -11,10 +10,13 @@ type SmallBookCardProps = {
   onReadingModeEnter: (book: Book) => void;
 };
 
-export default function SmallBookCard({ book }: SmallBookCardProps) {
+export default function SmallBookCard({
+  book,
+  onBookDetailsEnter,
+  onReadingModeEnter,
+}: SmallBookCardProps) {
   const { keywords, title, estimatedReadingTime } = book;
 
-  const { onBookDetailsEnter, onReadingModeEnter } = useContext(BookContext);
   const { theme } = useContext(ThemeContext);
 
   const keywordsString = keywords.join(", ");
@@ -26,7 +28,7 @@ export default function SmallBookCard({ book }: SmallBookCardProps) {
     >
       <View style={styles.imageContainer}>
         <Image
-          source={require("../../assets/elephant22.webp")}
+          source={require("../../../assets/elephant22.webp")}
           style={styles.bookImage}
           alt="elephant image"
         />

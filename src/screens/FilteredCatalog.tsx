@@ -4,11 +4,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { api } from "../../convex/_generated/api";
 import { Book } from "../types/database";
 import Icon from "react-native-vector-icons/Feather";
-import SmallBookCard from "../components/SmallBookCard";
+import SmallBookCard from "../components/book/SmallBookCard";
 import { ThemeContext } from "../store/ThemeContext";
 import { BookContext } from "../store/BookContext";
-import ReadingModeBook from "../components/ReadingModeBook";
-import BookDetails from "../components/BookDetails";
+import ReadingModeBook from "../components/book/ReadingModeBook";
+import BookDetails from "../components/book/BookDetails";
+import { TabsContext } from "../store/TabsContext";
 
 export type CategoryType =
   | "3+"
@@ -31,10 +32,29 @@ export default function FilteredCatalog({ route, navigation }: any) {
     onReadingModeExit,
     onBookDetailsExit,
   } = useContext(BookContext);
+  const { onTabsVisibilityChange } = useContext(TabsContext);
 
-  const books: Book[] | undefined = useQuery(api.books.getFilteredBooks, {
-    filterCriteria: category as CategoryType,
-  });
+  function handleBookDetailsEnter(book: Book) {
+    onBookDetailsEnter(book);
+    onTabsVisibilityChange(false);
+  }
+
+  function handleReadingModeEnter(book: Book) {
+    onReadingModeEnter(book);
+    onTabsVisibilityChange(false);
+  }
+
+  function handleBookDetailsExit() {
+    onBookDetailsExit();
+    onTabsVisibilityChange(true);
+  }
+
+  const books: Book[] | undefined = useQuery(
+    api.books.getFilteredBooksByCategory,
+    {
+      filterCriteria: category as CategoryType,
+    }
+  );
 
   if (openedBook && isInReadingMode) {
     return (
@@ -46,7 +66,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
     return (
       <BookDetails
         {...openedBook}
-        onExit={onBookDetailsExit}
+        onExit={handleBookDetailsExit}
         onReadingModeEnter={onReadingModeEnter}
       />
     );
@@ -78,8 +98,8 @@ export default function FilteredCatalog({ route, navigation }: any) {
             <SmallBookCard
               key={book._id}
               book={book}
-              onBookDetailsEnter={onBookDetailsEnter}
-              onReadingModeEnter={onReadingModeEnter}
+              onBookDetailsEnter={handleBookDetailsEnter}
+              onReadingModeEnter={handleReadingModeEnter}
             />
           ))}
         </View>

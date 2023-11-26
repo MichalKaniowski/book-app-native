@@ -6,12 +6,12 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { Book } from "../types/database";
+import { Book } from "../../types/database";
 import FeatherIcon from "react-native-vector-icons/Feather";
-import StyledView from "./ui/StyledView";
-import StyledText from "./ui/StyledText";
+import StyledView from "../ui/StyledView";
+import StyledText from "../ui/StyledText";
 import { useContext } from "react";
-import { ThemeContext } from "../store/ThemeContext";
+import { ThemeContext } from "../../store/ThemeContext";
 
 type ReadingModeBookProps = Book & {
   onExit: () => void;
@@ -38,7 +38,7 @@ export default function BookDetails({
   return (
     <ScrollView style={{ backgroundColor: theme.background }}>
       <Image
-        source={require("../../assets/elephant22.webp")}
+        source={require("../../../assets/elephant22.webp")}
         style={styles.bookImage}
         alt="elephant image"
       />

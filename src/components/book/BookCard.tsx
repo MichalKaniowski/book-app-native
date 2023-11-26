@@ -9,9 +9,9 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import FeatherIcon from "react-native-vector-icons/Feather";
-import { Book } from "../types/database";
-import { ThemeContext } from "../store/ThemeContext";
-import StyledText from "./ui/StyledText";
+import { Book } from "../../types/database";
+import { ThemeContext } from "../../store/ThemeContext";
+import StyledText from "../ui/StyledText";
 
 interface BookCardProps {
   book: Book;
@@ -28,7 +28,7 @@ export default function BookCard({ book, onBookOpen }: BookCardProps) {
       onPress={() => onBookOpen(book)}
     >
       <Image
-        source={require("../../assets/elephant22.webp")}
+        source={require("../../../assets/elephant22.webp")}
         style={styles.bookImage}
         alt="elephant image"
       />

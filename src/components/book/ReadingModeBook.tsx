@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { Book } from "../types/database";
+import { Book } from "../../types/database";
 import FeatherIcon from "react-native-vector-icons/Feather";
-import SettingsModal from "./SettingsModal";
-import { TextSizeChangeAction } from "../types/book";
+import SettingsModal from "../SettingsModal";
+import { TextSizeChangeAction } from "../../types/book";
 import * as Brightness from "expo-brightness";
-import StyledText from "./ui/StyledText";
-import StyledView from "./ui/StyledView";
-import { ThemeContext } from "../store/ThemeContext";
+import StyledText from "../ui/StyledText";
+import StyledView from "../ui/StyledView";
+import { ThemeContext } from "../../store/ThemeContext";
 
 type ReadingModeBookProps = Book & {
   onReadingModeExit: () => void;

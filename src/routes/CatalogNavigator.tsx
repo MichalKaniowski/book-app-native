@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Catalog from "../screens/Catalog";
 import FilteredCatalog from "../screens/FilteredCatalog";
-import { Book } from "../types/database";
 
 const CatalogStack = createNativeStackNavigator();
 
