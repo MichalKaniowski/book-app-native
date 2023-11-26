@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Platform,
 } from "react-native";
 import BookRecommendation from "./book/BookRecommendation";
 import StyledText from "./ui/StyledText";
@@ -96,8 +97,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "grey",
     borderRadius: 10,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
+    paddingHorizontal: 10,
+    paddingVertical: Platform.OS === "android" ? 2 : 8,
     marginBottom: 20,
   },
   section: {

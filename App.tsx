@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import { useState, useEffect, useContext, useLayoutEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { User, onAuthStateChanged } from "firebase/auth";

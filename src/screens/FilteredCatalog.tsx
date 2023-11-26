@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useQuery } from "convex/react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { api } from "../../convex/_generated/api";
 import { Book } from "../types/database";
 import Icon from "react-native-vector-icons/Feather";
@@ -10,6 +10,7 @@ import { BookContext } from "../store/BookContext";
 import ReadingModeBook from "../components/book/ReadingModeBook";
 import BookDetails from "../components/book/BookDetails";
 import { TabsContext } from "../store/TabsContext";
+import StyledText from "../components/ui/StyledText";
 
 export type CategoryType =
   | "3+"
@@ -89,9 +90,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
       </View>
 
       <View style={{ padding: 10 }}>
-        <Text style={{ ...styles.mainHeading, color: theme.text }}>
-          {categoryTitle}
-        </Text>
+        <StyledText style={styles.mainHeading}>{categoryTitle}</StyledText>
 
         <View style={styles.booksContainer}>
           {books?.map((book) => (
@@ -102,6 +101,9 @@ export default function FilteredCatalog({ route, navigation }: any) {
               onReadingModeEnter={handleReadingModeEnter}
             />
           ))}
+          {books && books?.length === 0 && (
+            <StyledText>Nie mamy jeszcze książek z tej kategorii.</StyledText>
+          )}
         </View>
       </View>
     </View>
