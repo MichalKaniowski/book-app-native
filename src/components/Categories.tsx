@@ -2,6 +2,8 @@ import { useContext } from "react";
 import Category from "./Category";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { ThemeContext } from "../store/ThemeContext";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function Categories({ navigation }: any) {
   const { theme } = useContext(ThemeContext);
@@ -10,7 +12,7 @@ export default function Categories({ navigation }: any) {
     <>
       <Category
         name="od 3 lat"
-        icon={<Icon name="pets" size={20} color={theme.text} />}
+        icon={<Icon name="looks-3" size={20} color={theme.text} />}
         onPress={() =>
           navigation.navigate("FilteredCatalog", {
             categoryTitle: "od 3 lat",
@@ -20,7 +22,7 @@ export default function Categories({ navigation }: any) {
       />
       <Category
         name="od 5 lat"
-        icon={<Icon name="pets" size={20} color={theme.text} />}
+        icon={<Icon name="looks-5" size={20} color={theme.text} />}
         onPress={() =>
           navigation.navigate("FilteredCatalog", {
             categoryTitle: "od 5 lat",
@@ -30,7 +32,14 @@ export default function Categories({ navigation }: any) {
       />
       <Category
         name="od 8 lat"
-        icon={<Icon name="pets" size={20} color={theme.text} />}
+        icon={
+          <MaterialCommunityIcon
+            name="numeric-8"
+            size={30}
+            color={theme.text}
+            style={{ marginLeft: -5 }}
+          />
+        }
         onPress={() =>
           navigation.navigate("FilteredCatalog", {
             categoryTitle: "od 8 lat",
@@ -40,7 +49,9 @@ export default function Categories({ navigation }: any) {
       />
       <Category
         name="Bajki na dobranoc"
-        icon={<Icon name="pets" size={20} color={theme.text} />}
+        icon={
+          <MaterialCommunityIcon name="sleep" size={20} color={theme.text} />
+        }
         onPress={() =>
           navigation.navigate("FilteredCatalog", {
             categoryTitle: "Bajki na dobranoc",
@@ -50,7 +61,7 @@ export default function Categories({ navigation }: any) {
       />
       <Category
         name="Nauka"
-        icon={<Icon name="pets" size={20} color={theme.text} />}
+        icon={<Icon name="science" size={20} color={theme.text} />}
         onPress={() =>
           navigation.navigate("FilteredCatalog", {
             categoryTitle: "Nauka",
@@ -70,7 +81,7 @@ export default function Categories({ navigation }: any) {
       />
       <Category
         name="Przyroda"
-        icon={<Icon name="pets" size={20} color={theme.text} />}
+        icon={<Icon name="nature" size={20} color={theme.text} />}
         onPress={() =>
           navigation.navigate("FilteredCatalog", {
             categoryTitle: "Przyroda",
