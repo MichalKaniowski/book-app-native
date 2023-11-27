@@ -56,3 +56,11 @@ export const getBooksFilteredByName = query({
     return filteredBooks;
   },
 });
+
+export const getShelfBooks = query({
+  args: {},
+  handler: async (ctx, args) => {
+    const books = await ctx.db.query("books").collect();
+    return books;
+  },
+});

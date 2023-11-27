@@ -1,7 +1,6 @@
 import "react-native-get-random-values";
 import { useContext } from "react";
-import { View, StyleSheet, ScrollView, StatusBar } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import BookCard from "../components/book/BookCard";
 import { useQuery } from "convex/react";
@@ -12,10 +11,7 @@ import { ThemeContext } from "../store/ThemeContext";
 import StyledText from "../components/ui/StyledText";
 import { TabsContext } from "../store/TabsContext";
 import { BookContext } from "../store/BookContext";
-
-interface RouterProps {
-  navigation: NavigationProp<any, any>;
-}
+import React from "react";
 
 function hasBeenPublishedInTheSpecifiedTime(
   creationTimeMilliseconds: number,
@@ -32,7 +28,7 @@ function hasBeenPublishedInTheSpecifiedTime(
   );
 }
 
-export default function New({ navigation }: RouterProps) {
+export default function New() {
   const { openedBook, onBookDetailsEnter, onBookDetailsExit } =
     useContext(BookContext);
   const { theme } = useContext(ThemeContext);

@@ -31,31 +31,29 @@ function AppContent() {
   }, []);
 
   return (
-    <>
-      <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
-        <StatusBar
-          barStyle={actualTheme === "light" ? "dark-content" : "light-content"}
-          backgroundColor={theme.background}
-        />
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Auth">
-            {user ? (
-              <Stack.Screen
-                name="MainTabNavigator"
-                component={MainTabNavigator}
-                options={{ headerShown: false }}
-              />
-            ) : (
-              <Stack.Screen
-                name="Auth"
-                component={Login}
-                options={{ headerShown: false }}
-              />
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+      <StatusBar
+        barStyle={actualTheme === "light" ? "dark-content" : "light-content"}
+        backgroundColor={theme.background}
+      />
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Auth">
+          {user ? (
+            <Stack.Screen
+              name="MainTabNavigator"
+              component={MainTabNavigator}
+              options={{ headerShown: false }}
+            />
+          ) : (
+            <Stack.Screen
+              name="Auth"
+              component={Login}
+              options={{ headerShown: false }}
+            />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }
 
