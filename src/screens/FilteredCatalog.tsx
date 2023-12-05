@@ -102,7 +102,9 @@ export default function FilteredCatalog({ route, navigation }: any) {
             />
           ))}
           {books && books?.length === 0 && (
-            <StyledText>Nie mamy jeszcze książek z tej kategorii.</StyledText>
+            <StyledText style={styles.noBooksInTheCategoryText}>
+              Nie mamy jeszcze książek z tej kategorii.
+            </StyledText>
           )}
         </View>
       </View>
@@ -123,4 +125,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   booksContainer: {},
+  noBooksInTheCategoryText: {
+    fontSize: 16,
+  },
 });

@@ -105,7 +105,7 @@ export default function BookDetails({
           <View>
             <View style={styles.authorRow}>
               <StyledText secondary>Bajka</StyledText>
-              <StyledText>{author}</StyledText>
+              <StyledText>{author ? author : "Nie znany"}</StyledText>
             </View>
             {illustrator && (
               <View style={styles.authorRow}>

@@ -40,6 +40,11 @@ export default function Shelf() {
           onReadingModeEnter={onReadingModeEnter}
         />
       ))}
+      {books?.length === 0 && (
+        <StyledText style={styles.noBooksAddedText}>
+          Nie masz jeszcze dodanych książek
+        </StyledText>
+      )}
     </ScrollView>
   );
 
@@ -63,5 +68,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     marginBottom: 15,
+  },
+  noBooksAddedText: {
+    fontSize: 16,
   },
 });

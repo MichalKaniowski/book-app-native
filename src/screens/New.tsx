@@ -71,26 +71,33 @@ export default function New() {
         niedziela, 5 listopada
       </StyledText>
 
-      <View style={styles.section}>
-        <StyledText style={styles.sectionHeading}>Nowe bajki</StyledText>
-        {booksPublishedInThisWeek?.map((book) => (
-          <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
-        ))}
-      </View>
-      <View style={styles.section}>
-        <StyledText style={styles.sectionHeading}>
-          W ostatnim tygodniu
-        </StyledText>
-        {booksPublishedInLastWeek?.map((book) => (
-          <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
-        ))}
-      </View>
-      <View style={styles.section}>
-        <StyledText style={styles.sectionHeading}>Dawniej</StyledText>
-        {booksPublishedEarlier?.map((book) => (
-          <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
-        ))}
-      </View>
+      {booksPublishedInThisWeek?.length !== 0 && (
+        <View style={styles.section}>
+          <StyledText style={styles.sectionHeading}>Nowe bajki</StyledText>
+          {booksPublishedInThisWeek?.map((book) => (
+            <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
+          ))}
+        </View>
+      )}
+
+      {booksPublishedInLastWeek?.length !== 0 && (
+        <View style={styles.section}>
+          <StyledText style={styles.sectionHeading}>
+            W ostatnim tygodniu
+          </StyledText>
+          {booksPublishedInLastWeek?.map((book) => (
+            <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
+          ))}
+        </View>
+      )}
+      {booksPublishedEarlier?.length !== 0 && (
+        <View style={styles.section}>
+          <StyledText style={styles.sectionHeading}>Dawniej</StyledText>
+          {booksPublishedEarlier?.map((book) => (
+            <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
+          ))}
+        </View>
+      )}
     </ScrollView>
   );
 
