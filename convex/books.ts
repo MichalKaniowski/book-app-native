@@ -1,4 +1,6 @@
-import { query } from "./_generated/server";
+//@ts-nocheck
+
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const getBooks = query({
@@ -54,6 +56,23 @@ export const getBooksFilteredByName = query({
     );
 
     return filteredBooks;
+  },
+});
+
+export const createUser = mutation({
+  args: { email: v.string(), username: v.string(), firebaseId: v.string() },
+  handler: async (ctx, { email, username, firebaseId }) => {
+    const users = await ctx.db.query("users").collect();
+    const userInDatabase = users.find((user) => user.email === email);
+
+    if (!userInDatabase) {
+      await ctx.db.insert("users", {
+        email,
+        username,
+        firebaseId,
+        readBooks: [],
+      });
+    }
   },
 });
 

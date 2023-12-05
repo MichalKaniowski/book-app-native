@@ -1,27 +1,32 @@
-import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { useState } from "react";
+import { StyleSheet, TextInput, Button } from "react-native";
 import { firebaseAuth } from "../../FirebaseConfig";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const auth = firebaseAuth;
   const [isLoading, setIsLoading] = useState(false);
+
+  const createUser = useMutation(api.books.createUser);
 
   const signUp = async () => {
     setIsLoading(true);
 
     try {
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      await createUserWithEmailAndPassword(firebaseAuth, email, password);
+
+      createUser({
+        username: email,
+        email: email,
+        firebaseId: firebaseAuth.currentUser?.uid!,
+      });
     } catch (error: any) {
       alert("Sign in failed: " + error.message);
     } finally {
@@ -34,7 +39,7 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(firebaseAuth, email, password);
     } catch (error: any) {
       alert("Sign in failed: " + error.message);
       console.log(error);
@@ -54,12 +59,8 @@ export default function Login() {
         secureTextEntry={true}
         onChangeText={(text: string) => setPassword(text)}
       />
-      <Button onPress={signIn} title="Sign in" />
-      <Button onPress={signUp} title="Create Account" />
-
-      {auth.currentUser && <Text>current user: {auth.currentUser.email}</Text>}
+      <Button onPress={signIn} title="Sign in" disabled={isLoading} />
+      <Button onPress={signUp} title="Create Account" disabled={isLoading} />
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({});
