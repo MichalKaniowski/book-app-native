@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/Fontisto";
 import { ThemeType } from "../types/theme";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import * as Linking from "expo-linking";
 
 export default function Profile() {
   const { theme, onThemeChange, themeValue } = useContext(ThemeContext);
@@ -55,6 +56,29 @@ export default function Profile() {
       </View>
 
       <View style={styles.profileSettingsContainer}>
+        <TouchableOpacity
+          onPress={() =>
+            Linking.openURL(
+              "https://play.google.com/store/apps/details?id=host.exp.exponent"
+            )
+          }
+          style={styles.profileSettingsBox}
+        >
+          <View style={{ ...styles.border, borderColor: theme.secondary }} />
+          <StyledText style={styles.profileSettingsText}>
+            Zrecenzuj naszą aplikację
+          </StyledText>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => Linking.openURL("mailto:support@expo.dev")}
+          style={styles.profileSettingsBox}
+        >
+          <View style={{ ...styles.border, borderColor: theme.secondary }} />
+          <StyledText style={styles.profileSettingsText}>
+            Skonaktuj się z nami
+          </StyledText>
+        </TouchableOpacity>
         <View style={styles.profileSettingsBox}>
           <View style={{ ...styles.border, borderColor: theme.secondary }} />
           <StyledText style={styles.profileSettingsText}>
