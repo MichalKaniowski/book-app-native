@@ -10,7 +10,7 @@ import {
 import BookRecommendation from "./book/BookRecommendation";
 import StyledText from "./ui/StyledText";
 import { Book as BookType } from "../types/database";
-import SearchResults from "../components/SearchResults";
+import SearchResults from "./SearchResults";
 import Categories from "./Categories";
 import { ThemeContext } from "../store/ThemeContext";
 import { useQuery } from "convex/react";
