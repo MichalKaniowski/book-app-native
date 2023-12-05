@@ -77,9 +77,15 @@ export const createUser = mutation({
 });
 
 export const getShelfBooks = query({
-  args: {},
+  args: {
+    userId: v.string(),
+  },
   handler: async (ctx, args) => {
-    const books = await ctx.db.query("books").collect();
-    return books;
+    const users = await ctx.db.query("users").collect();
+    const user = users.find((user) => user.firebaseId === args.userId);
+
+    const readBooks = user?.readBooks;
+
+    return readBooks;
   },
 });

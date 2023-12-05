@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ScrollView, View, Text, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, Button } from "react-native";
 import StyledText from "../components/ui/StyledText";
 import { ThemeContext } from "../store/ThemeContext";
 import { useQuery } from "convex/react";
@@ -8,9 +8,14 @@ import SmallBookCard from "../components/book/SmallBookCard";
 import { BookContext } from "../store/BookContext";
 import Icon from "react-native-vector-icons/Feather";
 import Book from "../components/book/Book";
+import { firebaseAuth } from "../../FirebaseConfig";
+import { Book as BookType } from "../types/database";
 
 export default function Shelf() {
-  const books = useQuery(api.books.getShelfBooks);
+  const user = firebaseAuth.currentUser;
+  const userId = user?.uid;
+
+  const books = useQuery(api.books.getShelfBooks, { userId: userId! });
 
   const { theme } = useContext(ThemeContext);
   const {
@@ -30,7 +35,7 @@ export default function Shelf() {
       <StyledText style={styles.mainHeading}>Półka</StyledText>
       {books?.map((book) => (
         <SmallBookCard
-          book={book}
+          book={book as BookType}
           onBookDetailsEnter={onBookDetailsEnter}
           onReadingModeEnter={onReadingModeEnter}
         />
