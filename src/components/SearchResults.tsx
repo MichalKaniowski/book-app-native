@@ -6,6 +6,7 @@ import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
 import { Book } from "../types/database";
 import StyledText from "./ui/StyledText";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function SearchResults({ text }: { text: string }) {
   const { onBookDetailsEnter, onReadingModeEnter } = useContext(BookContext);
@@ -30,7 +31,7 @@ export default function SearchResults({ text }: { text: string }) {
 
   return (
     <View>
-      {isLoading && <StyledText>Loading...</StyledText>}
+      <Spinner visible={isLoading} />
       {error && <StyledText>An error occured: {error.message}</StyledText>}
       {results}
     </View>

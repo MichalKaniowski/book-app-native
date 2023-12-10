@@ -10,6 +10,7 @@ import { firebaseAuth } from "../../FirebaseConfig";
 import { Book as BookType } from "../types/database";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function Shelf() {
   const userFirebaseId = firebaseAuth.currentUser?.uid;
@@ -52,7 +53,7 @@ export default function Shelf() {
           Nie masz jeszcze dodanych książek
         </StyledText>
       )}
-      {isLoading && <StyledText>Loading...</StyledText>}
+      <Spinner visible={isLoading} />
       {error && <StyledText>{error.message}</StyledText>}
     </ScrollView>
   );

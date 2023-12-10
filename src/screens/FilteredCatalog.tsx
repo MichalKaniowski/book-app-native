@@ -11,6 +11,7 @@ import { TabsContext } from "../store/TabsContext";
 import StyledText from "../components/ui/StyledText";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type CategoryType =
   | "3+"
@@ -103,7 +104,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
               onReadingModeEnter={handleReadingModeEnter}
             />
           ))}
-          {isLoading && <StyledText>Loading...</StyledText>}
+          <Spinner visible={isLoading} />
           {error && <StyledText>An error occured: {error.message}</StyledText>}
           {books && books?.length === 0 && (
             <StyledText style={styles.noBooksInTheCategoryText}>

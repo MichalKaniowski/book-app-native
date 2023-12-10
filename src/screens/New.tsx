@@ -10,6 +10,7 @@ import { TabsContext } from "../store/TabsContext";
 import { BookContext } from "../store/BookContext";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
+import Spinner from "react-native-loading-spinner-overlay";
 
 function hasBeenPublishedInTheSpecifiedTime(
   creationTimeInSeconds: number,
@@ -72,7 +73,7 @@ export default function New() {
         niedziela, 5 listopada
       </StyledText>
 
-      {isLoading && <StyledText>Loading...</StyledText>}
+      <Spinner visible={isLoading} />
       {error && <StyledText>An error occured: {error.message}</StyledText>}
 
       {booksPublishedInThisWeek?.length !== 0 && (

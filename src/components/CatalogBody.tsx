@@ -15,6 +15,7 @@ import Categories from "./Categories";
 import { ThemeContext } from "../store/ThemeContext";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function CatalogBody({ navigation }: any) {
   const [searchText, setSearchText] = useState("");
@@ -32,11 +33,9 @@ export default function CatalogBody({ navigation }: any) {
   const catalogBody = (
     <>
       <View style={styles.section}>
+        <Spinner visible={isLoading} />
         <StyledText style={styles.sectionHeading}>Redakcja poleca</StyledText>
-        {isLoading && <StyledText>Loading...</StyledText>}
-        {isLoading && (
-          <StyledText>An error occured {error?.message}</StyledText>
-        )}
+        {error && <StyledText>An error occured {error?.message}</StyledText>}
         <ScrollView style={styles.recommendations} horizontal={true}>
           {bookRecommendations?.map((book: Book) => (
             <BookRecommendation key={book._id} book={book} />
