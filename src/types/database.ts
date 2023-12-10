@@ -1,6 +1,6 @@
 export interface Book {
-  _creationTime: number;
   _id: string;
+  _createdAt: number;
   age: number;
   author: string;
   body: string;

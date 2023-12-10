@@ -1,27 +1,25 @@
-import "react-native-get-random-values";
 import { useContext } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import BookCard from "../components/book/BookCard";
-import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
 import { Book as BookType } from "../types/database";
 import Book from "../components/book/Book";
 import { ThemeContext } from "../store/ThemeContext";
 import StyledText from "../components/ui/StyledText";
 import { TabsContext } from "../store/TabsContext";
 import { BookContext } from "../store/BookContext";
-import React from "react";
+import useQuery from "../hooks/useQuery";
+import { DOMAIN } from "@env";
 
 function hasBeenPublishedInTheSpecifiedTime(
-  creationTimeMilliseconds: number,
+  creationTimeInSeconds: number,
   lastDaysStart: number,
   lastDaysEnd: number
 ) {
-  const currentTimeMilliseconds = new Date().getTime();
-  const timeDifferenceMilliseconds =
-    currentTimeMilliseconds - creationTimeMilliseconds;
-  const timeDifferenceDays = timeDifferenceMilliseconds / (1000 * 60 * 60 * 24);
+  const currentTimeInSeconds = new Date().getTime() / 1000;
+
+  const timeDifferenceInSeconds = currentTimeInSeconds - creationTimeInSeconds;
+  const timeDifferenceDays = timeDifferenceInSeconds / (24 * 60 * 60);
 
   return (
     timeDifferenceDays <= lastDaysEnd && timeDifferenceDays >= lastDaysStart
@@ -33,19 +31,22 @@ export default function New() {
     useContext(BookContext);
   const { theme } = useContext(ThemeContext);
   const { onTabsVisibilityChange } = useContext(TabsContext);
-
-  const books: BookType[] | undefined = useQuery(api.books.getBooks);
+  const {
+    data: books,
+    isLoading,
+    error,
+  } = useQuery<BookType[]>(`${DOMAIN}/api/books/getBooks`, []);
 
   const booksPublishedInThisWeek = books?.filter((book) =>
-    hasBeenPublishedInTheSpecifiedTime(book?._creationTime, 0, 7)
+    hasBeenPublishedInTheSpecifiedTime(book?._createdAt, 0, 7)
   );
 
   const booksPublishedInLastWeek = books?.filter((book) =>
-    hasBeenPublishedInTheSpecifiedTime(book?._creationTime, 7, 14)
+    hasBeenPublishedInTheSpecifiedTime(book?._createdAt, 7, 14)
   );
 
   const booksPublishedEarlier = books?.filter((book) =>
-    hasBeenPublishedInTheSpecifiedTime(book._creationTime, 14, Infinity)
+    hasBeenPublishedInTheSpecifiedTime(book._createdAt, 14, Infinity)
   );
 
   function handleBookOpen(book: BookType) {
@@ -70,6 +71,9 @@ export default function New() {
       <StyledText style={styles.date} secondary>
         niedziela, 5 listopada
       </StyledText>
+
+      {isLoading && <StyledText>Loading...</StyledText>}
+      {error && <StyledText>An error occured: {error.message}</StyledText>}
 
       {booksPublishedInThisWeek?.length !== 0 && (
         <View style={styles.section}>

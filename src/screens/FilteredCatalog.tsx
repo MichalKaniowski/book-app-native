@@ -1,7 +1,5 @@
 import { useContext } from "react";
-import { useQuery } from "convex/react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { api } from "../../convex/_generated/api";
 import { Book } from "../types/database";
 import Icon from "react-native-vector-icons/Feather";
 import SmallBookCard from "../components/book/SmallBookCard";
@@ -11,6 +9,8 @@ import ReadingModeBook from "../components/book/ReadingModeBook";
 import BookDetails from "../components/book/BookDetails";
 import { TabsContext } from "../store/TabsContext";
 import StyledText from "../components/ui/StyledText";
+import useQuery from "../hooks/useQuery";
+import { DOMAIN } from "@env";
 
 export type CategoryType =
   | "3+"
@@ -50,11 +50,13 @@ export default function FilteredCatalog({ route, navigation }: any) {
     onTabsVisibilityChange(true);
   }
 
-  const books: Book[] | undefined = useQuery(
-    api.books.getFilteredBooksByCategory,
-    {
-      filterCriteria: category as CategoryType,
-    }
+  const {
+    data: books,
+    isLoading,
+    error,
+  } = useQuery<Book[]>(
+    `${DOMAIN}/api/books/getFilteredBooksByCategory/${category}`,
+    []
   );
 
   if (openedBook && isInReadingMode) {
@@ -66,7 +68,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
   if (openedBook) {
     return (
       <BookDetails
-        {...openedBook}
+        book={openedBook}
         onExit={handleBookDetailsExit}
         onReadingModeEnter={onReadingModeEnter}
       />
@@ -101,6 +103,8 @@ export default function FilteredCatalog({ route, navigation }: any) {
               onReadingModeEnter={handleReadingModeEnter}
             />
           ))}
+          {isLoading && <StyledText>Loading...</StyledText>}
+          {error && <StyledText>An error occured: {error.message}</StyledText>}
           {books && books?.length === 0 && (
             <StyledText style={styles.noBooksInTheCategoryText}>
               Nie mamy jeszcze książek z tej kategorii.

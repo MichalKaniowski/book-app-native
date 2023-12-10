@@ -101,8 +101,7 @@ export default function Profile() {
                 onPress={() => handleThemeChange("light")}
                 style={{
                   ...styles.themeButton,
-                  backgroundColor:
-                    themeValue === "light" ? theme.secondary : "#000",
+                  backgroundColor: themeValue === "light" ? "#BFBFBF" : "#000",
                 }}
               >
                 <FeatherIcon name="sun" color={theme.text} size={20} />

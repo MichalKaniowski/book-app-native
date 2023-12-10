@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Book } from "../../types/database";
 import { ThemeContext } from "../../store/ThemeContext";
 import Icon from "react-native-vector-icons/Feather";
+import axios from "axios";
+import { DOMAIN } from "@env";
+import { firebaseAuth } from "../../../FirebaseConfig";
 
 type SmallBookCardProps = {
   book: Book;
@@ -20,6 +23,14 @@ export default function SmallBookCard({
   const { theme } = useContext(ThemeContext);
 
   const keywordsString = keywords.join(", ");
+
+  async function handleReadingModeEnter(book: Book) {
+    onReadingModeEnter(book);
+    await axios.post(`${DOMAIN}/api/books/addBookToShelfBooks`, {
+      userFirebaseId: firebaseAuth.currentUser?.uid,
+      book,
+    });
+  }
 
   return (
     <TouchableOpacity
@@ -50,7 +61,7 @@ export default function SmallBookCard({
         >
           <TouchableOpacity
             style={styles.readBookButton}
-            onPress={() => onReadingModeEnter(book)}
+            onPress={() => handleReadingModeEnter(book)}
           >
             <Text>Czytaj</Text>
           </TouchableOpacity>

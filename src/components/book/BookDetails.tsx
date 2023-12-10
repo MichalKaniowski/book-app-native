@@ -12,28 +12,46 @@ import StyledView from "../ui/StyledView";
 import StyledText from "../ui/StyledText";
 import { useContext } from "react";
 import { ThemeContext } from "../../store/ThemeContext";
+import { firebaseAuth } from "../../../FirebaseConfig";
+import { DOMAIN } from "@env";
+import axios from "axios";
 
-type ReadingModeBookProps = Book & {
+type ReadingModeBookProps = {
+  book: Book;
   onExit: () => void;
   onReadingModeEnter: (book?: Book) => void;
 };
 
 export default function BookDetails({
-  title,
-  keywords,
-  author,
-  description,
-  discussionTopics,
-  estimatedReadingTime,
-  age,
-  translator,
-  illustrator,
+  book,
   onExit,
   onReadingModeEnter,
 }: ReadingModeBookProps) {
-  const keywordsString = keywords.join(", ");
+  const {
+    title,
+    keywords,
+    author,
+    description,
+    discussionTopics,
+    estimatedReadingTime,
+    age,
+    translator,
+    illustrator,
+  } = book;
 
   const { theme } = useContext(ThemeContext);
+
+  const keywordsString = keywords.join(", ");
+  const userId = firebaseAuth?.currentUser?.uid;
+
+  async function handleReadingModeEnter() {
+    onReadingModeEnter();
+
+    await axios.post(`${DOMAIN}/api/books/addBookToShelfBooks`, {
+      userFirebaseId: userId,
+      book,
+    });
+  }
 
   return (
     <ScrollView style={{ backgroundColor: theme.background }}>
@@ -56,7 +74,7 @@ export default function BookDetails({
         </Text>
         <TouchableOpacity
           style={styles.readBookButton}
-          onPress={() => onReadingModeEnter()}
+          onPress={handleReadingModeEnter}
         >
           <Text style={{ fontWeight: "bold" }}>Czytaj</Text>
         </TouchableOpacity>

@@ -17,7 +17,7 @@ export default function Book({ book, onExit }: BookProps) {
     <ReadingModeBook {...book} onReadingModeExit={onReadingModeExit} />
   ) : (
     <BookDetails
-      {...book}
+      book={book}
       onExit={onExit}
       onReadingModeEnter={onReadingModeEnter}
     />

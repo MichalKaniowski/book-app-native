@@ -9,19 +9,23 @@ import {
 } from "react-native";
 import BookRecommendation from "./book/BookRecommendation";
 import StyledText from "./ui/StyledText";
-import { Book as BookType } from "../types/database";
+import { Book } from "../types/database";
 import SearchResults from "./SearchResults";
 import Categories from "./Categories";
 import { ThemeContext } from "../store/ThemeContext";
-import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import useQuery from "../hooks/useQuery";
+import { DOMAIN } from "@env";
 
 export default function CatalogBody({ navigation }: any) {
   const [searchText, setSearchText] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
   const [hasPressed, setHasPressed] = useState(false);
 
-  const bookRecommendations = useQuery(api.books.getBookRecommendations);
+  const {
+    data: bookRecommendations,
+    isLoading,
+    error,
+  } = useQuery<Book[]>(`${DOMAIN}/api/books/getBookRecommendations`, []);
 
   const { theme, actualTheme } = useContext(ThemeContext);
 
@@ -29,8 +33,12 @@ export default function CatalogBody({ navigation }: any) {
     <>
       <View style={styles.section}>
         <StyledText style={styles.sectionHeading}>Redakcja poleca</StyledText>
+        {isLoading && <StyledText>Loading...</StyledText>}
+        {isLoading && (
+          <StyledText>An error occured {error?.message}</StyledText>
+        )}
         <ScrollView style={styles.recommendations} horizontal={true}>
-          {bookRecommendations?.map((book: BookType) => (
+          {bookRecommendations?.map((book: Book) => (
             <BookRecommendation key={book._id} book={book} />
           ))}
         </ScrollView>

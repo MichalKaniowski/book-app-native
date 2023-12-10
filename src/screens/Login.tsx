@@ -13,9 +13,9 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
 import { ThemeContext } from "../store/ThemeContext";
+import { DOMAIN } from "@env";
+import axios from "axios";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -25,8 +25,6 @@ export default function Login() {
   const [formMode, setFormMode] = useState<"signup" | "login">("signup");
 
   const { theme } = useContext(ThemeContext);
-
-  const createUser = useMutation(api.books.createUser);
 
   function getModifiedErrorMessage(message: string) {
     // Firebase: Error (auth/email-already-in-use) => email-already-in-use
@@ -51,10 +49,10 @@ export default function Login() {
     try {
       await createUserWithEmailAndPassword(firebaseAuth, email, password);
 
-      createUser({
-        username: username,
-        email: email,
-        firebaseId: firebaseAuth.currentUser?.uid!,
+      await axios.post(`${DOMAIN}/api/users/createUser`, {
+        username,
+        email,
+        firebaseId: firebaseAuth.currentUser?.uid,
       });
     } catch (error: any) {
       const modifiedErrorMessage = getModifiedErrorMessage(error.message);
