@@ -16,3 +16,14 @@ export interface Book {
   title: string;
   translator: string | null;
 }
+
+export interface User {
+  _id: string;
+  email: string;
+  username: string;
+  firebaseId: string;
+  shelfBooks: Book[];
+  finishedBooks: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}

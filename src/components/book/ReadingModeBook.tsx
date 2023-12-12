@@ -1,5 +1,11 @@
-import { useState, useEffect, useContext } from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { useState, useEffect, useContext, useRef } from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  NativeScrollEvent,
+} from "react-native";
 import { Book } from "../../types/database";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import SettingsModal from "../SettingsModal";
@@ -8,6 +14,8 @@ import * as Brightness from "expo-brightness";
 import StyledText from "../ui/StyledText";
 import StyledView from "../ui/StyledView";
 import { ThemeContext } from "../../store/ThemeContext";
+import { DOMAIN } from "@env";
+import axios from "axios";
 
 type ReadingModeBookProps = Book & {
   onReadingModeExit: () => void;
@@ -20,6 +28,10 @@ export default function ReadingModeBook({
   const [isTextSettingsModalOpen, setIsTextSettingsModalOpen] = useState(false);
   const [fontSize, setFontSize] = useState(16);
   const [startingBrightnessValue, setStartingBrightnessValue] = useState(100);
+
+  // this ref is used, because onScroll event is firing a lot of times
+  // and we want to send only one request if user reached the bottom of the View
+  const hasFunctionRun = useRef(false);
 
   const { theme } = useContext(ThemeContext);
 
@@ -35,6 +47,32 @@ export default function ReadingModeBook({
   }, []);
 
   const bookText = body.replaceAll("/n", "\n\n");
+
+  const isCloseToBottom = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize,
+  }: NativeScrollEvent) => {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
+  };
+
+  async function handleScroll({
+    nativeEvent,
+  }: {
+    nativeEvent: NativeScrollEvent;
+  }) {
+    if (isCloseToBottom(nativeEvent)) {
+      if (hasFunctionRun.current === false) {
+        await axios.post(`${DOMAIN}/api/books/addBookToFinishedBooks`);
+        console.log("sending api call");
+      }
+      hasFunctionRun.current = true;
+    }
+  }
 
   function handleTextSizeChange(action: TextSizeChangeAction) {
     if (action === "decrease") {
@@ -53,6 +91,7 @@ export default function ReadingModeBook({
 
   return (
     <ScrollView
+      onScroll={handleScroll}
       style={{
         flex: 1,
         backgroundColor: theme.background,

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ScrollView, View, StyleSheet, Button } from "react-native";
 import StyledText from "../components/ui/StyledText";
 import { ThemeContext } from "../store/ThemeContext";
@@ -7,22 +7,28 @@ import { BookContext } from "../store/BookContext";
 import Icon from "react-native-vector-icons/Feather";
 import Book from "../components/book/Book";
 import { firebaseAuth } from "../../FirebaseConfig";
-import { Book as BookType } from "../types/database";
+import { Book as BookType, User } from "../types/database";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
 import Spinner from "react-native-loading-spinner-overlay";
 
+interface PostRequest {
+  books: BookType[];
+  user: User | null;
+}
+
 export default function Shelf() {
+  const [isShowingOnlyUnreadBooks, setIsShowingOnlyUnreadBooks] =
+    useState(false);
   const userFirebaseId = firebaseAuth.currentUser?.uid;
 
-  const {
-    data: books,
-    isLoading,
-    error,
-  } = useQuery<BookType[]>(
-    `${DOMAIN}/api/books/getShelfBooks/${userFirebaseId}`,
-    []
-  );
+  const url = `${DOMAIN}/api/books/getShelfBooks/${userFirebaseId}`;
+  const { data, isLoading, error } = useQuery<PostRequest>(url, {
+    books: [],
+    user: null,
+  });
+
+  const { books: fetchedBooks, user } = data;
 
   const { theme } = useContext(ThemeContext);
   const {
@@ -32,12 +38,28 @@ export default function Shelf() {
     onBookDetailsExit,
   } = useContext(BookContext);
 
+  const unreadBooks = fetchedBooks.filter((book) => {
+    const bookInFinishedBooks = user?.finishedBooks.find(
+      (bookId) => bookId.toString() == book._id
+    );
+    if (!bookInFinishedBooks) {
+      return book;
+    }
+  });
+
+  const books = isShowingOnlyUnreadBooks ? unreadBooks : fetchedBooks;
+
   const shelfBody = (
     <ScrollView
       style={{ ...styles.shelfContainer, backgroundColor: theme.background }}
     >
       <View style={styles.header}>
-        <Icon name="filter" size={18} color={theme.text} />
+        <Icon
+          onPress={() => setIsShowingOnlyUnreadBooks((prevValue) => !prevValue)}
+          name="filter"
+          size={18}
+          color={isShowingOnlyUnreadBooks ? "green" : theme.text}
+        />
       </View>
       <StyledText style={styles.mainHeading}>Półka</StyledText>
       {books?.map((book) => (
@@ -48,9 +70,14 @@ export default function Shelf() {
           onReadingModeEnter={onReadingModeEnter}
         />
       ))}
-      {books?.length === 0 && (
+      {fetchedBooks?.length === 0 && !isLoading && (
         <StyledText style={styles.noBooksAddedText}>
           Nie masz jeszcze dodanych książek
+        </StyledText>
+      )}
+      {books.length === 0 && isShowingOnlyUnreadBooks && (
+        <StyledText style={styles.noBooksAddedText}>
+          Nie masz nieprzeczytanych książek w bibliotece
         </StyledText>
       )}
       <Spinner visible={isLoading} />
