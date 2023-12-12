@@ -21,7 +21,7 @@ export const ThemeContext = React.createContext<ThemeContextInterface>({
     background: "#f5f5f5",
     text: "#000",
     secondary: "grey",
-    accent: "green",
+    accent: "lightgreen",
   },
   onThemeChange: (theme: ThemeType) => {},
 });
@@ -31,13 +31,13 @@ const themeColors = {
     background: "#f5f5f5",
     text: "#000",
     secondary: "#404040",
-    accent: "green",
+    accent: "lightgreen",
   },
   dark: {
     background: "#000",
     text: "#fff",
     secondary: "grey",
-    accent: "green",
+    accent: "lightgreen",
   },
 };
 

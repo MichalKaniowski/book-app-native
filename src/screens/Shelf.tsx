@@ -58,7 +58,7 @@ export default function Shelf() {
           onPress={() => setIsShowingOnlyUnreadBooks((prevValue) => !prevValue)}
           name="filter"
           size={18}
-          color={isShowingOnlyUnreadBooks ? "green" : theme.text}
+          color={isShowingOnlyUnreadBooks ? theme.accent : theme.text}
         />
       </View>
       <StyledText style={styles.mainHeading}>Półka</StyledText>

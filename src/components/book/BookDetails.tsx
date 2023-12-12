@@ -73,7 +73,7 @@ export default function BookDetails({
           {keywordsString}
         </Text>
         <TouchableOpacity
-          style={styles.readBookButton}
+          style={{ ...styles.readBookButton, backgroundColor: theme.accent }}
           onPress={handleReadingModeEnter}
         >
           <Text style={{ fontWeight: "bold" }}>Czytaj</Text>
@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   readBookButton: {
-    backgroundColor: "lightgreen",
     width: 100,
     paddingVertical: 10,
     paddingHorizontal: 10,

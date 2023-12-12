@@ -60,7 +60,10 @@ export default function SmallBookCard({
           }}
         >
           <TouchableOpacity
-            style={styles.readBookButton}
+            style={{
+              ...styles.readBookButton,
+              backgroundColor: theme.accent,
+            }}
             onPress={() => handleReadingModeEnter(book)}
           >
             <Text>Czytaj</Text>
@@ -91,7 +94,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   readBookButton: {
-    backgroundColor: "lightgreen",
     padding: 5,
     borderRadius: 15,
     flexDirection: "row",
