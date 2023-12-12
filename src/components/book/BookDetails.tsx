@@ -37,7 +37,10 @@ export default function BookDetails({
     age,
     translator,
     illustrator,
+    rating,
   } = book;
+
+  console.log(rating);
 
   const { theme } = useContext(ThemeContext);
 
@@ -91,9 +94,7 @@ export default function BookDetails({
           <View style={styles.bookDetailsRightColumn}>
             <View style={{ ...styles.iconContainer, marginRight: 10 }}>
               <FeatherIcon name="star" size={15} color={theme.text} />
-              <StyledText style={styles.bookDetailsText}>
-                {estimatedReadingTime.toFixed(2)}
-              </StyledText>
+              <StyledText style={styles.bookDetailsText}>{rating}</StyledText>
             </View>
             <View style={styles.iconContainer}>
               <FeatherIcon name="smile" size={15} color={theme.text} />

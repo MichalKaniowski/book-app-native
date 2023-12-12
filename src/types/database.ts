@@ -12,7 +12,7 @@ export interface Book {
   isPremium: boolean;
   keywords: string[];
   questions: string[];
-  ratings: any[];
+  rating: number;
   title: string;
   translator: string | null;
 }
