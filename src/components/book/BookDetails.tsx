@@ -6,15 +6,17 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { Book } from "../../types/database";
+import { Book, User } from "../../types/database";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import StyledView from "../ui/StyledView";
 import StyledText from "../ui/StyledText";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../../store/ThemeContext";
 import { firebaseAuth } from "../../../FirebaseConfig";
 import { DOMAIN } from "@env";
 import axios from "axios";
+import useQuery from "../../hooks/useQuery";
+import RatingModal from "../ui/RatingModal";
 
 type ReadingModeBookProps = {
   book: Book;
@@ -27,7 +29,10 @@ export default function BookDetails({
   onExit,
   onReadingModeEnter,
 }: ReadingModeBookProps) {
+  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
+
   const {
+    _id,
     title,
     keywords,
     author,
@@ -40,12 +45,18 @@ export default function BookDetails({
     rating,
   } = book;
 
-  console.log(rating);
-
   const { theme } = useContext(ThemeContext);
 
   const keywordsString = keywords.join(", ");
   const userId = firebaseAuth?.currentUser?.uid;
+
+  const { data: user } = useQuery<User | null>(
+    `${DOMAIN}/api/users/getUser/${userId}`,
+    null
+  );
+
+  const hasRatedTheBook =
+    user?.ratedBooks.find((bookId) => bookId.toString() === _id) !== undefined;
 
   async function handleReadingModeEnter() {
     onReadingModeEnter();
@@ -57,91 +68,123 @@ export default function BookDetails({
   }
 
   return (
-    <ScrollView style={{ backgroundColor: theme.background }}>
-      <Image
-        source={require("../../../assets/elephant22.webp")}
-        style={styles.bookImage}
-        alt="elephant image"
-      />
-      <TouchableOpacity
-        style={{ ...styles.exitBookButton, backgroundColor: theme.background }}
-        onPress={onExit}
+    <>
+      {isRatingModalOpen && (
+        <RatingModal
+          onModalClose={() => setIsRatingModalOpen(false)}
+          bookId={_id}
+          userFirebaseId={userId!}
+          hasRatedTheBook={hasRatedTheBook}
+        />
+      )}
+      <ScrollView
+        style={{
+          backgroundColor: theme.background,
+          opacity: isRatingModalOpen ? 0.5 : 1,
+        }}
       >
-        <FeatherIcon name="arrow-left" size={20} color={theme.text} />
-      </TouchableOpacity>
-
-      <StyledView style={styles.bookInfo}>
-        <StyledText style={styles.bookTitle}>{title}</StyledText>
-        <Text style={{ color: theme.secondary, fontSize: 14 }}>
-          {keywordsString}
-        </Text>
+        <Image
+          source={require("../../../assets/elephant22.webp")}
+          style={styles.bookImage}
+          alt="elephant image"
+        />
         <TouchableOpacity
-          style={{ ...styles.readBookButton, backgroundColor: theme.accent }}
-          onPress={handleReadingModeEnter}
+          style={{
+            ...styles.exitBookButton,
+            backgroundColor: theme.background,
+          }}
+          onPress={onExit}
         >
-          <Text style={{ fontWeight: "bold" }}>Czytaj</Text>
+          <FeatherIcon name="arrow-left" size={20} color={theme.text} />
         </TouchableOpacity>
 
-        <View style={styles.border} />
+        <StyledView style={styles.bookInfo}>
+          <StyledText style={styles.bookTitle}>{title}</StyledText>
+          <Text style={{ color: theme.secondary, fontSize: 14 }}>
+            {keywordsString}
+          </Text>
+          <TouchableOpacity
+            style={{ ...styles.readBookButton, backgroundColor: theme.accent }}
+            onPress={handleReadingModeEnter}
+          >
+            <Text style={{ fontWeight: "bold" }}>Czytaj</Text>
+          </TouchableOpacity>
 
-        <View style={styles.bookDetails}>
-          <View style={styles.iconContainer}>
-            <FeatherIcon name="clock" size={15} color={theme.text} />
-            <StyledText style={styles.bookDetailsText}>
-              {estimatedReadingTime} min
-            </StyledText>
-          </View>
-          <View style={styles.bookDetailsRightColumn}>
-            <View style={{ ...styles.iconContainer, marginRight: 10 }}>
-              <FeatherIcon name="star" size={15} color={theme.text} />
-              <StyledText style={styles.bookDetailsText}>{rating}</StyledText>
-            </View>
+          <View style={styles.border} />
+
+          <View style={styles.bookDetails}>
             <View style={styles.iconContainer}>
-              <FeatherIcon name="smile" size={15} color={theme.text} />
-              <StyledText style={styles.bookDetailsText}>{age}+</StyledText>
+              <FeatherIcon name="clock" size={15} color={theme.text} />
+              <StyledText style={styles.bookDetailsText}>
+                {estimatedReadingTime} min
+              </StyledText>
+            </View>
+            <View style={styles.bookDetailsRightColumn}>
+              <TouchableOpacity
+                onPress={() => setIsRatingModalOpen(true)}
+                style={{ ...styles.iconContainer, marginRight: 10 }}
+              >
+                <FeatherIcon
+                  name="star"
+                  style={{
+                    color: hasRatedTheBook ? "orange" : theme.text,
+                  }}
+                  size={15}
+                />
+                <StyledText style={styles.bookDetailsText}>
+                  {rating.toFixed(1)}
+                </StyledText>
+              </TouchableOpacity>
+              <View style={styles.iconContainer}>
+                <FeatherIcon name="smile" size={15} color={theme.text} />
+                <StyledText style={styles.bookDetailsText}>{age}+</StyledText>
+              </View>
             </View>
           </View>
-        </View>
 
-        <View style={styles.border} />
+          <View style={styles.border} />
 
-        <StyledText style={styles.description}>{description}</StyledText>
+          <StyledText style={styles.description}>{description}</StyledText>
 
-        <View style={styles.section}>
-          <StyledText style={styles.sectionHeading}>
-            Tematy do dyskusji
-          </StyledText>
-          {discussionTopics.map((topic) => (
-            <View key={topic} style={{ flexDirection: "row", marginBottom: 5 }}>
-              <StyledText style={{ marginRight: 5 }}>{`\u2022`}</StyledText>
-              <StyledText>{topic}</StyledText>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.section}>
-          <StyledText style={styles.sectionHeading}>Twórcy</StyledText>
-          <View>
-            <View style={styles.authorRow}>
-              <StyledText secondary>Bajka</StyledText>
-              <StyledText>{author ? author : "Nie znany"}</StyledText>
-            </View>
-            {illustrator && (
-              <View style={styles.authorRow}>
-                <StyledText secondary>Ilustracje</StyledText>
-                <StyledText>{illustrator}</StyledText>
+          <View style={styles.section}>
+            <StyledText style={styles.sectionHeading}>
+              Tematy do dyskusji
+            </StyledText>
+            {discussionTopics.map((topic) => (
+              <View
+                key={topic}
+                style={{ flexDirection: "row", marginBottom: 5 }}
+              >
+                <StyledText style={{ marginRight: 5 }}>{`\u2022`}</StyledText>
+                <StyledText>{topic}</StyledText>
               </View>
-            )}
-            {translator && (
-              <View style={styles.authorRow}>
-                <StyledText secondary>Translacja</StyledText>
-                <StyledText>{translator}</StyledText>
-              </View>
-            )}
+            ))}
           </View>
-        </View>
-      </StyledView>
-    </ScrollView>
+
+          <View style={styles.section}>
+            <StyledText style={styles.sectionHeading}>Twórcy</StyledText>
+            <View>
+              <View style={styles.authorRow}>
+                <StyledText secondary>Bajka</StyledText>
+                <StyledText>{author ? author : "Nie znany"}</StyledText>
+              </View>
+              {illustrator && (
+                <View style={styles.authorRow}>
+                  <StyledText secondary>Ilustracje</StyledText>
+                  <StyledText>{illustrator}</StyledText>
+                </View>
+              )}
+              {translator && (
+                <View style={styles.authorRow}>
+                  <StyledText secondary>Translacja</StyledText>
+                  <StyledText>{translator}</StyledText>
+                </View>
+              )}
+            </View>
+          </View>
+        </StyledView>
+      </ScrollView>
+    </>
   );
 }
 

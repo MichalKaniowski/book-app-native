@@ -24,6 +24,7 @@ export interface User {
   firebaseId: string;
   shelfBooks: Book[];
   finishedBooks: string[];
+  ratedBooks: string[];
   createdAt: Date;
   updatedAt: Date;
 }

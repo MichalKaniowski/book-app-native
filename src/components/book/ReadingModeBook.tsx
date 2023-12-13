@@ -68,7 +68,6 @@ export default function ReadingModeBook({
     if (isCloseToBottom(nativeEvent)) {
       if (hasFunctionRun.current === false) {
         await axios.post(`${DOMAIN}/api/books/addBookToFinishedBooks`);
-        console.log("sending api call");
       }
       hasFunctionRun.current = true;
     }
