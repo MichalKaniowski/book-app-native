@@ -33,7 +33,8 @@ export default function RatingModal({
 
   return (
     <TouchableOpacity onPress={onModalClose} style={styles.backdrop}>
-      <View style={styles.modal}>
+      {/* modal is a button, because if it's a view every click on modal is being passed to backdrop (because of event bubbling) which closes modal */}
+      <TouchableOpacity activeOpacity={1} style={styles.modal}>
         <TouchableOpacity
           onPress={onModalClose}
           style={styles.closeModalButton}
@@ -96,7 +97,7 @@ export default function RatingModal({
         >
           <Text>zatwierdź</Text>
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
   modal: {
     backgroundColor: "#222",
     padding: 20,
+    zIndex: 10000,
   },
   closeModalButton: { position: "absolute", right: 5, top: 5 },
   infoText: { color: "#fff" },
