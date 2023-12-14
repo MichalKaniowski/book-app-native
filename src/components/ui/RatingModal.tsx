@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import FeatherIcon from "react-native-vector-icons/Feather";
-import StyledText from "../ui/StyledText";
 import { ThemeContext } from "../../store/ThemeContext";
 import axios from "axios";
 import { DOMAIN } from "@env";
@@ -19,7 +18,7 @@ export default function RatingModal({
   bookId,
   userFirebaseId,
 }: RatingModalProps) {
-  const [numberOfStars, setNumberOfStars] = useState(0);
+  const [numberOfStars, setNumberOfStars] = useState(5);
 
   const { theme } = useContext(ThemeContext);
 

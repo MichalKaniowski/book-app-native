@@ -16,12 +16,14 @@ import StyledView from "../ui/StyledView";
 import { ThemeContext } from "../../store/ThemeContext";
 import { DOMAIN } from "@env";
 import axios from "axios";
+import { firebaseAuth } from "../../../FirebaseConfig";
 
 type ReadingModeBookProps = Book & {
   onReadingModeExit: () => void;
 };
 
 export default function ReadingModeBook({
+  _id,
   body,
   onReadingModeExit,
 }: ReadingModeBookProps) {
@@ -67,9 +69,12 @@ export default function ReadingModeBook({
   }) {
     if (isCloseToBottom(nativeEvent)) {
       if (hasFunctionRun.current === false) {
-        await axios.post(`${DOMAIN}/api/books/addBookToFinishedBooks`);
+        hasFunctionRun.current = true;
+        await axios.post(`${DOMAIN}/api/books/addBookToFinishedBooks`, {
+          userFirebaseId: firebaseAuth.currentUser?.uid,
+          bookId: _id,
+        });
       }
-      hasFunctionRun.current = true;
     }
   }
 
