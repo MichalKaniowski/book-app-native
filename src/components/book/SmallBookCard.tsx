@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     gap: 10,
+    marginBottom: 10
   },
   imageContainer: {},
   bookInfo: {},
