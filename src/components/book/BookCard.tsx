@@ -20,12 +20,12 @@ export default function BookCard({ book, onBookOpen }: BookCardProps) {
       onPress={() => onBookOpen(book)}
     >
       <Image
-        source={require("../../../assets/elephant22.webp")}
+        source={{uri:book.imageUrl}}
         style={styles.bookImage}
-        alt="elephant image"
+        alt="book image"
       />
       <LinearGradient
-        colors={["#92C892", "#065D5D"]}
+        colors={book.backgroundColor}
         start={{ x: 0, y: 0 }}
         end={{ x: 2, y: 0 }}
         style={styles.bookGradient}

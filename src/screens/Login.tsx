@@ -86,7 +86,7 @@ export default function Login() {
       <Image
         source={require("../../assets/elephant22.webp")}
         style={styles.bookImage}
-        alt="elephant image"
+        alt="book image"
       />
       <StyledText style={styles.mainHeading}>Readly</StyledText>
       {formMode === "signup" && (

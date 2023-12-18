@@ -39,9 +39,9 @@ export default function SmallBookCard({
     >
       <View style={styles.imageContainer}>
         <Image
-          source={require("../../../assets/elephant22.webp")}
+          source={{uri: book.imageUrl}}
           style={styles.bookImage}
-          alt="elephant image"
+          alt="book image"
         />
       </View>
       <View style={styles.bookInfo}>

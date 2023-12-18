@@ -15,6 +15,8 @@ export interface Book {
   rating: number;
   title: string;
   translator: string | null;
+  imageUrl: string;
+  backgroundColor: string[]
 }
 
 export interface User {

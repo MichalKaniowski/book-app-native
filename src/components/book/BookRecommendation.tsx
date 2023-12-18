@@ -17,7 +17,7 @@ export default function BookRecommendationCard({ book }: { book: Book }) {
   return (
     <TouchableOpacity onPress={handleBookDetailsEnter} style={styles.container}>
       <Image
-        source={require("../../../assets/elephant22.webp")}
+        source={{uri: book.imageUrl}}
         style={styles.bookImage}
         alt="elephant image"
       />

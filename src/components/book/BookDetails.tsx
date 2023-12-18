@@ -84,9 +84,9 @@ export default function BookDetails({
         }}
       >
         <Image
-          source={require("../../../assets/elephant22.webp")}
+          source={{uri: book.imageUrl}}
           style={styles.bookImage}
-          alt="elephant image"
+          alt="book image"
         />
         <TouchableOpacity
           style={{
@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
   },
   bookImage: {
     width: "100%",
+    height: 300
   },
   bookInfo: {
     padding: 10,
