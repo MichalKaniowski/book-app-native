@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { ScrollView, View, StyleSheet, Button } from "react-native";
+import { useContext, useState, useCallback } from "react";
+import { ScrollView, View, StyleSheet } from "react-native";
 import StyledText from "../components/ui/StyledText";
 import { ThemeContext } from "../store/ThemeContext";
 import SmallBookCard from "../components/book/SmallBookCard";
@@ -11,6 +11,7 @@ import { Book as BookType, User } from "../types/database";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
 import Spinner from "react-native-loading-spinner-overlay";
+import { useFocusEffect } from '@react-navigation/native';
 
 interface PostRequest {
   books: BookType[];
@@ -20,13 +21,17 @@ interface PostRequest {
 export default function Shelf() {
   const [isShowingOnlyUnreadBooks, setIsShowingOnlyUnreadBooks] =
     useState(false);
-  const userFirebaseId = firebaseAuth.currentUser?.uid;
 
+  const userFirebaseId = firebaseAuth.currentUser?.uid;
+  
   const url = `${DOMAIN}/api/books/getShelfBooks/${userFirebaseId}`;
-  const { data, isLoading, error } = useQuery<PostRequest>(url, {
+  const { data, isLoading, error, refetch } = useQuery<PostRequest>(url, {
     books: [],
     user: null,
   });
+  useFocusEffect( useCallback(() => {
+    refetch();
+  }, []) );
 
   const { books: fetchedBooks, user } = data;
 
