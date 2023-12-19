@@ -30,7 +30,7 @@ export default function Profile() {
     refetch();
   }, []) );
 
-  function getTimeSpentText(timeInSeconds: number) {
+  function getTimeSpentText(timeInSeconds: number = 0) {
     const hours = Math.floor(timeInSeconds / 3600)
     const minutes = Math.floor((timeInSeconds % 3600) / 60)
 
@@ -67,7 +67,7 @@ export default function Profile() {
             <View style={{...styles.statisticsImageContainer, backgroundColor: "gold"}}>
               <FeatherIcon name="clock" size={26} color="#fff" />
             </View>
-            <StyledText style={styles.statisticsOutlinedText}>{getTimeSpentText(7332)}</StyledText>
+            <StyledText style={styles.statisticsOutlinedText}>{getTimeSpentText(user?.spentTime)}</StyledText>
             <StyledText>Czas czytania</StyledText>
           </View>
           <View style={styles.statisticsBox}>
