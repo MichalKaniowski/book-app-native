@@ -71,7 +71,7 @@ export default function BookDetails({
     <>
       {isRatingModalOpen && (
         <RatingModal
-        onRatingAdd={refetch}
+          onRatingAdd={refetch}
           onModalClose={() => setIsRatingModalOpen(false)}
           bookId={_id}
           userFirebaseId={userId!}
@@ -203,6 +203,8 @@ const styles = StyleSheet.create({
   },
   bookInfo: {
     padding: 10,
+    borderRadius: 20,
+    marginTop: -10
   },
   bookTitle: {
     fontSize: 30,
