@@ -29,4 +29,5 @@ export interface User {
   ratedBooks: string[];
   createdAt: Date;
   updatedAt: Date;
+  spentTime: number
 }

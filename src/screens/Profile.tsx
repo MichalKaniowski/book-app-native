@@ -13,13 +13,31 @@ import { ThemeType } from "../types/theme";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as Linking from "expo-linking";
+import useQuery from "../hooks/useQuery";
+import { DOMAIN } from "@env";
+import { firebaseAuth } from "../../FirebaseConfig";
+import { User } from "../types/database";
+
 
 export default function Profile() {
   const { theme, onThemeChange, themeValue } = useContext(ThemeContext);
 
-  // mocked data
-  const stats: string[] = [];
-  const badges: string[] = [];
+  const {data: user, isLoading} = useQuery<User | null>(`${DOMAIN}/api/users/getUser/${firebaseAuth.currentUser?.uid}`, null);
+
+  function getTimeSpentText(timeInSeconds: number) {
+    const hours = Math.floor(timeInSeconds / 3600)
+    const minutes = Math.floor((timeInSeconds % 3600) / 60)
+
+    if (minutes === 0) {
+      return "<0 min"
+    }
+
+    if (hours > 0) {
+      return `${hours}h ${minutes}min`
+    }
+
+    return `${minutes}min`
+  }
 
   function handleThemeChange(theme: ThemeType) {
     onThemeChange(theme);
@@ -37,22 +55,22 @@ export default function Profile() {
 
       <View style={styles.section}>
         <StyledText style={styles.sectionHeading}>Twoje statystyki</StyledText>
-        <View>
-          {!stats || stats.length === 0 ? (
-            <StyledText>Nie masz jeszcze żadnych statystyk.</StyledText>
-          ) : (
-            <View></View>
-          )}
+        <View style={{flexDirection: "row"}}>
+          <View style={{justifyContent: "center", alignItems: 'center', width: "33%", gap: 2}}>
+            <View style={{backgroundColor: "gold", padding: 8, borderRadius: 100}}>
+              <FeatherIcon name="clock" size={26} color="#fff" />
+            </View>
+            <StyledText style={{fontSize: 16, fontWeight: "bold"}}>{getTimeSpentText(7332)}</StyledText>
+            <StyledText>Czas czytania</StyledText>
+          </View>
+          <View style={{justifyContent: "center", alignItems: 'center', width: "33%", gap: 2}}>
+            <View style={{backgroundColor: "blue", padding: 8, borderRadius: 100}}>
+              <FeatherIcon name="book" size={26} color="#fff" />
+            </View>
+            <StyledText style={{fontSize: 16, fontWeight: "bold"}}>{user?.finishedBooks.length}</StyledText>
+            <StyledText>Przeczytane bajki</StyledText>
+          </View>
         </View>
-      </View>
-
-      <View style={styles.section}>
-        <StyledText style={styles.sectionHeading}>Twoje odznaki</StyledText>
-        {!badges || badges.length === 0 ? (
-          <StyledText>Nie masz jeszcze żadnych odznak.</StyledText>
-        ) : (
-          <View></View>
-        )}
       </View>
 
       <View style={styles.profileSettingsContainer}>
@@ -179,7 +197,7 @@ const styles = StyleSheet.create({
   sectionHeading: {
     fontWeight: "bold",
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   profileSettingsContainer: {},
   profileSettingsBox: {},
