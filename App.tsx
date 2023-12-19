@@ -13,7 +13,6 @@ import MainTabNavigator from "./src/routes/MainTabNavigator";
 import { TabsContextProvider } from "./src/store/TabsContext";
 import { BookContextProvider } from "./src/store/BookContext";
 import { AppState } from "react-native";
-import { differenceInSeconds } from "date-fns";
 import axios from "axios";
 
 const Stack = createNativeStackNavigator();
@@ -23,16 +22,11 @@ const convex = new ConvexReactClient(CONVEX_URL, {
 });
 
 function AppContent() {
-  const [user, setUser] = useState<User | null>(null);
-
   const { theme, actualTheme } = useContext(ThemeContext);
 
   let appStartTime = new Date();
 
   useEffect(() => {
-    onAuthStateChanged(firebaseAuth, (user) => {
-      setUser(user);
-    });
     AppState.addEventListener("change", handleAppStateChange);
   }, []);
 
@@ -55,7 +49,7 @@ function AppContent() {
       />
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Auth">
-          {user ? (
+          {firebaseAuth.currentUser ? (
             <Stack.Screen
               name="MainTabNavigator"
               component={MainTabNavigator}
