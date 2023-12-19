@@ -22,11 +22,16 @@ const convex = new ConvexReactClient(CONVEX_URL, {
 });
 
 function AppContent() {
+  const [user, setUser] = useState<User | null>(null);
   const { theme, actualTheme } = useContext(ThemeContext);
 
   let appStartTime = new Date();
 
   useEffect(() => {
+    onAuthStateChanged(firebaseAuth, (user) => {
+      setUser(user);
+    });
+
     AppState.addEventListener("change", handleAppStateChange);
   }, []);
 
@@ -49,7 +54,7 @@ function AppContent() {
       />
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Auth">
-          {firebaseAuth.currentUser ? (
+          {user ? (
             <Stack.Screen
               name="MainTabNavigator"
               component={MainTabNavigator}
