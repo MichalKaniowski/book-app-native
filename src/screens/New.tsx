@@ -38,6 +38,11 @@ export default function New() {
     error,
   } = useQuery<BookType[]>(`${DOMAIN}/api/books/getBooks`, []);
 
+  const date = new Date();
+  const month = date.toLocaleString("pl", { month: 'long' });
+  const dayNumber = date.getDay();
+  const weekDay = date.toLocaleDateString("pl", { weekday: 'long' }).split(",")[0]; 
+
   const booksPublishedInThisWeek = books?.filter((book) =>
     hasBeenPublishedInTheSpecifiedTime(book?._createdAt, 0, 7)
   );
@@ -70,7 +75,7 @@ export default function New() {
       </StyledText>
 
       <StyledText style={styles.date} secondary>
-        niedziela, 5 listopada
+        {weekDay}, {dayNumber} {month}
       </StyledText>
 
       <Spinner visible={isLoading} />
