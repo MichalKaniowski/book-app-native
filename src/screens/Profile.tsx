@@ -35,7 +35,7 @@ export default function Profile() {
     const minutes = Math.floor((timeInSeconds % 3600) / 60)
 
     if (minutes === 0) {
-      return "<0 min"
+      return "<1 min"
     }
 
     if (hours > 0) {
