@@ -6,7 +6,7 @@ import {
   Text,
 } from "react-native";
 import StyledText from "../components/ui/StyledText";
-import { useContext } from "react";
+import { useContext, useCallback } from "react";
 import { ThemeContext } from "../store/ThemeContext";
 import Icon from "react-native-vector-icons/Fontisto";
 import { ThemeType } from "../types/theme";
@@ -17,12 +17,18 @@ import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
 import { firebaseAuth } from "../../FirebaseConfig";
 import { User } from "../types/database";
+import { useFocusEffect } from '@react-navigation/native';
+import Spinner from "react-native-loading-spinner-overlay";
 
 
 export default function Profile() {
   const { theme, onThemeChange, themeValue } = useContext(ThemeContext);
 
-  const {data: user, isLoading} = useQuery<User | null>(`${DOMAIN}/api/users/getUser/${firebaseAuth.currentUser?.uid}`, null);
+  const {data: user, isLoading, refetch} = useQuery<User | null>(`${DOMAIN}/api/users/getUser/${firebaseAuth.currentUser?.uid}`, null);
+
+  useFocusEffect( useCallback(() => {
+    refetch();
+  }, []) );
 
   function getTimeSpentText(timeInSeconds: number) {
     const hours = Math.floor(timeInSeconds / 3600)
@@ -45,6 +51,7 @@ export default function Profile() {
 
   return (
     <ScrollView style={{ backgroundColor: theme.background, padding: 10 }}>
+      <Spinner visible={isLoading} />
       <View style={styles.header}>
         <StyledText style={styles.mainHeading}>Profile</StyledText>
         <TouchableOpacity style={styles.buyButton}>
