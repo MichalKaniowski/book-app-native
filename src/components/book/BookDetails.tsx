@@ -50,7 +50,7 @@ export default function BookDetails({
   const keywordsString = keywords.join(", ");
   const userId = firebaseAuth?.currentUser?.uid;
 
-  const { data: user } = useQuery<User | null>(
+  const { data: user, refetch } = useQuery<User | null>(
     `${DOMAIN}/api/users/getUser/${userId}`,
     null
   );
@@ -71,6 +71,7 @@ export default function BookDetails({
     <>
       {isRatingModalOpen && (
         <RatingModal
+        onRatingAdd={refetch}
           onModalClose={() => setIsRatingModalOpen(false)}
           bookId={_id}
           userFirebaseId={userId!}

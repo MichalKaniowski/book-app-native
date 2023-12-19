@@ -6,6 +6,7 @@ import axios from "axios";
 import { DOMAIN } from "@env";
 
 interface RatingModalProps {
+  onRatingAdd: () => void;
   onModalClose: () => void;
   hasRatedTheBook: boolean;
   bookId: string;
@@ -13,6 +14,7 @@ interface RatingModalProps {
 }
 
 export default function RatingModal({
+  onRatingAdd,
   onModalClose,
   hasRatedTheBook,
   bookId,
@@ -29,6 +31,7 @@ export default function RatingModal({
       userFirebaseId,
       number: numberOfStars,
     });
+    onRatingAdd();
   }
 
   return (
