@@ -6,20 +6,15 @@ import { User, onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "./FirebaseConfig";
 import Login from "./src/screens/Login";
 import { StatusBar, SafeAreaView, AppStateStatus } from "react-native";
-import { ConvexProvider, ConvexReactClient } from "convex/react";
-import { CONVEX_URL, DOMAIN } from "@env";
 import { ThemeContext, ThemeContextProvider } from "./src/store/ThemeContext";
 import MainTabNavigator from "./src/routes/MainTabNavigator";
 import { TabsContextProvider } from "./src/store/TabsContext";
 import { BookContextProvider } from "./src/store/BookContext";
 import { AppState } from "react-native";
 import axios from "axios";
+import { DOMAIN } from "@env";
 
 const Stack = createNativeStackNavigator();
-
-const convex = new ConvexReactClient(CONVEX_URL, {
-  unsavedChangesWarning: false,
-});
 
 function AppContent() {
   const [user, setUser] = useState<User | null>(null);
@@ -75,14 +70,11 @@ function AppContent() {
 
 export default function App() {
   return (
-    <ConvexProvider client={convex}>
       <ThemeContextProvider>
         <BookContextProvider>
           <TabsContextProvider>
             <AppContent />
           </TabsContextProvider>
         </BookContextProvider>
-      </ThemeContextProvider>
-    </ConvexProvider>
-  );
+      </ThemeContextProvider>)
 }
