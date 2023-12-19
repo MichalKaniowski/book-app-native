@@ -55,32 +55,31 @@ export default function Profile() {
 
       <View style={styles.section}>
         <StyledText style={styles.sectionHeading}>Twoje statystyki</StyledText>
-        <View style={{flexDirection: "row"}}>
-          <View style={{justifyContent: "center", alignItems: 'center', width: "33%", gap: 2}}>
-            <View style={{backgroundColor: "gold", padding: 8, borderRadius: 100}}>
+        <View style={styles.statisticsContainer}>
+          <View style={styles.statisticsBox}>
+            <View style={{...styles.statisticsImageContainer, backgroundColor: "gold"}}>
               <FeatherIcon name="clock" size={26} color="#fff" />
             </View>
-            <StyledText style={{fontSize: 16, fontWeight: "bold"}}>{getTimeSpentText(7332)}</StyledText>
+            <StyledText style={styles.statisticsOutlinedText}>{getTimeSpentText(7332)}</StyledText>
             <StyledText>Czas czytania</StyledText>
           </View>
-          <View style={{justifyContent: "center", alignItems: 'center', width: "33%", gap: 2}}>
-            <View style={{backgroundColor: "blue", padding: 8, borderRadius: 100}}>
+          <View style={styles.statisticsBox}>
+            <View style={{...styles.statisticsImageContainer, backgroundColor: "blue"}}>
               <FeatherIcon name="book" size={26} color="#fff" />
             </View>
-            <StyledText style={{fontSize: 16, fontWeight: "bold"}}>{user?.finishedBooks.length}</StyledText>
+            <StyledText style={styles.statisticsOutlinedText}>{user?.finishedBooks.length}</StyledText>
             <StyledText>Przeczytane bajki</StyledText>
           </View>
         </View>
       </View>
 
-      <View style={styles.profileSettingsContainer}>
+      <View>
         <TouchableOpacity
           onPress={() =>
             Linking.openURL(
               "https://play.google.com/store/apps/details?id=host.exp.exponent"
             )
           }
-          style={styles.profileSettingsBox}
         >
           <View style={{ ...styles.border, borderColor: theme.secondary }} />
           <StyledText style={styles.profileSettingsText}>
@@ -90,20 +89,19 @@ export default function Profile() {
 
         <TouchableOpacity
           onPress={() => Linking.openURL("mailto:support@expo.dev")}
-          style={styles.profileSettingsBox}
         >
           <View style={{ ...styles.border, borderColor: theme.secondary }} />
           <StyledText style={styles.profileSettingsText}>
             Skonaktuj się z nami
           </StyledText>
         </TouchableOpacity>
-        <View style={styles.profileSettingsBox}>
+        <View>
           <View style={{ ...styles.border, borderColor: theme.secondary }} />
           <StyledText style={styles.profileSettingsText}>
             Zmień język
           </StyledText>
         </View>
-        <View style={styles.profileSettingsBox}>
+        <View>
           <View style={{ ...styles.border, borderColor: theme.secondary }} />
           <View style={styles.boxWithTextAndIcon}>
             <StyledText style={styles.profileSettingsText}>
@@ -153,7 +151,7 @@ export default function Profile() {
             </View>
           </View>
         </View>
-        <View style={styles.profileSettingsBox}>
+        <View>
           <View style={{ ...styles.border, borderColor: theme.secondary }} />
           <View style={styles.boxWithTextAndIcon}>
             <StyledText style={styles.profileSettingsText}>
@@ -199,8 +197,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
   },
-  profileSettingsContainer: {},
-  profileSettingsBox: {},
+  statisticsContainer: {flexDirection: "row"},
+  statisticsBox: {justifyContent: "center", alignItems: 'center', width: "33%", gap: 2},
+  statisticsImageContainer: { padding: 8, borderRadius: 100},
+  statisticsOutlinedText: {fontSize: 16, fontWeight: "bold"},
   profileSettingsText: {
     fontSize: 16,
     fontWeight: "bold",
