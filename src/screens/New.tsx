@@ -39,9 +39,11 @@ export default function New() {
   } = useQuery<BookType[]>(`${DOMAIN}/api/books/getBooks`, []);
 
   const date = new Date();
-  const month = date.toLocaleString("pl", { month: 'long' });
-  const dayNumber = date.getDay();
-  const weekDay = date.toLocaleDateString("pl", { weekday: 'long' }).split(",")[0]; 
+  const month = date.toLocaleString("pl", { month: "long" });
+  const dayNumber = date.getDate();
+  const weekDay = date
+    .toLocaleDateString("pl", { weekday: "long" })
+    .split(",")[0];
 
   const booksPublishedInThisWeek = books?.filter((book) =>
     hasBeenPublishedInTheSpecifiedTime(book?._createdAt, 0, 7)
