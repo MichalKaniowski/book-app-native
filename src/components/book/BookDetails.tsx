@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { Book, User } from "../../types/database";
+import { Book } from "../../types/database";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import StyledView from "../ui/StyledView";
 import StyledText from "../ui/StyledText";
@@ -15,8 +15,8 @@ import { ThemeContext } from "../../store/ThemeContext";
 import { firebaseAuth } from "../../../FirebaseConfig";
 import { DOMAIN } from "@env";
 import axios from "axios";
-import useQuery from "../../hooks/useQuery";
 import RatingModal from "../ui/RatingModal";
+import useFetchUser from "../../hooks/useFetchUser";
 
 type ReadingModeBookProps = {
   book: Book;
@@ -50,10 +50,7 @@ export default function BookDetails({
   const keywordsString = keywords.join(", ");
   const userId = firebaseAuth?.currentUser?.uid;
 
-  const { data: user, refetch } = useQuery<User | null>(
-    `${DOMAIN}/api/users/getUser/${userId}`,
-    null
-  );
+  const { data: user, refetch } = useFetchUser(userId!);
 
   const hasRatedTheBook =
     user?.ratedBooks.find((bookId) => bookId.toString() === _id) !== undefined;
@@ -85,7 +82,7 @@ export default function BookDetails({
         }}
       >
         <Image
-          source={{uri: book.imageUrl}}
+          source={{ uri: book.imageUrl }}
           style={styles.bookImage}
           alt="book image"
         />
@@ -199,12 +196,12 @@ const styles = StyleSheet.create({
   },
   bookImage: {
     width: "100%",
-    height: 300
+    height: 300,
   },
   bookInfo: {
     padding: 10,
     borderRadius: 20,
-    marginTop: -10
+    marginTop: -10,
   },
   bookTitle: {
     fontSize: 30,

@@ -31,8 +31,6 @@ export default function ReadingModeBook({
   const [fontSize, setFontSize] = useState(16);
   const [startingBrightnessValue, setStartingBrightnessValue] = useState(100);
 
-  // this ref is used, because onScroll event is firing a lot of times
-  // and we want to send only one request if user reached the bottom of the View
   const hasFunctionRun = useRef(false);
 
   const { theme } = useContext(ThemeContext);

@@ -13,36 +13,39 @@ import { ThemeType } from "../types/theme";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as Linking from "expo-linking";
-import useQuery from "../hooks/useQuery";
-import { DOMAIN } from "@env";
 import { firebaseAuth } from "../../FirebaseConfig";
-import { User } from "../types/database";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from "@react-navigation/native";
 import Spinner from "react-native-loading-spinner-overlay";
-
+import useFetchUser from "../hooks/useFetchUser";
 
 export default function Profile() {
   const { theme, onThemeChange, themeValue } = useContext(ThemeContext);
 
-  const {data: user, isLoading, refetch} = useQuery<User | null>(`${DOMAIN}/api/users/getUser/${firebaseAuth.currentUser?.uid}`, null);
+  const {
+    data: user,
+    isLoading,
+    refetch,
+  } = useFetchUser(firebaseAuth.currentUser!.uid);
 
-  useFocusEffect( useCallback(() => {
-    refetch();
-  }, []) );
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   function getTimeSpentText(timeInSeconds: number = 0) {
-    const hours = Math.floor(timeInSeconds / 3600)
-    const minutes = Math.floor((timeInSeconds % 3600) / 60)
+    const hours = Math.floor(timeInSeconds / 3600);
+    const minutes = Math.floor((timeInSeconds % 3600) / 60);
 
     if (minutes === 0) {
-      return "<1 min"
+      return "<1 min";
     }
 
     if (hours > 0) {
-      return `${hours}h ${minutes}min`
+      return `${hours}h ${minutes}min`;
     }
 
-    return `${minutes}min`
+    return `${minutes}min`;
   }
 
   function handleThemeChange(theme: ThemeType) {
@@ -64,17 +67,31 @@ export default function Profile() {
         <StyledText style={styles.sectionHeading}>Twoje statystyki</StyledText>
         <View style={styles.statisticsContainer}>
           <View style={styles.statisticsBox}>
-            <View style={{...styles.statisticsImageContainer, backgroundColor: "gold"}}>
+            <View
+              style={{
+                ...styles.statisticsImageContainer,
+                backgroundColor: "gold",
+              }}
+            >
               <FeatherIcon name="clock" size={26} color="#fff" />
             </View>
-            <StyledText style={styles.statisticsOutlinedText}>{getTimeSpentText(user?.spentTime)}</StyledText>
+            <StyledText style={styles.statisticsOutlinedText}>
+              {getTimeSpentText(user?.spentTime)}
+            </StyledText>
             <StyledText>Czas czytania</StyledText>
           </View>
           <View style={styles.statisticsBox}>
-            <View style={{...styles.statisticsImageContainer, backgroundColor: "blue"}}>
+            <View
+              style={{
+                ...styles.statisticsImageContainer,
+                backgroundColor: "blue",
+              }}
+            >
               <FeatherIcon name="book" size={26} color="#fff" />
             </View>
-            <StyledText style={styles.statisticsOutlinedText}>{user?.finishedBooks.length}</StyledText>
+            <StyledText style={styles.statisticsOutlinedText}>
+              {user?.finishedBooks.length}
+            </StyledText>
             <StyledText>Przeczytane bajki</StyledText>
           </View>
         </View>
@@ -204,10 +221,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
   },
-  statisticsContainer: {flexDirection: "row"},
-  statisticsBox: {justifyContent: "center", alignItems: 'center', width: "33%", gap: 2},
-  statisticsImageContainer: { padding: 8, borderRadius: 100},
-  statisticsOutlinedText: {fontSize: 16, fontWeight: "bold"},
+  statisticsContainer: { flexDirection: "row" },
+  statisticsBox: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "33%",
+    gap: 2,
+  },
+  statisticsImageContainer: { padding: 8, borderRadius: 100 },
+  statisticsOutlinedText: { fontSize: 16, fontWeight: "bold" },
   profileSettingsText: {
     fontSize: 16,
     fontWeight: "bold",
