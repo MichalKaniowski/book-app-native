@@ -20,7 +20,7 @@ export default function BookCard({ book, onBookOpen }: BookCardProps) {
       onPress={() => onBookOpen(book)}
     >
       <Image
-        source={{uri:book.imageUrl}}
+        source={{ uri: book.imageUrl }}
         style={styles.bookImage}
         alt="book image"
       />
