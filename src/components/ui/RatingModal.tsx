@@ -26,11 +26,13 @@ export default function RatingModal({
 
   async function handleRatingAdd() {
     onModalClose();
-    await axios.post(`${DOMAIN}/api/books/addBookRating`, {
-      bookId,
-      userFirebaseId,
-      number: numberOfStars,
-    });
+    await axios
+      .post(`${DOMAIN}/api/books/addBookRating`, {
+        bookId,
+        userFirebaseId,
+        number: numberOfStars,
+      })
+      .catch((error) => console.log(error));
     onRatingAdd();
   }
 

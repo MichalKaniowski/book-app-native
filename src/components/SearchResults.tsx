@@ -7,6 +7,7 @@ import { DOMAIN } from "@env";
 import { Book } from "../types/database";
 import StyledText from "./ui/StyledText";
 import Spinner from "react-native-loading-spinner-overlay";
+import React from "react";
 
 export default function SearchResults({ text }: { text: string }) {
   const { onBookDetailsEnter, onReadingModeEnter } = useContext(BookContext);
@@ -34,6 +35,11 @@ export default function SearchResults({ text }: { text: string }) {
       <Spinner visible={isLoading} />
       {error && <StyledText>An error occured: {error.message}</StyledText>}
       {results}
+      {(!books || books.length === 0) && (
+        <StyledText style={{ fontSize: 16 }}>
+          Nie ma książek z tą nazwą.
+        </StyledText>
+      )}
     </View>
   );
 }

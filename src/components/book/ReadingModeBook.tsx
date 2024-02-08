@@ -30,10 +30,10 @@ export default function ReadingModeBook({
   const [isTextSettingsModalOpen, setIsTextSettingsModalOpen] = useState(false);
   const [fontSize, setFontSize] = useState(16);
   const [startingBrightnessValue, setStartingBrightnessValue] = useState(100);
-
-  const hasFunctionRun = useRef(false);
+  const [isHeaderShown, setIsHeaderShown] = useState(true);
 
   const { theme } = useContext(ThemeContext);
+  const hasFunctionRun = useRef(false);
 
   useEffect(() => {
     (async () => {
@@ -98,50 +98,65 @@ export default function ReadingModeBook({
         flex: 1,
         backgroundColor: theme.background,
       }}
+      stickyHeaderIndices={[0]}
+      onScrollBeginDrag={() => setIsHeaderShown(true)}
     >
+      {/* <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => setIsHeaderShown((prevValue) => !prevValue)}
+      > */}
       {isTextSettingsModalOpen && (
         <SettingsModal
           brightness={startingBrightnessValue}
           onTextSizeChange={handleTextSizeChange}
         />
       )}
-      <StyledView style={{ ...styles.header }}>
-        <View style={styles.leftColumnHeader}>
-          <TouchableOpacity
+      {isHeaderShown && (
+        <View style={{ position: "absolute", top: 0, width: "100%" }}>
+          <StyledView
             style={{
-              padding: 5,
-              borderRadius: 100,
+              ...styles.header,
             }}
-            onPress={onReadingModeExit}
           >
-            <FeatherIcon name="arrow-left" size={20} color={theme.secondary} />
-          </TouchableOpacity>
-        </View>
+            <View style={styles.leftColumnHeader}>
+              <TouchableOpacity
+                style={{
+                  padding: 5,
+                  borderRadius: 100,
+                }}
+                onPress={onReadingModeExit}
+              >
+                <FeatherIcon
+                  name="arrow-left"
+                  size={22}
+                  color={theme.secondary}
+                />
+              </TouchableOpacity>
+            </View>
 
-        <View>
-          <TouchableOpacity
-            onPress={() =>
-              setIsTextSettingsModalOpen((prevValue) => !prevValue)
-            }
-            style={{ flexDirection: "row", alignItems: "center" }}
-          >
-            <StyledText secondary>A</StyledText>
-            <StyledText style={{ fontSize: 20 }} secondary>
-              A
-            </StyledText>
-          </TouchableOpacity>
+            <View>
+              <TouchableOpacity
+                onPress={() =>
+                  setIsTextSettingsModalOpen((prevValue) => !prevValue)
+                }
+                style={{ flexDirection: "row", alignItems: "center" }}
+              >
+                <StyledText secondary>A</StyledText>
+                <StyledText style={{ fontSize: 20 }} secondary>
+                  A
+                </StyledText>
+              </TouchableOpacity>
+            </View>
+          </StyledView>
         </View>
-      </StyledView>
+      )}
 
-      <View
-        style={{
-          ...styles.textContainer,
-        }}
-      >
+      <View style={styles.textContainer}>
         <StyledText style={{ ...styles.body, fontSize: fontSize }}>
           {bookText}
         </StyledText>
       </View>
+      {/* </TouchableOpacity> */}
     </ScrollView>
   );
 }
@@ -151,7 +166,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 5,
+    paddingHorizontal: 5,
   },
   leftColumnHeader: {
     flexDirection: "row",

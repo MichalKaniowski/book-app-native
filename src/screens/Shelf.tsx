@@ -11,7 +11,7 @@ import { Book as BookType, User } from "../types/database";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
 import Spinner from "react-native-loading-spinner-overlay";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from "@react-navigation/native";
 
 interface PostRequest {
   books: BookType[];
@@ -23,15 +23,18 @@ export default function Shelf() {
     useState(false);
 
   const userFirebaseId = firebaseAuth.currentUser?.uid;
-  
+
   const url = `${DOMAIN}/api/books/getShelfBooks/${userFirebaseId}`;
   const { data, isLoading, error, refetch } = useQuery<PostRequest>(url, {
     books: [],
     user: null,
   });
-  useFocusEffect( useCallback(() => {
-    refetch();
-  }, []) );
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   const { books: fetchedBooks, user } = data;
 

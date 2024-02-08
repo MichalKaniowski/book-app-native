@@ -93,7 +93,7 @@ export default function BookDetails({
           }}
           onPress={onExit}
         >
-          <FeatherIcon name="arrow-left" size={20} color={theme.text} />
+          <FeatherIcon name="arrow-left" size={22} color={theme.text} />
         </TouchableOpacity>
 
         <StyledView style={styles.bookInfo}>
@@ -164,7 +164,7 @@ export default function BookDetails({
             <View>
               <View style={styles.authorRow}>
                 <StyledText secondary>Bajka</StyledText>
-                <StyledText>{author ? author : "Nie znany"}</StyledText>
+                <StyledText>{author ? author : "nieznany"}</StyledText>
               </View>
               {illustrator && (
                 <View style={styles.authorRow}>

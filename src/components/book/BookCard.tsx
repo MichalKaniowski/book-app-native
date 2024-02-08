@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   bookImage: {
     width: "100%",
     aspectRatio: "1/1",
-    maxHeight: 450,
+    // maxHeight: 350,
   },
   bookGradient: {
     paddingBottom: 15,

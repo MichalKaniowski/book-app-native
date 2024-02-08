@@ -12,6 +12,7 @@ import StyledText from "../components/ui/StyledText";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
 import Spinner from "react-native-loading-spinner-overlay";
+import FeatherIcon from "react-native-vector-icons/Feather";
 
 export type CategoryType =
   | "3+"
@@ -84,11 +85,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
             navigation.goBack();
           }}
         >
-          <Icon name="arrow-left" size={18} color={theme.text} />
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Icon name="filter" size={18} color={theme.text} />
+          <FeatherIcon name="arrow-left" size={24} color={theme.text} />
         </TouchableOpacity>
       </View>
 
@@ -106,7 +103,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
           ))}
           <Spinner visible={isLoading} />
           {error && <StyledText>An error occured: {error.message}</StyledText>}
-          {books && books?.length === 0 && (
+          {books && books?.length === 0 && !isLoading && (
             <StyledText style={styles.noBooksInTheCategoryText}>
               Nie mamy jeszcze książek z tej kategorii.
             </StyledText>
@@ -121,6 +118,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 5,
     paddingVertical: 10,
   },

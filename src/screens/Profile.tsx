@@ -56,7 +56,7 @@ export default function Profile() {
     <ScrollView style={{ backgroundColor: theme.background, padding: 10 }}>
       <Spinner visible={isLoading} />
       <View style={styles.header}>
-        <StyledText style={styles.mainHeading}>Profile</StyledText>
+        <StyledText style={styles.mainHeading}>Profil</StyledText>
         <TouchableOpacity style={styles.buyButton}>
           <Icon name="locked" size={18} />
           <Text style={styles.buyButtonText}>Odblokuj wszystkie bajki</Text>

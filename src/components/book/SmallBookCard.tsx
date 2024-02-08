@@ -39,7 +39,7 @@ export default function SmallBookCard({
     >
       <View style={styles.imageContainer}>
         <Image
-          source={{uri: book.imageUrl}}
+          source={{ uri: book.imageUrl }}
           style={styles.bookImage}
           alt="book image"
         />
@@ -49,7 +49,9 @@ export default function SmallBookCard({
           <Text style={{ ...styles.bookTitle, color: theme.text }}>
             {title}
           </Text>
-          <Text style={{ color: theme.secondary }}>{keywordsString}</Text>
+          <Text style={{ color: theme.secondary, maxWidth: "95%" }}>
+            {keywordsString}
+          </Text>
         </View>
 
         <View
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     gap: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   imageContainer: {},
   bookInfo: {},

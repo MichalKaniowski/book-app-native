@@ -92,7 +92,7 @@ export default function MainTabNavigator({ navigation, route }: any) {
             <>
               <MaterialIcon name="account-circle" size={30} color="grey" />
               <Text style={{ color: focused ? theme.accent : "grey" }}>
-                Profile
+                Profil
               </Text>
             </>
           ),

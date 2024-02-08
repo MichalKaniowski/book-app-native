@@ -44,45 +44,61 @@ export default function NewScreenBody() {
     <ScrollView
       style={{ ...styles.container, backgroundColor: theme.background }}
     >
-      <StyledText style={styles.mainHeading}>Usypianie z bajką?</StyledText>
-      <StyledText style={styles.mainHeading}>
-        Bezcenne! <EntypoIcon name="open-book" size={30} />
+      <StyledText style={{ ...styles.mainHeading, fontSize: 34 }}>
+        Usypianie z bajką?
       </StyledText>
-
-      <StyledText style={styles.date} secondary>
-        niedziela, 5 listopada
+      <StyledText style={{ ...styles.mainHeading, fontSize: 34 }}>
+        Bezcenne! <EntypoIcon name="open-book" size={30} />
       </StyledText>
 
       <Spinner visible={isLoading} />
       {error && <StyledText>An error occured: {error.message}</StyledText>}
 
-      {booksPublishedInThisWeek?.length !== 0 && (
-        <View style={styles.section}>
-          <StyledText style={styles.sectionHeading}>Nowe bajki</StyledText>
-          {booksPublishedInThisWeek?.map((book) => (
-            <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
-          ))}
-        </View>
-      )}
+      <View style={{ paddingHorizontal: 10 }}>
+        <StyledText style={styles.date} secondary>
+          niedziela, 5 listopada
+        </StyledText>
 
-      {booksPublishedInLastWeek?.length !== 0 && (
-        <View style={styles.section}>
-          <StyledText style={styles.sectionHeading}>
-            W ostatnim tygodniu
-          </StyledText>
-          {booksPublishedInLastWeek?.map((book) => (
-            <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
-          ))}
-        </View>
-      )}
-      {booksPublishedEarlier?.length !== 0 && (
-        <View style={styles.section}>
-          <StyledText style={styles.sectionHeading}>Dawniej</StyledText>
-          {booksPublishedEarlier?.map((book) => (
-            <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
-          ))}
-        </View>
-      )}
+        {booksPublishedInThisWeek?.length !== 0 && (
+          <View style={styles.section}>
+            <StyledText style={styles.sectionHeading}>Nowe bajki</StyledText>
+            {booksPublishedInThisWeek?.map((book) => (
+              <BookCard
+                key={book._id}
+                book={book}
+                onBookOpen={handleBookOpen}
+              />
+            ))}
+          </View>
+        )}
+
+        {booksPublishedInLastWeek?.length !== 0 && (
+          <View style={styles.section}>
+            <StyledText style={styles.sectionHeading}>
+              W ostatnim tygodniu
+            </StyledText>
+            {booksPublishedInLastWeek?.map((book) => (
+              <BookCard
+                key={book._id}
+                book={book}
+                onBookOpen={handleBookOpen}
+              />
+            ))}
+          </View>
+        )}
+        {booksPublishedEarlier?.length !== 0 && (
+          <View style={styles.section}>
+            <StyledText style={styles.sectionHeading}>Dawniej</StyledText>
+            {booksPublishedEarlier?.map((book) => (
+              <BookCard
+                key={book._id}
+                book={book}
+                onBookOpen={handleBookOpen}
+              />
+            ))}
+          </View>
+        )}
+      </View>
     </ScrollView>
   );
 }

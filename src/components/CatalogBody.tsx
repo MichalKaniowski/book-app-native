@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
+  Keyboard,
 } from "react-native";
 import BookRecommendation from "./book/BookRecommendation";
 import StyledText from "./ui/StyledText";
@@ -16,6 +17,7 @@ import { ThemeContext } from "../store/ThemeContext";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
 import Spinner from "react-native-loading-spinner-overlay";
+import FeatherIcon from "react-native-vector-icons/Feather";
 
 export default function CatalogBody({ navigation }: any) {
   const [searchText, setSearchText] = useState("");
@@ -59,27 +61,54 @@ export default function CatalogBody({ navigation }: any) {
 
   const componentBody = (
     <ScrollView
+      keyboardShouldPersistTaps="handled"
       style={{ ...styles.container, backgroundColor: theme.background }}
     >
       <StyledText style={styles.mainHeading}>Katalog</StyledText>
       <View style={styles.inputContainer}>
-        <TextInput
-          onChangeText={(txt) => setSearchText(txt)}
-          value={searchText}
-          style={{
-            ...styles.textInput,
-            color: theme.text,
-            backgroundColor: actualTheme === "light" ? "lightgrey" : "#222",
-          }}
-          onSubmitEditing={() => setHasSearched(true)}
-          onPressIn={() => setHasPressed(true)}
-          onBlur={() => setHasPressed(false)}
-          placeholder="Szukaj"
-          placeholderTextColor={theme.secondary}
-        />
+        <View
+          style={{ width: hasPressed ? "85%" : "100%", position: "relative" }}
+        >
+          <TextInput
+            onChangeText={(txt) => setSearchText(txt)}
+            value={searchText}
+            style={{
+              ...styles.textInput,
+              color: theme.text,
+              backgroundColor: actualTheme === "light" ? "lightgrey" : "#222",
+            }}
+            onSubmitEditing={() => setHasSearched(true)}
+            onPressIn={() => setHasPressed(true)}
+            onBlur={() => setHasPressed(false)}
+            placeholder="Szukaj"
+            placeholderTextColor={theme.secondary}
+          />
+          {hasPressed && (
+            <TouchableOpacity
+              onPress={() => {
+                setSearchText("");
+              }}
+              style={{
+                width: 20,
+                height: 20,
+                position: "absolute",
+                right: 5,
+                top: 7,
+                zIndex: 1000,
+              }}
+            >
+              <FeatherIcon name="x" size={20} color="white" />
+            </TouchableOpacity>
+          )}
+        </View>
 
         {hasPressed && (
-          <TouchableOpacity onPress={() => setHasPressed(false)}>
+          <TouchableOpacity
+            onPress={() => {
+              setHasPressed(false);
+              Keyboard.dismiss();
+            }}
+          >
             <StyledText style={styles.cancelSearchButton}>Anuluj</StyledText>
           </TouchableOpacity>
         )}
@@ -107,6 +136,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: Platform.OS === "android" ? 2 : 8,
     marginBottom: 20,
+    height: 34,
   },
   section: {
     marginBottom: 20,
@@ -127,6 +157,6 @@ const styles = StyleSheet.create({
   cancelSearchButton: {
     marginLeft: 10,
     fontSize: 15,
-    marginTop: 2,
+    marginTop: 7,
   },
 });
