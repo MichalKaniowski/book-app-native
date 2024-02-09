@@ -68,7 +68,7 @@ export default function BookDetails({
     <>
       {isRatingModalOpen && (
         <RatingModal
-          onRatingAdd={refetch}
+          onRatingAdd={() => refetch(userId || "")}
           onModalClose={() => setIsRatingModalOpen(false)}
           bookId={_id}
           userFirebaseId={userId!}

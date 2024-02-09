@@ -29,7 +29,7 @@ export default function Profile() {
 
   useFocusEffect(
     useCallback(() => {
-      refetch();
+      refetch(firebaseAuth.currentUser!.uid);
     }, [])
   );
 

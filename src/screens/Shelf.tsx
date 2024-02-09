@@ -32,7 +32,7 @@ export default function Shelf() {
 
   useFocusEffect(
     useCallback(() => {
-      refetch();
+      refetch(url);
     }, [])
   );
 
