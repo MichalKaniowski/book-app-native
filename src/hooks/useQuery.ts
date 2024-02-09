@@ -16,6 +16,7 @@ export default function useQuery<T>(
 
   const fetchData = useCallback(
     async (url: string) => {
+      setError(null);
       setIsLoading(true);
 
       try {
