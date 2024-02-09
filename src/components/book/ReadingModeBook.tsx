@@ -60,11 +60,21 @@ export default function ReadingModeBook({
     );
   };
 
+  function isCloseToTop({ contentOffset }: NativeScrollEvent) {
+    if (contentOffset.y <= 50) {
+      return true;
+    }
+  }
+
   async function handleScroll({
     nativeEvent,
   }: {
     nativeEvent: NativeScrollEvent;
   }) {
+    if (isCloseToTop(nativeEvent)) {
+      setIsHeaderShown(true);
+    }
+
     if (isCloseToBottom(nativeEvent)) {
       if (hasFunctionRun.current === false) {
         hasFunctionRun.current = true;
@@ -98,13 +108,8 @@ export default function ReadingModeBook({
         flex: 1,
         backgroundColor: theme.background,
       }}
-      stickyHeaderIndices={[0]}
-      onScrollBeginDrag={() => setIsHeaderShown(true)}
+      stickyHeaderIndices={isHeaderShown ? [0] : []}
     >
-      {/* <TouchableOpacity
-        activeOpacity={1}
-        onPress={() => setIsHeaderShown((prevValue) => !prevValue)}
-      > */}
       {isTextSettingsModalOpen && (
         <SettingsModal
           brightness={startingBrightnessValue}
@@ -151,12 +156,16 @@ export default function ReadingModeBook({
         </View>
       )}
 
-      <View style={styles.textContainer}>
-        <StyledText style={{ ...styles.body, fontSize: fontSize }}>
-          {bookText}
-        </StyledText>
-      </View>
-      {/* </TouchableOpacity> */}
+      <TouchableOpacity
+        onPress={() => setIsHeaderShown((prevValue) => !prevValue)}
+        activeOpacity={1}
+      >
+        <View style={styles.textContainer}>
+          <StyledText style={{ ...styles.body, fontSize: fontSize }}>
+            {bookText}
+          </StyledText>
+        </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
