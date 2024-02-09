@@ -70,6 +70,13 @@ export default function Shelf() {
         />
       </View>
       <StyledText style={styles.mainHeading}>Półka</StyledText>
+      {isShowingOnlyUnreadBooks && (
+        <View style={styles.showingUnreadBooksBox}>
+          <StyledText style={styles.showingUnreadBooksText}>
+            Obecnie pokazywane są tylko nieprzetane książki.
+          </StyledText>
+        </View>
+      )}
       {books?.map((book) => (
         <SmallBookCard
           key={book._id}
@@ -112,7 +119,15 @@ const styles = StyleSheet.create({
   mainHeading: {
     fontSize: 30,
     fontWeight: "bold",
+    marginBottom: 10,
+  },
+  showingUnreadBooksBox: {
+    backgroundColor: "grey",
+    padding: 8,
     marginBottom: 15,
+  },
+  showingUnreadBooksText: {
+    textAlign: "center",
   },
   noBooksAddedText: {
     fontSize: 16,
