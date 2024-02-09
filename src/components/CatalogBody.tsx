@@ -16,13 +16,15 @@ import Categories from "./Categories";
 import { ThemeContext } from "../store/ThemeContext";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
-import Spinner from "react-native-loading-spinner-overlay";
 import FeatherIcon from "react-native-vector-icons/Feather";
+import Spinner from "react-native-loading-spinner-overlay";
+import { useDebounce } from "../hooks/useDebounce";
 
 export default function CatalogBody({ navigation }: any) {
   const [searchText, setSearchText] = useState("");
-  const [hasSearched, setHasSearched] = useState(false);
   const [hasPressed, setHasPressed] = useState(false);
+
+  const debouncedText = useDebounce(searchText, 500);
 
   const {
     data: bookRecommendations,
@@ -53,11 +55,7 @@ export default function CatalogBody({ navigation }: any) {
   );
 
   const body =
-    hasSearched && searchText !== "" ? (
-      <SearchResults text={searchText} />
-    ) : (
-      catalogBody
-    );
+    debouncedText !== "" ? <SearchResults text={debouncedText} /> : catalogBody;
 
   const componentBody = (
     <ScrollView
@@ -77,7 +75,6 @@ export default function CatalogBody({ navigation }: any) {
               color: theme.text,
               backgroundColor: actualTheme === "light" ? "lightgrey" : "#222",
             }}
-            onSubmitEditing={() => setHasSearched(true)}
             onPressIn={() => setHasPressed(true)}
             onBlur={() => setHasPressed(false)}
             placeholder="Szukaj"
