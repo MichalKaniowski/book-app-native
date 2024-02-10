@@ -15,8 +15,8 @@ import { ThemeContext } from "../../store/ThemeContext";
 import { firebaseAuth } from "../../../FirebaseConfig";
 import { DOMAIN } from "@env";
 import axios from "axios";
-import RatingModal from "../ui/RatingModal";
 import useFetchUser from "../../hooks/useFetchUser";
+import RatingModal from "../modal/RatingModal/RatingModal";
 
 type ReadingModeBookProps = {
   book: Book;
