@@ -1,15 +1,17 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
-export default function useQuery<T>(
-  url: string,
-  initialState: T
-): {
+interface useQueryProps<T> {
   data: T;
   isLoading: boolean;
   error: Error | null;
-  refetch: (url: string) => void;
-} {
+  refetch: (url: string) => Promise<any> | void;
+}
+
+export default function useQuery<T>(
+  url: string,
+  initialState: T
+): useQueryProps<T> {
   const [data, setData] = useState<T>(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -22,6 +24,7 @@ export default function useQuery<T>(
       try {
         const res = await axios({ url: url, method: "GET" });
         setData(res.data);
+        return res;
       } catch (error) {
         console.log(error);
         setError(error as Error);

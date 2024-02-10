@@ -1,5 +1,5 @@
 import { useContext, useState, useCallback } from "react";
-import { ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, RefreshControl } from "react-native";
 import StyledText from "../components/ui/StyledText";
 import { ThemeContext } from "../store/ThemeContext";
 import SmallBookCard from "../components/book/SmallBookCard";
@@ -21,6 +21,7 @@ interface PostRequest {
 export default function Shelf() {
   const [isShowingOnlyUnreadBooks, setIsShowingOnlyUnreadBooks] =
     useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const userFirebaseId = firebaseAuth.currentUser?.uid;
 
@@ -59,6 +60,15 @@ export default function Shelf() {
 
   const shelfBody = (
     <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => {
+            setRefreshing(true);
+            refetch(url)?.then(() => setRefreshing(false));
+          }}
+        />
+      }
       style={{ ...styles.shelfContainer, backgroundColor: theme.background }}
     >
       <View style={styles.header}>
@@ -95,7 +105,7 @@ export default function Shelf() {
           Nie masz nieprzeczytanych książek w bibliotece
         </StyledText>
       )}
-      <Spinner visible={isLoading} />
+      <Spinner visible={isLoading && !refreshing} />
       {error && <StyledText>{error.message}</StyledText>}
     </ScrollView>
   );
