@@ -16,7 +16,8 @@ export interface Book {
   title: string;
   translator: string | null;
   imageUrl: string;
-  backgroundColor: string[]
+  backgroundColor: string[];
+  color: string;
 }
 
 export interface User {
@@ -29,5 +30,5 @@ export interface User {
   ratedBooks: string[];
   createdAt: Date;
   updatedAt: Date;
-  spentTime: number
+  spentTime: number;
 }
