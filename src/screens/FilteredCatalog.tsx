@@ -102,7 +102,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
             />
           ))}
           <Spinner visible={isLoading} />
-          {error && <StyledText>An error occured: {error.message}</StyledText>}
+          {error && <StyledText>Wystąpił błąd: {error.message}</StyledText>}
           {books && books?.length === 0 && !isLoading && (
             <StyledText style={styles.noBooksInTheCategoryText}>
               Nie mamy jeszcze książek z tej kategorii.

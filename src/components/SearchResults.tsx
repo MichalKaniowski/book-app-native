@@ -25,7 +25,7 @@ export default function SearchResults({ text }: { text: string }) {
 
   return (
     <View>
-      {error && <StyledText>An error occured: {error.message}</StyledText>}
+      {error && <StyledText>Wystąpił błąd: {error.message}</StyledText>}
       {results}
       {(!books || books.length === 0) && !isLoading && (
         <StyledText style={{ fontSize: 16 }}>

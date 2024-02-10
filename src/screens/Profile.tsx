@@ -57,10 +57,6 @@ export default function Profile() {
       <Spinner visible={isLoading} />
       <View style={styles.header}>
         <StyledText style={styles.mainHeading}>Profil</StyledText>
-        <TouchableOpacity style={styles.buyButton}>
-          <Icon name="locked" size={18} />
-          <Text style={styles.buyButtonText}>Odblokuj wszystkie bajki</Text>
-        </TouchableOpacity>
       </View>
 
       <View style={styles.section}>
@@ -177,12 +173,6 @@ export default function Profile() {
         </View>
         <View>
           <View style={{ ...styles.border, borderColor: theme.secondary }} />
-          <View style={styles.boxWithTextAndIcon}>
-            <StyledText style={styles.profileSettingsText}>
-              Odblokuj wszystkie książki
-            </StyledText>
-            <Icon name="locked" size={16} color="gold" />
-          </View>
         </View>
       </View>
     </ScrollView>

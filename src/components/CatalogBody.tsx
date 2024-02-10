@@ -38,8 +38,8 @@ export default function CatalogBody({ navigation }: any) {
     <>
       <View style={styles.section}>
         <Spinner visible={isLoading} />
-        <StyledText style={styles.sectionHeading}>Redakcja poleca</StyledText>
-        {error && <StyledText>An error occured {error?.message}</StyledText>}
+        <StyledText style={styles.sectionHeading}>Polecane</StyledText>
+        {error && <StyledText>Wystąpił błąd {error?.message}</StyledText>}
         <ScrollView style={styles.recommendations} horizontal={true}>
           {bookRecommendations?.map((book: Book) => (
             <BookRecommendation key={book._id} book={book} />

@@ -52,7 +52,7 @@ export default function NewScreenBody() {
       </StyledText>
 
       <Spinner visible={isLoading} />
-      {error && <StyledText>An error occured: {error.message}</StyledText>}
+      {error && <StyledText>Wystąpił błąd: {error.message}</StyledText>}
 
       <View style={{ paddingHorizontal: 10 }}>
         <StyledText style={styles.date} secondary>
@@ -75,7 +75,7 @@ export default function NewScreenBody() {
         {booksPublishedInLastWeek?.length !== 0 && (
           <View style={styles.section}>
             <StyledText style={styles.sectionHeading}>
-              W ostatnim tygodniu
+              Opublikowane w ostatnim tygodniu
             </StyledText>
             {booksPublishedInLastWeek?.map((book) => (
               <BookCard
@@ -88,7 +88,9 @@ export default function NewScreenBody() {
         )}
         {booksPublishedEarlier?.length !== 0 && (
           <View style={styles.section}>
-            <StyledText style={styles.sectionHeading}>Dawniej</StyledText>
+            <StyledText style={styles.sectionHeading}>
+              Opublikowane dawniej
+            </StyledText>
             {booksPublishedEarlier?.map((book) => (
               <BookCard
                 key={book._id}
