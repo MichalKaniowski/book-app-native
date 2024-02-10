@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import SmallBookCard from "./book/SmallBookCard";
 import { BookContext } from "../store/BookContext";
 import useQuery from "../hooks/useQuery";
@@ -28,10 +28,14 @@ export default function SearchResults({ text }: { text: string }) {
       {error && <StyledText>Wystąpił błąd: {error.message}</StyledText>}
       {results}
       {(!books || books.length === 0) && !isLoading && (
-        <StyledText style={{ fontSize: 16 }}>
+        <StyledText style={styles.noBooksText}>
           Nie ma książek z tą nazwą.
         </StyledText>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  noBooksText: { fontSize: 16 },
+});

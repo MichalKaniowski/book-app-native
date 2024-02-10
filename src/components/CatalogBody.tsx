@@ -85,14 +85,7 @@ export default function CatalogBody({ navigation }: any) {
               onPress={() => {
                 setSearchText("");
               }}
-              style={{
-                width: 20,
-                height: 20,
-                position: "absolute",
-                right: 5,
-                top: 7,
-                zIndex: 1000,
-              }}
+              style={styles.eraseSearchBarButton}
             >
               <FeatherIcon name="x" size={20} color="white" />
             </TouchableOpacity>
@@ -134,6 +127,14 @@ const styles = StyleSheet.create({
     paddingVertical: Platform.OS === "android" ? 2 : 8,
     marginBottom: 20,
     height: 34,
+  },
+  eraseSearchBarButton: {
+    width: 20,
+    height: 20,
+    position: "absolute",
+    right: 5,
+    top: 7,
+    zIndex: 1000,
   },
   section: {
     marginBottom: 20,

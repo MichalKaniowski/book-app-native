@@ -105,7 +105,7 @@ export default function ReadingModeBook({
     <ScrollView
       onScroll={handleScroll}
       style={{
-        flex: 1,
+        ...styles.container,
         backgroundColor: theme.background,
       }}
       stickyHeaderIndices={isHeaderShown ? [0] : []}
@@ -117,18 +117,11 @@ export default function ReadingModeBook({
         />
       )}
       {isHeaderShown && (
-        <View style={{ position: "absolute", top: 0, width: "100%" }}>
-          <StyledView
-            style={{
-              ...styles.header,
-            }}
-          >
+        <View style={styles.headerContainer}>
+          <StyledView style={styles.header}>
             <View style={styles.leftColumnHeader}>
               <TouchableOpacity
-                style={{
-                  padding: 5,
-                  borderRadius: 100,
-                }}
+                style={styles.exitReadingModeButton}
                 onPress={onReadingModeExit}
               >
                 <FeatherIcon
@@ -144,10 +137,10 @@ export default function ReadingModeBook({
                 onPress={() =>
                   setIsTextSettingsModalOpen((prevValue) => !prevValue)
                 }
-                style={{ flexDirection: "row", alignItems: "center" }}
+                style={styles.textSizeButton}
               >
                 <StyledText secondary>A</StyledText>
-                <StyledText style={{ fontSize: 20 }} secondary>
+                <StyledText style={styles.bigA} secondary>
                   A
                 </StyledText>
               </TouchableOpacity>
@@ -171,6 +164,8 @@ export default function ReadingModeBook({
 }
 
 const styles = StyleSheet.create({
+  container: { flex: 1 },
+  headerContainer: { position: "absolute", top: 0, width: "100%" },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -181,6 +176,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  exitReadingModeButton: {
+    padding: 5,
+    borderRadius: 100,
+  },
+  textSizeButton: { flexDirection: "row", alignItems: "center" },
+  bigA: { fontSize: 20 },
   textContainer: {
     flex: 1,
     padding: 15,

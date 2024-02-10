@@ -60,7 +60,7 @@ export default function RatingModal({
           onPress={handleRatingAdd}
           style={{ ...styles.submitButton, backgroundColor: theme.accent }}
         >
-          <Text style={{ fontWeight: "bold" }}>zatwierdź</Text>
+          <Text style={styles.confirmButtonText}>zatwierdź</Text>
         </TouchableOpacity>
       </View>
     </Modal>
@@ -106,4 +106,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 5,
   },
+  confirmButtonText: { fontWeight: "bold" },
 });

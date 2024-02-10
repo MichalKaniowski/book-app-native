@@ -78,7 +78,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
   }
 
   return (
-    <View style={{ backgroundColor: theme.background, flex: 1 }}>
+    <View style={{ backgroundColor: theme.background, ...styles.container }}>
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
@@ -89,7 +89,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
         </TouchableOpacity>
       </View>
 
-      <View style={{ padding: 10 }}>
+      <View style={styles.contentContainer}>
         <StyledText style={styles.mainHeading}>{categoryTitle}</StyledText>
 
         <View style={styles.booksContainer}>
@@ -115,6 +115,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
 }
 
 const styles = StyleSheet.create({
+  container: { flex: 1 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 10,
   },
+  contentContainer: { padding: 10 },
   mainHeading: {
     fontSize: 30,
     fontWeight: "bold",

@@ -53,7 +53,9 @@ export default function Profile() {
   }
 
   return (
-    <ScrollView style={{ backgroundColor: theme.background, padding: 10 }}>
+    <ScrollView
+      style={{ ...styles.container, backgroundColor: theme.background }}
+    >
       <Spinner visible={isLoading} />
       <View style={styles.header}>
         <StyledText style={styles.mainHeading}>Profil</StyledText>
@@ -180,6 +182,7 @@ export default function Profile() {
 }
 
 const styles = StyleSheet.create({
+  container: { padding: 10 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",

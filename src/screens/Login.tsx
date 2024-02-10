@@ -125,13 +125,13 @@ export default function Login() {
         </StyledText>
       </TouchableOpacity>
       <View style={styles.changeFormTypeContainer}>
-        <StyledText style={{ fontSize: 14 }}>
+        <StyledText style={styles.changeFormActionText}>
           {formMode === "signup"
             ? "Want to sign in?"
             : "Don't have an account?"}
         </StyledText>
         <TouchableOpacity onPress={handleFormModeChange}>
-          <StyledText style={{ fontSize: 14, fontWeight: "600" }}>
+          <StyledText style={styles.actionButtonText}>
             {formMode === "signup" ? "Sign in" : "Sign up"}
           </StyledText>
         </TouchableOpacity>
@@ -183,4 +183,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 4,
   },
+  changeFormActionText: { fontSize: 14 },
+  actionButtonText: { fontSize: 14, fontWeight: "600" },
 });

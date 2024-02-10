@@ -15,15 +15,9 @@ export default function Category({ name, icon: Icon, onPress }: CategoryProps) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <View style={styles.categoryBody}>
-        <View style={{ marginRight: 10 }}>{Icon}</View>
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
+        <View style={styles.icon}>{Icon}</View>
+        <View style={styles.contentContainer}>
+          <View style={styles.titleAndArrowContainer}>
             <StyledText style={styles.categoryTitle}>{name}</StyledText>
             <AntDesignIcon
               name="arrowright"
@@ -31,7 +25,7 @@ export default function Category({ name, icon: Icon, onPress }: CategoryProps) {
               style={{ color: theme.secondary }}
             />
           </View>
-          <View style={{ borderBottomWidth: 0.5, borderBottomColor: "#222" }} />
+          <View style={styles.bottomBorder} />
         </View>
       </View>
     </TouchableOpacity>
@@ -48,9 +42,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  icon: { marginRight: 10 },
+  contentContainer: { flex: 1 },
+  titleAndArrowContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   categoryTitle: {
     fontWeight: "bold",
     fontSize: 16,
     marginBottom: 5,
   },
+  bottomBorder: { borderBottomWidth: 0.5, borderBottomColor: "#222" },
 });

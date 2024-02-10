@@ -49,18 +49,12 @@ export default function SmallBookCard({
           <Text style={{ ...styles.bookTitle, color: theme.text }}>
             {title}
           </Text>
-          <Text style={{ color: theme.secondary, maxWidth: "95%" }}>
+          <Text style={{ ...styles.keywordsString, color: theme.secondary }}>
             {keywordsString}
           </Text>
         </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginTop: 10,
-          }}
-        >
+        <View style={styles.bottomRowContainer}>
           <TouchableOpacity
             style={{
               ...styles.readBookButton,
@@ -71,7 +65,12 @@ export default function SmallBookCard({
             <Text>Czytaj</Text>
           </TouchableOpacity>
           <Icon name="clock" size={16} color={theme.secondary} />
-          <Text style={{ color: theme.secondary, marginLeft: 3 }}>
+          <Text
+            style={{
+              ...styles.estimatedReadingTimeText,
+              color: theme.secondary,
+            }}
+          >
             {estimatedReadingTime} min
           </Text>
         </View>
@@ -96,6 +95,12 @@ const styles = StyleSheet.create({
   bookTitle: {
     fontSize: 20,
   },
+  keywordsString: { maxWidth: "95%" },
+  bottomRowContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+  },
   readBookButton: {
     padding: 5,
     borderRadius: 15,
@@ -105,5 +110,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
     paddingVertical: 7,
     paddingHorizontal: 30,
+  },
+  estimatedReadingTimeText: {
+    marginLeft: 3,
   },
 });

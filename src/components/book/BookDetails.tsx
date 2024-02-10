@@ -98,14 +98,12 @@ export default function BookDetails({
 
         <StyledView style={styles.bookInfo}>
           <StyledText style={styles.bookTitle}>{title}</StyledText>
-          <Text style={{ color: theme.secondary, fontSize: 14 }}>
-            {keywordsString}
-          </Text>
+          <Text style={{ color: theme.secondary }}>{keywordsString}</Text>
           <TouchableOpacity
             style={{ ...styles.readBookButton, backgroundColor: theme.accent }}
             onPress={handleReadingModeEnter}
           >
-            <Text style={{ fontWeight: "bold" }}>Czytaj</Text>
+            <Text style={styles.readBookText}>Czytaj</Text>
           </TouchableOpacity>
 
           <View style={styles.border} />
@@ -120,7 +118,7 @@ export default function BookDetails({
             <View style={styles.bookDetailsRightColumn}>
               <TouchableOpacity
                 onPress={() => setIsRatingModalOpen(true)}
-                style={{ ...styles.iconContainer, marginRight: 10 }}
+                style={{ ...styles.iconContainer, ...styles.ratingButton }}
               >
                 <FeatherIcon
                   name="star"
@@ -149,11 +147,10 @@ export default function BookDetails({
               Tematy do dyskusji
             </StyledText>
             {discussionTopics.map((topic) => (
-              <View
-                key={topic}
-                style={{ flexDirection: "row", marginBottom: 5 }}
-              >
-                <StyledText style={{ marginRight: 5 }}>{`\u2022`}</StyledText>
+              <View key={topic} style={styles.discussionTopicContainer}>
+                <StyledText
+                  style={styles.discussionTopicText}
+                >{`\u2022`}</StyledText>
                 <StyledText>{topic}</StyledText>
               </View>
             ))}
@@ -207,6 +204,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
   },
+  keywordsString: { fontSize: 14 },
   readBookButton: {
     width: 100,
     paddingVertical: 10,
@@ -217,6 +215,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
+  },
+  readBookText: {
+    fontWeight: "bold",
   },
   border: {
     borderBottomWidth: 0.5,
@@ -234,6 +235,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
+  ratingButton: { marginRight: 10 },
   bookDetailsText: {
     fontSize: 16,
   },
@@ -254,6 +256,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 2,
   },
+  discussionTopicContainer: { flexDirection: "row", marginBottom: 5 },
+  discussionTopicText: { marginRight: 5 },
   authorRow: {
     flexDirection: "row",
     gap: 30,

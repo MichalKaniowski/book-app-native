@@ -44,17 +44,15 @@ export default function NewScreenBody() {
     <ScrollView
       style={{ ...styles.container, backgroundColor: theme.background }}
     >
-      <StyledText style={{ ...styles.mainHeading, fontSize: 34 }}>
-        Usypianie z bajką?
-      </StyledText>
-      <StyledText style={{ ...styles.mainHeading, fontSize: 34 }}>
+      <StyledText style={styles.mainHeading}>Usypianie z bajką?</StyledText>
+      <StyledText style={styles.mainHeading}>
         Bezcenne! <EntypoIcon name="open-book" size={30} />
       </StyledText>
 
       <Spinner visible={isLoading} />
       {error && <StyledText>Wystąpił błąd: {error.message}</StyledText>}
 
-      <View style={{ paddingHorizontal: 10 }}>
+      <View style={styles.contentContainer}>
         <StyledText style={styles.date} secondary>
           niedziela, 5 listopada
         </StyledText>
@@ -111,9 +109,10 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   mainHeading: {
-    fontSize: 30,
+    fontSize: 34,
     fontWeight: "bold",
   },
+  contentContainer: { paddingHorizontal: 10 },
   date: {
     marginTop: 20,
   },

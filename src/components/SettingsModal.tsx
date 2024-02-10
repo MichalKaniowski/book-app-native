@@ -86,12 +86,8 @@ export default function SettingsModal({
           <View style={styles.systemThemeHalf}>
             <Icon name="sun" />
           </View>
-          <View style={{ ...styles.systemThemeHalf, backgroundColor: "#000" }}>
-            <Icon
-              name="moon"
-              color="#fff"
-              style={{ transform: [{ rotate: "45deg" }] }}
-            />
+          <View style={styles.systemThemeHalf}>
+            <Icon name="moon" color="#fff" style={styles.moonIcon} />
           </View>
         </TouchableOpacity>
       </View>
@@ -158,11 +154,13 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     overflow: "hidden",
   },
+  moonIcon: { transform: [{ rotate: "45deg" }] },
   systemThemeHalf: {
     flex: 1,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#000",
   },
   textSizeContainer: {
     flexDirection: "row",
