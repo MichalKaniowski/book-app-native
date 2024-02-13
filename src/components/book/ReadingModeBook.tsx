@@ -127,10 +127,9 @@ export default function ReadingModeBook({
 
             <View>
               <TouchableOpacity
-                onPress={() => {
-                  console.log("got clicked");
-                  setIsTextSettingsModalOpen((prevValue) => !prevValue);
-                }}
+                onPress={() =>
+                  setIsTextSettingsModalOpen((prevValue) => !prevValue)
+                }
                 style={styles.textSizeButton}
               >
                 <StyledText secondary>A</StyledText>
@@ -151,10 +150,7 @@ export default function ReadingModeBook({
         }}
       >
         <TouchableOpacity
-          onPress={() => {
-            console.log("changing header state");
-            setIsHeaderShown((prevValue) => !prevValue);
-          }}
+          onPress={() => setIsHeaderShown((prevValue) => !prevValue)}
           activeOpacity={1}
         >
           <View style={styles.textContainer}>
@@ -171,7 +167,7 @@ export default function ReadingModeBook({
 const styles = StyleSheet.create({
   container: { flex: 1 },
   headerContainer: {
-    zIndex: 1000,
+    zIndex: 10,
   },
   header: {
     flexDirection: "row",
@@ -187,7 +183,10 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 100,
   },
-  textSizeButton: { flexDirection: "row", alignItems: "center", zIndex: 10000 },
+  textSizeButton: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   bigA: { fontSize: 20 },
   textContainer: {
     flex: 1,

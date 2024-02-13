@@ -1,10 +1,8 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import Slider from "@react-native-community/slider";
 import Icon from "react-native-vector-icons/Feather";
 import { TextSizeChangeAction } from "../../../types/book";
-import * as Brightness from "expo-brightness";
 import StyledText from "../../ui/StyledText";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "../../../store/ThemeContext";
 import { ThemeType } from "../../../types/theme";
 
@@ -20,15 +18,6 @@ export default function SettingsModal({
   const { theme, onThemeChange, themeValue, actualTheme } =
     useContext(ThemeContext);
 
-  async function handleBrightnessChange(value: number) {
-    console.log("changing brightness");
-    const { status } = await Brightness.requestPermissionsAsync();
-
-    if (status === "granted") {
-      await Brightness.setSystemBrightnessAsync(value);
-    }
-  }
-
   function handleThemeChange(theme: ThemeType) {
     onThemeChange(theme);
   }
@@ -40,23 +29,6 @@ export default function SettingsModal({
         backgroundColor: actualTheme === "light" ? "#d3d3d3" : "#222",
       }}
     >
-      <View style={styles.brightnessContainer}>
-        <Icon name="sun" color={theme.secondary} size={16} />
-        <Slider
-          value={brightness}
-          style={styles.brightnessSlider}
-          minimumValue={0}
-          maximumValue={1}
-          minimumTrackTintColor={theme.accent}
-          maximumTrackTintColor={theme.secondary}
-          thumbTintColor="#fff"
-          onValueChange={handleBrightnessChange}
-        />
-        <Icon name="moon" color={theme.secondary} size={16} />
-      </View>
-
-      <View style={styles.bottomBorder} />
-
       <View style={styles.themeContainer}>
         <TouchableOpacity
           onPress={() => handleThemeChange("light")}
@@ -87,7 +59,7 @@ export default function SettingsModal({
           <View style={{ ...styles.systemThemeHalf, backgroundColor: "white" }}>
             <Icon name="sun" />
           </View>
-          <View style={styles.systemThemeHalf}>
+          <View style={{ ...styles.systemThemeHalf, backgroundColor: "#000" }}>
             <Icon name="moon" color="#fff" style={styles.moonIcon} />
           </View>
         </TouchableOpacity>
@@ -129,6 +101,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 30,
     right: 10,
+    zIndex: 100,
     borderRadius: 10,
   },
   brightnessContainer: {
@@ -146,6 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 10,
     paddingHorizontal: 15,
+    gap: 25,
   },
   themeButton: {
     width: 40,
@@ -154,13 +128,11 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     overflow: "hidden",
   },
-  moonIcon: { transform: [{ rotate: "45deg" }] },
   systemThemeHalf: {
     flex: 1,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#000",
   },
   textSizeContainer: {
     flexDirection: "row",
@@ -172,6 +144,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    padding: 3,
   },
   smallLetterA: {
     fontSize: 20,
@@ -181,4 +154,5 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
   },
+  moonIcon: { transform: [{ rotate: "45deg" }] },
 });
