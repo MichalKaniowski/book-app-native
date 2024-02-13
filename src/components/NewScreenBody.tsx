@@ -11,6 +11,8 @@ import { DOMAIN } from "@env";
 import { TabsContext } from "../store/TabsContext";
 import { BookContext } from "../store/BookContext";
 import hasBeenPublishedInSpecifiedTime from "../utils/hasBeenPublishedInSpecifiedTime";
+import { parseISO, format } from "date-fns";
+import { pl } from "date-fns/locale";
 
 export default function NewScreenBody() {
   const {
@@ -22,6 +24,22 @@ export default function NewScreenBody() {
   const { theme } = useContext(ThemeContext);
   const { onTabsVisibilityChange } = useContext(TabsContext);
   const { onBookDetailsEnter } = useContext(BookContext);
+
+  const weekdaysArray = [
+    "poniedziałek",
+    "wtorek",
+    "środa",
+    "czwartek",
+    "piątek",
+    "sobota",
+    "niedziela",
+  ];
+  const day = new Date().getDay();
+  const weekdayName = weekdaysArray[day - 1];
+  const stringDate = new Date().toISOString().substring(0, 10);
+  const date = format(parseISO(stringDate), "dd MMMM", {
+    locale: pl,
+  });
 
   const booksPublishedInThisWeek = books?.filter((book) =>
     hasBeenPublishedInSpecifiedTime(book?._createdAt, 0, 7)
@@ -54,7 +72,7 @@ export default function NewScreenBody() {
 
       <View style={styles.contentContainer}>
         <StyledText style={styles.date} secondary>
-          niedziela, 5 listopada
+          {weekdayName}, {date}
         </StyledText>
 
         {booksPublishedInThisWeek?.length !== 0 && (
