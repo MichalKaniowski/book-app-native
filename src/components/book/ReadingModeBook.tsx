@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Book } from "../../types/database";
 import FeatherIcon from "react-native-vector-icons/Feather";
-import SettingsModal from "../SettingsModal";
+import SettingsModal from "../modal/SettingsModal/SettingsModal";
 import { TextSizeChangeAction } from "../../types/book";
 import * as Brightness from "expo-brightness";
 import StyledText from "../ui/StyledText";
@@ -102,22 +102,15 @@ export default function ReadingModeBook({
   }
 
   return (
-    <ScrollView
-      onScroll={handleScroll}
-      style={{
-        ...styles.container,
-        backgroundColor: theme.background,
-      }}
-      stickyHeaderIndices={isHeaderShown ? [0] : []}
-    >
-      {isTextSettingsModalOpen && (
-        <SettingsModal
-          brightness={startingBrightnessValue}
-          onTextSizeChange={handleTextSizeChange}
-        />
-      )}
+    <View style={{ backgroundColor: "#000", flex: 1 }}>
       {isHeaderShown && (
         <View style={styles.headerContainer}>
+          {isTextSettingsModalOpen && (
+            <SettingsModal
+              brightness={startingBrightnessValue}
+              onTextSizeChange={handleTextSizeChange}
+            />
+          )}
           <StyledView style={styles.header}>
             <View style={styles.leftColumnHeader}>
               <TouchableOpacity
@@ -134,9 +127,10 @@ export default function ReadingModeBook({
 
             <View>
               <TouchableOpacity
-                onPress={() =>
-                  setIsTextSettingsModalOpen((prevValue) => !prevValue)
-                }
+                onPress={() => {
+                  console.log("got clicked");
+                  setIsTextSettingsModalOpen((prevValue) => !prevValue);
+                }}
                 style={styles.textSizeButton}
               >
                 <StyledText secondary>A</StyledText>
@@ -149,23 +143,36 @@ export default function ReadingModeBook({
         </View>
       )}
 
-      <TouchableOpacity
-        onPress={() => setIsHeaderShown((prevValue) => !prevValue)}
-        activeOpacity={1}
+      <ScrollView
+        onScroll={handleScroll}
+        style={{
+          ...styles.container,
+          backgroundColor: theme.background,
+        }}
       >
-        <View style={styles.textContainer}>
-          <StyledText style={{ ...styles.body, fontSize: fontSize }}>
-            {bookText}
-          </StyledText>
-        </View>
-      </TouchableOpacity>
-    </ScrollView>
+        <TouchableOpacity
+          onPress={() => {
+            console.log("changing header state");
+            setIsHeaderShown((prevValue) => !prevValue);
+          }}
+          activeOpacity={1}
+        >
+          <View style={styles.textContainer}>
+            <StyledText style={{ ...styles.body, fontSize: fontSize }}>
+              {bookText}
+            </StyledText>
+          </View>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  headerContainer: { position: "absolute", top: 0, width: "100%" },
+  headerContainer: {
+    zIndex: 1000,
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -180,7 +187,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 100,
   },
-  textSizeButton: { flexDirection: "row", alignItems: "center" },
+  textSizeButton: { flexDirection: "row", alignItems: "center", zIndex: 10000 },
   bigA: { fontSize: 20 },
   textContainer: {
     flex: 1,

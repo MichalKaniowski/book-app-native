@@ -1,14 +1,7 @@
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import StyledText from "../components/ui/StyledText";
 import { useContext, useCallback } from "react";
 import { ThemeContext } from "../store/ThemeContext";
-import Icon from "react-native-vector-icons/Fontisto";
 import { ThemeType } from "../types/theme";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";

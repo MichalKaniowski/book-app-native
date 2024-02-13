@@ -1,12 +1,12 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Slider from "@react-native-community/slider";
 import Icon from "react-native-vector-icons/Feather";
-import { TextSizeChangeAction } from "../types/book";
+import { TextSizeChangeAction } from "../../../types/book";
 import * as Brightness from "expo-brightness";
-import StyledText from "./ui/StyledText";
+import StyledText from "../../ui/StyledText";
 import { useContext, useState } from "react";
-import { ThemeContext } from "../store/ThemeContext";
-import { ThemeType } from "../types/theme";
+import { ThemeContext } from "../../../store/ThemeContext";
+import { ThemeType } from "../../../types/theme";
 
 interface SettingsModalProps {
   brightness: number;
@@ -21,6 +21,7 @@ export default function SettingsModal({
     useContext(ThemeContext);
 
   async function handleBrightnessChange(value: number) {
+    console.log("changing brightness");
     const { status } = await Brightness.requestPermissionsAsync();
 
     if (status === "granted") {
@@ -83,7 +84,7 @@ export default function SettingsModal({
             borderColor: theme.accent,
           }}
         >
-          <View style={styles.systemThemeHalf}>
+          <View style={{ ...styles.systemThemeHalf, backgroundColor: "white" }}>
             <Icon name="sun" />
           </View>
           <View style={styles.systemThemeHalf}>
@@ -128,7 +129,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 30,
     right: 10,
-    zIndex: 100,
     borderRadius: 10,
   },
   brightnessContainer: {
