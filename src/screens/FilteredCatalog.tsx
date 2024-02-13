@@ -5,8 +5,8 @@ import Icon from "react-native-vector-icons/Feather";
 import SmallBookCard from "../components/book/SmallBookCard";
 import { ThemeContext } from "../store/ThemeContext";
 import { BookContext } from "../store/BookContext";
-import ReadingModeBook from "../components/book/ReadingModeBook";
-import BookDetails from "../components/book/BookDetails";
+import ReadingModeBook from "../components/book/ReadingMode/ReadingModeBook";
+import BookDetails from "../components/book/BookDetails/BookDetails";
 import { TabsContext } from "../store/TabsContext";
 import StyledText from "../components/ui/StyledText";
 import useQuery from "../hooks/useQuery";
@@ -32,7 +32,6 @@ export default function FilteredCatalog({ route, navigation }: any) {
     onReadingModeEnter,
     openedBook,
     isInReadingMode,
-    onReadingModeExit,
     onBookDetailsExit,
   } = useContext(BookContext);
   const { onTabsVisibilityChange } = useContext(TabsContext);
@@ -62,9 +61,7 @@ export default function FilteredCatalog({ route, navigation }: any) {
   );
 
   if (openedBook && isInReadingMode) {
-    return (
-      <ReadingModeBook {...openedBook} onReadingModeExit={onReadingModeExit} />
-    );
+    return <ReadingModeBook {...openedBook} />;
   }
 
   if (openedBook) {

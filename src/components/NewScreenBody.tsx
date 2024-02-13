@@ -1,18 +1,14 @@
 import { useContext } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
-import BookCard from "../components/book/BookCard";
 import StyledText from "../components/ui/StyledText";
 import Spinner from "react-native-loading-spinner-overlay";
 import { ThemeContext } from "../store/ThemeContext";
 import useQuery from "../hooks/useQuery";
 import { Book as BookType } from "../types/database";
 import { DOMAIN } from "@env";
-import { TabsContext } from "../store/TabsContext";
-import { BookContext } from "../store/BookContext";
-import hasBeenPublishedInSpecifiedTime from "../utils/hasBeenPublishedInSpecifiedTime";
-import { parseISO, format } from "date-fns";
-import { pl } from "date-fns/locale";
+import BooksPublishedInPeriod from "./book/BooksPublishedInPeriod";
+import getStringDate from "../utils/getStringDate";
 
 export default function NewScreenBody() {
   const {
@@ -22,41 +18,8 @@ export default function NewScreenBody() {
   } = useQuery<BookType[]>(`${DOMAIN}/api/books/getBooks`, []);
 
   const { theme } = useContext(ThemeContext);
-  const { onTabsVisibilityChange } = useContext(TabsContext);
-  const { onBookDetailsEnter } = useContext(BookContext);
 
-  const weekdaysArray = [
-    "poniedziałek",
-    "wtorek",
-    "środa",
-    "czwartek",
-    "piątek",
-    "sobota",
-    "niedziela",
-  ];
-  const day = new Date().getDay();
-  const weekdayName = weekdaysArray[day - 1];
-  const stringDate = new Date().toISOString().substring(0, 10);
-  const date = format(parseISO(stringDate), "dd MMMM", {
-    locale: pl,
-  });
-
-  const booksPublishedInThisWeek = books?.filter((book) =>
-    hasBeenPublishedInSpecifiedTime(book?._createdAt, 0, 7)
-  );
-
-  const booksPublishedInLastWeek = books?.filter((book) =>
-    hasBeenPublishedInSpecifiedTime(book?._createdAt, 7, 14)
-  );
-
-  const booksPublishedEarlier = books?.filter((book) =>
-    hasBeenPublishedInSpecifiedTime(book._createdAt, 14, Infinity)
-  );
-
-  function handleBookOpen(book: BookType) {
-    onTabsVisibilityChange(false);
-    onBookDetailsEnter(book);
-  }
+  const dateString = getStringDate();
 
   return (
     <ScrollView
@@ -72,50 +35,26 @@ export default function NewScreenBody() {
 
       <View style={styles.contentContainer}>
         <StyledText style={styles.date} secondary>
-          {weekdayName}, {date}
+          {dateString}
         </StyledText>
 
-        {booksPublishedInThisWeek?.length !== 0 && (
-          <View style={styles.section}>
-            <StyledText style={styles.sectionHeading}>Nowe bajki</StyledText>
-            {booksPublishedInThisWeek?.map((book) => (
-              <BookCard
-                key={book._id}
-                book={book}
-                onBookOpen={handleBookOpen}
-              />
-            ))}
-          </View>
-        )}
+        <BooksPublishedInPeriod
+          books={books}
+          lastDaysStart={0}
+          lastDaysEnd={7}
+        />
 
-        {booksPublishedInLastWeek?.length !== 0 && (
-          <View style={styles.section}>
-            <StyledText style={styles.sectionHeading}>
-              Opublikowane w ostatnim tygodniu
-            </StyledText>
-            {booksPublishedInLastWeek?.map((book) => (
-              <BookCard
-                key={book._id}
-                book={book}
-                onBookOpen={handleBookOpen}
-              />
-            ))}
-          </View>
-        )}
-        {booksPublishedEarlier?.length !== 0 && (
-          <View style={styles.section}>
-            <StyledText style={styles.sectionHeading}>
-              Opublikowane dawniej
-            </StyledText>
-            {booksPublishedEarlier?.map((book) => (
-              <BookCard
-                key={book._id}
-                book={book}
-                onBookOpen={handleBookOpen}
-              />
-            ))}
-          </View>
-        )}
+        <BooksPublishedInPeriod
+          books={books}
+          lastDaysStart={7}
+          lastDaysEnd={14}
+        />
+
+        <BooksPublishedInPeriod
+          books={books}
+          lastDaysStart={14}
+          lastDaysEnd={Infinity}
+        />
       </View>
     </ScrollView>
   );
@@ -133,13 +72,5 @@ const styles = StyleSheet.create({
   contentContainer: { paddingHorizontal: 10 },
   date: {
     marginTop: 20,
-  },
-  section: {
-    marginBottom: 30,
-    gap: 10,
-  },
-  sectionHeading: {
-    fontSize: 26,
-    fontWeight: "bold",
   },
 });

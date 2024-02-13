@@ -7,12 +7,10 @@ import { ThemeContext } from "../../../store/ThemeContext";
 import { ThemeType } from "../../../types/theme";
 
 interface SettingsModalProps {
-  brightness: number;
   onTextSizeChange: (action: TextSizeChangeAction) => void;
 }
 
 export default function SettingsModal({
-  brightness,
   onTextSizeChange,
 }: SettingsModalProps) {
   const { theme, onThemeChange, themeValue, actualTheme } =
@@ -103,16 +101,6 @@ const styles = StyleSheet.create({
     right: 10,
     zIndex: 100,
     borderRadius: 10,
-  },
-  brightnessContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 5,
-    paddingVertical: 10,
-    gap: 5,
-  },
-  brightnessSlider: {
-    width: 200,
   },
   themeContainer: {
     flexDirection: "row",

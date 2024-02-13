@@ -1,7 +1,7 @@
 import { Book as BookType } from "../../types/database";
 import { useContext } from "react";
-import ReadingModeBook from "./ReadingModeBook";
-import BookDetails from "./BookDetails";
+import ReadingModeBook from "./ReadingMode/ReadingModeBook";
+import BookDetails from "./BookDetails/BookDetails";
 import { BookContext } from "../../store/BookContext";
 
 interface BookProps {
@@ -14,7 +14,7 @@ export default function Book({ book, onExit }: BookProps) {
     useContext(BookContext);
 
   return isInReadingMode ? (
-    <ReadingModeBook {...book} onReadingModeExit={onReadingModeExit} />
+    <ReadingModeBook {...book} />
   ) : (
     <BookDetails
       book={book}
