@@ -2,7 +2,6 @@ import { useContext, useState, useCallback } from "react";
 import { ScrollView, View, StyleSheet, RefreshControl } from "react-native";
 import StyledText from "../components/ui/StyledText";
 import { ThemeContext } from "../store/ThemeContext";
-import SmallBookCard from "../components/book/cards/SmallBookCard";
 import { BookContext } from "../store/BookContext";
 import Icon from "react-native-vector-icons/Feather";
 import Book from "../components/book/Book";
@@ -10,8 +9,8 @@ import { firebaseAuth } from "../../FirebaseConfig";
 import { Book as BookType, User } from "../types/database";
 import useQuery from "../hooks/useQuery";
 import { DOMAIN } from "@env";
-import Spinner from "react-native-loading-spinner-overlay";
 import { useFocusEffect } from "@react-navigation/native";
+import ShelfBooks from "../components/shelf/ShelfBooks";
 
 interface PostRequest {
   books: BookType[];
@@ -40,23 +39,7 @@ export default function Shelf() {
   const { books: fetchedBooks, user } = data;
 
   const { theme } = useContext(ThemeContext);
-  const {
-    openedBook,
-    onBookDetailsEnter,
-    onReadingModeEnter,
-    onBookDetailsExit,
-  } = useContext(BookContext);
-
-  const unreadBooks = fetchedBooks.filter((book) => {
-    const bookInFinishedBooks = user?.finishedBooks.find(
-      (bookId) => bookId.toString() == book._id
-    );
-    if (!bookInFinishedBooks) {
-      return book;
-    }
-  });
-
-  const books = isShowingOnlyUnreadBooks ? unreadBooks : fetchedBooks;
+  const { openedBook, onBookDetailsExit } = useContext(BookContext);
 
   const shelfBody = (
     <ScrollView
@@ -79,34 +62,17 @@ export default function Shelf() {
           color={isShowingOnlyUnreadBooks ? theme.accent : theme.text}
         />
       </View>
+
       <StyledText style={styles.mainHeading}>Półka</StyledText>
-      {isShowingOnlyUnreadBooks && (
-        <View style={styles.showingUnreadBooksBox}>
-          <StyledText style={styles.showingUnreadBooksText}>
-            Obecnie pokazywane są tylko nieprzetane książki.
-          </StyledText>
-        </View>
-      )}
-      {books?.map((book) => (
-        <SmallBookCard
-          key={book._id}
-          book={book as BookType}
-          onBookDetailsEnter={onBookDetailsEnter}
-          onReadingModeEnter={onReadingModeEnter}
-        />
-      ))}
-      {fetchedBooks?.length === 0 && !isLoading && (
-        <StyledText style={styles.noBooksAddedText}>
-          Nie masz jeszcze dodanych książek
-        </StyledText>
-      )}
-      {books.length === 0 && isShowingOnlyUnreadBooks && (
-        <StyledText style={styles.noBooksAddedText}>
-          Nie masz nieprzeczytanych książek w bibliotece
-        </StyledText>
-      )}
-      <Spinner visible={isLoading && !refreshing} />
-      {error && <StyledText>{error.message}</StyledText>}
+
+      <ShelfBooks
+        books={fetchedBooks}
+        user={user}
+        isShowingOnlyUnreadBooks={isShowingOnlyUnreadBooks}
+        isLoading={isLoading}
+        refreshing={refreshing}
+        error={error}
+      />
     </ScrollView>
   );
 
@@ -130,16 +96,5 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     marginBottom: 10,
-  },
-  showingUnreadBooksBox: {
-    backgroundColor: "grey",
-    padding: 8,
-    marginBottom: 15,
-  },
-  showingUnreadBooksText: {
-    textAlign: "center",
-  },
-  noBooksAddedText: {
-    fontSize: 16,
   },
 });
