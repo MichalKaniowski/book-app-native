@@ -39,10 +39,6 @@ export default function ProfileSettings() {
       </TouchableOpacity>
       <View>
         <View style={{ ...styles.border, borderColor: theme.secondary }} />
-        <StyledText style={styles.profileSettingsText}>Zmień język</StyledText>
-      </View>
-      <View>
-        <View style={{ ...styles.border, borderColor: theme.secondary }} />
         <View style={styles.boxWithTextAndIcon}>
           <StyledText style={styles.profileSettingsText}>
             Zmień motyw kolorów
