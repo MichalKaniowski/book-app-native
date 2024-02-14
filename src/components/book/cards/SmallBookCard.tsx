@@ -62,7 +62,7 @@ export default function SmallBookCard({
             }}
             onPress={() => handleReadingModeEnter(book)}
           >
-            <Text>Czytaj</Text>
+            <Text style={{ color: theme.background }}>Czytaj</Text>
           </TouchableOpacity>
           <Icon name="clock" size={16} color={theme.secondary} />
           <Text

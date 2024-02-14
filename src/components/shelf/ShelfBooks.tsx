@@ -1,10 +1,11 @@
-import { View, StyleSheet, RefreshControl } from "react-native";
+import { View, StyleSheet } from "react-native";
 import StyledText from "../../components/ui/StyledText";
 import SmallBookCard from "../../components/book/cards/SmallBookCard";
 import { Book, User } from "../../types/database";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useContext } from "react";
 import { BookContext } from "../../store/BookContext";
+import { ThemeContext } from "../../store/ThemeContext";
 
 interface ShelfBooksProps {
   books: Book[];
@@ -23,6 +24,7 @@ export default function ShelfBooks({
   refreshing,
   error,
 }: ShelfBooksProps) {
+  const { actualTheme } = useContext(ThemeContext);
   const { onBookDetailsEnter, onReadingModeEnter } = useContext(BookContext);
 
   const unreadBooks = books.filter((book) => {
@@ -39,8 +41,18 @@ export default function ShelfBooks({
   return (
     <View>
       {isShowingOnlyUnreadBooks && (
-        <View style={styles.showingUnreadBooksBox}>
-          <StyledText style={styles.showingUnreadBooksText}>
+        <View
+          style={{
+            ...styles.showingUnreadBooksBox,
+            backgroundColor: actualTheme === "light" ? "lightgrey" : "grey",
+          }}
+        >
+          <StyledText
+            style={{
+              ...styles.showingUnreadBooksText,
+              color: actualTheme === "light" ? "black" : "white",
+            }}
+          >
             Obecnie pokazywane są tylko nieprzeczytane książki.
           </StyledText>
         </View>
@@ -72,7 +84,7 @@ export default function ShelfBooks({
 
 const styles = StyleSheet.create({
   showingUnreadBooksBox: {
-    backgroundColor: "grey",
+    // backgroundColor: "grey",
     padding: 8,
     marginBottom: 15,
   },

@@ -49,7 +49,7 @@ export default function InputSection({
             }}
             style={styles.eraseSearchBarButton}
           >
-            <FeatherIcon name="x" size={20} color="white" />
+            <FeatherIcon name="x" size={20} color={theme.text} />
           </TouchableOpacity>
         )}
       </View>

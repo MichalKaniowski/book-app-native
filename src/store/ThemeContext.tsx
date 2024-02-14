@@ -31,7 +31,7 @@ const themeColors = {
     background: "#f5f5f5",
     text: "#000",
     secondary: "#404040",
-    accent: "lightgreen",
+    accent: "#5fa85f",
   },
   dark: {
     background: "#000",
