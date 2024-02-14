@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import Category from "./Category";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { ThemeContext } from "../store/ThemeContext";
+import { ThemeContext } from "../../store/ThemeContext";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function Categories({ navigation }: any) {

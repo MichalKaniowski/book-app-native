@@ -1,11 +1,11 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
-import SmallBookCard from "./book/SmallBookCard";
-import { BookContext } from "../store/BookContext";
-import useQuery from "../hooks/useQuery";
+import SmallBookCard from "../book/cards/SmallBookCard";
+import { BookContext } from "../../store/BookContext";
+import useQuery from "../../hooks/useQuery";
 import { DOMAIN } from "@env";
-import { Book } from "../types/database";
-import StyledText from "./ui/StyledText";
+import { Book } from "../../types/database";
+import StyledText from "../ui/StyledText";
 import React from "react";
 
 export default function SearchResults({ text }: { text: string }) {

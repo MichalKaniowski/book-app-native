@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { Book } from "../../types/database";
-import { ThemeContext } from "../../store/ThemeContext";
+import { Book } from "../../../types/database";
+import { ThemeContext } from "../../../store/ThemeContext";
 import Icon from "react-native-vector-icons/Feather";
 import axios from "axios";
 import { DOMAIN } from "@env";
-import { firebaseAuth } from "../../../FirebaseConfig";
+import { firebaseAuth } from "../../../../FirebaseConfig";
 
 type SmallBookCardProps = {
   book: Book;

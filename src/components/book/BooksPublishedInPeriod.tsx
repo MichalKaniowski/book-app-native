@@ -2,7 +2,7 @@ import { View, StyleSheet } from "react-native";
 import { Book } from "../../types/database";
 import hasBeenPublishedInSpecifiedTime from "../../utils/hasBeenPublishedInSpecifiedTime";
 import StyledText from "../ui/StyledText";
-import BookCard from "./BookCard";
+import BookCard from "./cards/BookCard";
 import { useContext } from "react";
 import { BookContext } from "../../store/BookContext";
 import { TabsContext } from "../../store/TabsContext";

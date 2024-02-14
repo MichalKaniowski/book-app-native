@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { BookContext } from "../store/BookContext";
 import Book from "../components/book/Book";
-import CatalogBody from "../components/CatalogBody";
+import CatalogBody from "../components/catalog/CatalogBody";
 import { TabsContext } from "../store/TabsContext";
 
 export default function Catalog({ navigation }: any) {

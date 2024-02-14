@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import FeatherIcon from "react-native-vector-icons/Feather";
-import { Book } from "../../types/database";
-import { ThemeContext } from "../../store/ThemeContext";
+import { Book } from "../../../types/database";
+import { ThemeContext } from "../../../store/ThemeContext";
 
 interface BookCardProps {
   book: Book;

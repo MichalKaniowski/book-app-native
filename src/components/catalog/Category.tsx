@@ -1,7 +1,7 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import StyledText from "./ui/StyledText";
+import StyledText from "../ui/StyledText";
 import { useContext } from "react";
-import { ThemeContext } from "../store/ThemeContext";
+import { ThemeContext } from "../../store/ThemeContext";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 
 interface CategoryProps {

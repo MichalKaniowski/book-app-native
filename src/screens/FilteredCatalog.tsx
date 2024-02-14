@@ -1,8 +1,7 @@
 import { useContext } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Book } from "../types/database";
-import Icon from "react-native-vector-icons/Feather";
-import SmallBookCard from "../components/book/SmallBookCard";
+import SmallBookCard from "../components/book/cards/SmallBookCard";
 import { ThemeContext } from "../store/ThemeContext";
 import { BookContext } from "../store/BookContext";
 import ReadingModeBook from "../components/book/ReadingMode/ReadingModeBook";

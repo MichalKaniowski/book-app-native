@@ -2,7 +2,7 @@ import { useContext, useState, useCallback } from "react";
 import { ScrollView, View, StyleSheet, RefreshControl } from "react-native";
 import StyledText from "../components/ui/StyledText";
 import { ThemeContext } from "../store/ThemeContext";
-import SmallBookCard from "../components/book/SmallBookCard";
+import SmallBookCard from "../components/book/cards/SmallBookCard";
 import { BookContext } from "../store/BookContext";
 import Icon from "react-native-vector-icons/Feather";
 import Book from "../components/book/Book";
