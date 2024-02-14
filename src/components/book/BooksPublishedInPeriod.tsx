@@ -11,10 +11,12 @@ export default function BooksPublishedInPeriod({
   books,
   lastDaysStart,
   lastDaysEnd,
+  headingText,
 }: {
   books: Book[];
   lastDaysStart: number;
   lastDaysEnd: number;
+  headingText: string;
 }) {
   const { onTabsVisibilityChange } = useContext(TabsContext);
   const { onBookDetailsEnter } = useContext(BookContext);
@@ -35,9 +37,7 @@ export default function BooksPublishedInPeriod({
   return (
     booksPublishedInLastWeek?.length !== 0 && (
       <View style={styles.section}>
-        <StyledText style={styles.sectionHeading}>
-          Opublikowane w ostatnim tygodniu
-        </StyledText>
+        <StyledText style={styles.sectionHeading}>{headingText}</StyledText>
         {booksPublishedInLastWeek?.map((book) => (
           <BookCard key={book._id} book={book} onBookOpen={handleBookOpen} />
         ))}

@@ -42,18 +42,21 @@ export default function NewScreenBody() {
           books={books}
           lastDaysStart={0}
           lastDaysEnd={7}
+          headingText="Opublikowane ostatnio"
         />
 
         <BooksPublishedInPeriod
           books={books}
           lastDaysStart={7}
           lastDaysEnd={14}
+          headingText="Opublikowane w ostatnim tygodniu"
         />
 
         <BooksPublishedInPeriod
           books={books}
           lastDaysStart={14}
           lastDaysEnd={Infinity}
+          headingText="Opublikowane dawniej"
         />
       </View>
     </ScrollView>
