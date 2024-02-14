@@ -1,8 +1,6 @@
-
 # Aplikacja do czytania dla dzieci
 
 Aplikacja stworzona w react native (expo). Jest to moja pierwsza mobilna aplikacja i nauczyłem się sporo o tej technologii i działaniu aplikacji mobilnych. Backend do tej aplikacji jest w repo book-app-backend. Aplikacja jest o tematyce książek dla dzieci. Chciałem zrobić aplikację z książkami, ale żeby wyróżnić się jakoś spośród innych aplikacji wybrałem niszę z książkami dla dzieci. Podczas pierwszego odpalenia aplikacji książki długo się ładują, ponieważ bezpłatny serwer na renderze musi się odpalić.
-
 
 ## Features
 
@@ -14,23 +12,16 @@ Aplikacja stworzona w react native (expo). Jest to moja pierwsza mobilna aplikac
 - jasny/ciemny tryb
 - statystyki
 
-
 ## ENV
 
 FIREBASE_API_KEY=
-
 FIREBASE_AUTH_DOMAIN=
-
 FIREBASE_PROJECT_ID=
-
 FIREBASE_STORAGE_BUCKET=
-
 FIREBASE_MESSAGING_SENDER_ID=
-
 FIREBASE_APP_ID=
 
 DOMAIN=
-
 
 ## Odpal lokalnie
 
@@ -58,9 +49,7 @@ Włącz server
   npm run dev
 ```
 
-
 ## Rzeczy do dodania w przyszłości
 
 - inne języki
 - subskrybcje
-
